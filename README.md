@@ -8,4 +8,6 @@ Capstone project: an online appointment and haircut preference system for local 
 - `handoff/`: the original thesis backup and handoff package (chapters, decks, UI sources, uploads).
 - `screenshots/`: phone (390x844) and desktop (1440x900) captures of the demo.
 
+The demo has two selectable themes (Clay, default, and Neo-brutal). Use the theme switch in the demo bar. See spec section 3.7.
+
 Personalize the demo in the `CONFIG` block at the top of the script (shop name, municipality, customer name, frozen date).

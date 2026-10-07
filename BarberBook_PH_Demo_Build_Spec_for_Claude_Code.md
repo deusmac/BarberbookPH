@@ -147,6 +147,21 @@ It must demonstrate every feature named in the thesis (Statement of the Problem,
 
 Write `styleArt(styleId)` that returns a 160x160 SVG: an ice-blue square, a simple black-outlined head and shoulders (front view), and a hair shape drawn per style (thick black 3px outline, hair filled black or dark gray, with lighter faded sides for fades). Minimum distinct styles: Mid Taper Fade, Low Fade, High Skin Fade, Two Block, Textured Fringe, French Crop, Buzz Cut, Crew Cut, Side Part (Classic), Pompadour, Mullet (modern), Kids' Cut. They should look like clean flat icons, not realistic drawings. Label each card "Reference image" in small text.
 
+
+### 3.7 Selectable themes (added 2026-10-07, planned for the real system too)
+
+The group found the Neo-Brutalist look hard to use. The demo now ships two themes, switchable from the demo bar ("Clay" and "Neo-brutal"), remembered per browser. **Clay is the default.** The same switch (a user or shop setting) is planned for the real Laravel build, so keep every color, radius and shadow behind CSS variables and scope theme overrides under `html[data-theme="..."]`.
+
+**Clay ("Barber Pole Clay")**: soft claymorphism chosen for a barbershop audience (phone-first customers, busy owners).
+- Palette from the barber pole: blue `#3D6BFF` for primary actions and the hero, coral `#F0543C` for alerts and the NOW line, gold `#FFC93C` for selection and highlights, green `#2DBE7E` for success, on warm cream `#FFF6EA` with navy ink `#1F2A44`.
+- Puffy rounded surfaces (cards 24px, buttons and chips fully round), soft layered shadows with an inner highlight, no black outlines, thin low-contrast borders.
+- Sentence-case copy (no shouting uppercase), clear tap targets (46px buttons), pastel gradient page background.
+- Same layout, screens and behavior as the other theme. Only tokens and surface treatments change.
+
+**Neo-brutal**: the original theme in 3.1 to 3.4, kept as an option. Copy is written in sentence case and uppercased by CSS in this theme.
+
+Acceptance: switching themes never changes layout, copy or data; both themes pass the Section 10 checklist.
+
 ---
 
 ## 4. Seed data

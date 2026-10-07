@@ -16,11 +16,15 @@ const NOTICE = {
 };
 const OWNER_TITLES = { queue: "Today's queue", walkin: "Walk-in", barbers: "Barbers & hours", gallery: "Style gallery", reports: "Reports", feedback: "Feedback" };
 let lastKey = "", routeChanged = false, needScroll = false;
+const THEMES = [["clay", "Clay"], ["brutal", "Neo-brutal"]];
+function loadTheme() { try { const t = localStorage.getItem("barberbook-theme"); if (t === "brutal" || t === "clay") return t; } catch (e) {} return "clay"; }
+function applyTheme() { document.documentElement.setAttribute("data-theme", state.ui.theme || "clay"); }
 
 function demobarHtml() {
   const ui = state.ui, sp = splitOn(), c = ui.role === "c";
   return `<span class="ttl">BarberBook PH · Interactive prototype</span>
   <div class="seg-dark" role="group" aria-label="View"><button data-act="setRole" data-r="c" class="${c || sp ? "on" : ""}">Customer view</button><button data-act="setRole" data-r="o" class="${!c || sp ? "on" : ""}">Owner view</button></div>
+  <div class="seg-dark" role="group" aria-label="Theme">${THEMES.map(([k, l]) => `<button data-act="setTheme" data-t="${k}" class="${(ui.theme || "clay") === k ? "on" : ""}">${l}</button>`).join("")}</div>
   ${window.innerWidth >= 1280 ? `<button class="dbtn ${ui.split ? "on" : ""}" data-act="toggleSplit">${icon("split", 15)} Side by side</button>` : ""}
   ${!sp && window.innerWidth >= 1024 ? `<button class="dbtn ${ui.notice ? "on" : ""}" data-act="toggleNotice">What to notice</button>` : ""}
   <button class="dbtn" data-act="tourStart">${icon("play", 14)} Guided tour</button>
@@ -31,7 +35,7 @@ function phoneHtml() {
   const tabs = [["home", "Home", "home"], ["styles", "Styles", "scissors"], ["bookings", "Bookings", "cal"], ["profile", "Profile", "user"]];
   const t = new Date(nowDate());
   return `<div class="phone-frame"><div class="pstatus"><span>${fmtTime(t.getHours() * 60 + t.getMinutes()).replace(" ", "")}</span><span>PH</span></div>
-  <div class="capp"><div class="cbar">${r.back ? `<button class="btn icon sm" data-act="go" data-to="${esc(r.back)}" aria-label="Back">${icon("back", 18)}</button>` : ""}<span class="logo">BARBER<b>BOOK</b> PH</span><span class="b up tiny" style="margin-left:auto">${esc(r.title || "")}</span></div>
+  <div class="capp"><div class="cbar">${r.back ? `<button class="btn icon sm" data-act="go" data-to="${esc(r.back)}" aria-label="Back">${icon("back", 18)}</button>` : ""}<span class="logo">Barber<b>BOOK</b> PH</span><span class="b up tiny" style="margin-left:auto">${esc(r.title || "")}</span></div>
   <div class="cbody ${routeChanged ? "enter" : ""}" data-keep="cbody">${r.html}</div>
   <nav class="ctabs" aria-label="Customer">${tabs.map(([k, l, i]) => `<button data-act="go" data-to="${k}" class="${r.tab === k ? "on" : ""}">${icon(i, 20)}<span>${l}</span></button>`).join("")}</nav></div></div>`;
 }
@@ -48,7 +52,7 @@ function modalHtml() {
   return `<div class="backdrop" data-act="backdrop"><div class="modal" role="dialog" aria-modal="true">${MODALS[m.type](m)}</div></div>`;
 }
 function render() {
-  const ui = state.ui, sp = splitOn();
+  const ui = state.ui, sp = splitOn(); applyTheme();
   document.body.className = (sp || ui.role === "c" ? "role-c" : "role-o") + (sp ? " split" : "");
   const ae = document.activeElement, fid = ae && ae.id, sel = ae && ae.selectionStart != null ? [ae.selectionStart, ae.selectionEnd] : null;
   const stage = $("#stage"), keep = {}; document.querySelectorAll("[data-keep]").forEach(e => keep[e.dataset.keep] = e.scrollTop);
@@ -91,11 +95,12 @@ Object.assign(ACTIONS, {
   closeModal() { closeModal(); },
   backdrop(ds, ev) { if (ev.target.classList.contains("backdrop")) closeModal(); },
   setRole(ds) { location.hash = ds.r === "c" ? "#/c/" + state.ui.croute : "#/o/" + state.ui.oroute; if (splitOn()) { state.ui.role = ds.r; commit(); } },
+  setTheme(ds) { state.ui.theme = ds.t; try { localStorage.setItem("barberbook-theme", ds.t); } catch (e) {} commit(); },
   toggleSplit() { state.ui.split = !state.ui.split; commit(); },
   toggleNotice() { state.ui.notice = !state.ui.notice; commit(); },
   askReset() { openModal({ type: "confirmReset" }); },
   doReset() {
-    const split = state.ui.split, ui = freshUi(); ui.split = split;
+    const split = state.ui.split, ui = freshUi(); ui.split = split; ui.theme = state.ui.theme;
     Object.assign(state, seedState(), { ui, draft: null }); persist(); lastKey = "";
     location.hash = "#/c/home"; parseHash(); render(); toast("Demo reset to the sample data.", "blue");
   },
@@ -163,7 +168,7 @@ function tourGo(i) {
   const s = TOUR[i]; state.ui.tour = { i }; state.ui.modal = null;
   if (s.pre) s.pre();
   if (s.r.startsWith("o/")) { state.ui.role = "o"; state.ui.oroute = s.r.slice(2); } else { state.ui.role = "c"; state.ui.croute = s.r.slice(2); }
-  history.replaceState(null, "", "#/" + s.r);
+  try { history.replaceState(null, "", "#/" + s.r); } catch (e) {}
   needScroll = true; render();
 }
 function tourExit() { state.ui.tour = null; state.ui.drawer = state.ui.drawer; $("#tour").innerHTML = ""; commit(); }
@@ -192,6 +197,7 @@ window.addEventListener("scroll", () => requestAnimationFrame(drawTour), true);
   const st = document.createElement("style");
   st.textContent = SHELL_CSS + (typeof EXTRA_CSS_A !== "undefined" ? EXTRA_CSS_A : "") + (typeof EXTRA_CSS_B !== "undefined" ? EXTRA_CSS_B : "");
   document.head.appendChild(st);
+  state.ui.theme = loadTheme(); applyTheme();
   parseHash(); render();
   setInterval(() => { if (!state.ui.modal && !document.activeElement.matches("input,textarea,select")) render(); }, 60000);
 })();

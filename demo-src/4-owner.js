@@ -123,7 +123,7 @@ function drawerHtml() {
   return `<div class="drawer-bd" data-act="closeCard"></div>
 <aside class="drawer" data-tour="pcard" role="dialog" aria-label="Preference card">
   <div class="row sp"><span class="badge">Preference card</span><button class="btn secondary icon" data-act="closeCard" aria-label="Close">${icon("x", 18)}</button></div>
-  <h2 style="font-size:24px;font-weight:900;text-transform:uppercase;margin:10px 0 2px">READ THIS BEFORE THE CUT.</h2>
+  <h2 style="font-size:24px;font-weight:900;text-transform:uppercase;margin:10px 0 2px">Read this before the cut.</h2>
   <div class="small muted" style="margin-bottom:12px">${esc(b.name)} at ${fmtTime(b.start)} with ${esc(bar ? bar.name : "")}${b.walkin ? ` <span class="badge b">Walk-in</span>` : ""}</div>
   <div class="col">
     ${pic}
@@ -328,7 +328,7 @@ function screenFeedback() {
 function ownerView() {
   const r = state.ui.oroute || "queue";
   const nav = OWNER_NAV.map(([id, label, ic]) => `<button class="nav${r === id ? " on" : ""}" data-act="ogo" data-to="${id}">${icon(ic, 18)}<span>${label}</span></button>`).join("");
-  const side = `<aside class="osb"><div class="brandrow"><span class="logo">BARBER<b>BOOK</b> PH</span></div><div class="tiny muted up b" style="padding:0 4px">${esc(state.shops[0] ? state.shops[0].name : "")}</div><div class="col" style="gap:6px">${nav}</div></aside>`;
+  const side = `<aside class="osb"><div class="brandrow"><span class="logo">Barber<b>BOOK</b> PH</span></div><div class="tiny muted up b" style="padding:0 4px">${esc(state.shops[0] ? state.shops[0].name : "")}</div><div class="col" style="gap:6px">${nav}</div></aside>`;
   const screens = { queue: screenQueue, walkin: screenWalkin, barbers: screenBarbers, gallery: screenGallery, reports: screenReports, feedback: screenFeedback };
   const body = (screens[r] || screenQueue)();
   return `<div class="odash">${side}<main class="omain">${body}</main>${state.ui.drawer ? drawerHtml() : ""}</div>`;

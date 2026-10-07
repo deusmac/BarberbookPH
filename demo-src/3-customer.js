@@ -75,12 +75,12 @@ function catStyles() {
 function styleGrid(ctx, selId) {
   const list = catStyles();
   if (!list.length) {
-    return `<div class="empty">${icon("img", 40)}<p class="muted">No styles in this category yet.</p><button class="btn secondary sm" data-act="setCat" data-v="All">SHOW ALL STYLES</button></div>`;
+    return `<div class="empty">${icon("img", 40)}<p class="muted">No styles in this category yet.</p><button class="btn secondary sm" data-act="setCat" data-v="All">Show all styles</button></div>`;
   }
   return `<div class="styles-grid stag">` + list.map(s => {
     const sel = selId === s.id;
     return `<button class="scard ${sel ? "sel" : ""}" data-act="pickStyle" data-id="${esc(s.id)}" data-ctx="${ctx}" aria-pressed="${sel ? "true" : "false"}">` +
-      (s.trending ? '<span class="badge y bd">TRENDING</span>' : "") +
+      (s.trending ? '<span class="badge y bd">Trending</span>' : "") +
       (sel ? `<span class="chk">${icon("check", 16)}</span>` : "") +
       styleThumb(s.id) +
       `<div class="b up">${esc(s.name)}</div><div class="tiny muted">${s.mins} min · Reference image</div></button>`;
@@ -138,7 +138,7 @@ function photoBlock(d) {
   if (d.photo) {
     return `<section class="card"><div class="tiny b up">Your reference photo (sent to the barber)</div>` +
       `<img class="cu-photo" src="${d.photo}" alt="Reference photo you uploaded">` +
-      `<div class="row" style="margin-top:10px"><button class="btn secondary sm" data-act="clearPhoto">REMOVE PHOTO</button></div></section>`;
+      `<div class="row" style="margin-top:10px"><button class="btn secondary sm" data-act="clearPhoto">Remove photo</button></div></section>`;
   }
   return `<label class="btn secondary block" style="cursor:pointer">${icon("upload", 18)} UPLOAD MY OWN PHOTO` +
     `<input type="file" accept="image/*" data-file="photoPicked" style="display:none"></label>`;
@@ -308,33 +308,33 @@ function homeHtml() {
       <div class="b up" style="font-size:20px;margin-top:8px">${fmtDate(nxt.date)}</div>
       <div class="b">${fmtTime(nxt.start)}</div>
       <div class="small">${esc(st ? st.name : "No style selected")} with ${esc(bar ? bar.name : "any barber")}</div>
-      <div class="row wrap" style="margin-top:10px"><button class="btn secondary sm" data-act="go" data-to="bookings">VIEW</button><button class="btn secondary sm" data-act="resched" data-id="${esc(nxt.id)}">RESCHEDULE</button></div>
+      <div class="row wrap" style="margin-top:10px"><button class="btn secondary sm" data-act="go" data-to="bookings">View</button><button class="btn secondary sm" data-act="resched" data-id="${esc(nxt.id)}">Reschedule</button></div>
     </section>`;
   }
   const sp = state.customer.savedPrefs, usualSt = getStyle(sp.styleId), fav = getBarber(state.customer.favoriteBarber);
   const quick = `<section class="card soft" data-tour="rebook">
     <div class="tiny b up">Quick rebook</div>
-    <p class="b up" style="font-size:18px;margin:6px 0 10px">Book YOUR USUAL: ${esc(usualSt ? usualSt.name : "Haircut")} with ${esc(fav ? fav.name : "any barber")}</p>
-    <button class="btn block" data-act="quick">BOOK NOW →</button></section>`;
+    <p class="b up" style="font-size:18px;margin:6px 0 10px">Book your usual: ${esc(usualSt ? usualSt.name : "Haircut")} with ${esc(fav ? fav.name : "any barber")}</p>
+    <button class="btn block" data-act="quick">Book now →</button></section>`;
   const q = state.ui.search.trim().toLowerCase();
   const shops = state.shops.filter(s => !q || s.name.toLowerCase().includes(q) || s.area.toLowerCase().includes(q));
   const shopCard = s => {
     if (s.comingSoon) {
       return `<div class="card" aria-disabled="true" style="opacity:.75">
-        <div class="row sp"><div class="b up">${esc(s.name)}</div><span class="badge r">COMING SOON</span></div>
+        <div class="row sp"><div class="b up">${esc(s.name)}</div><span class="badge r">Coming soon</span></div>
         <div class="small muted" style="margin-top:4px">${esc(s.area)}</div>
         <div class="row small" style="margin-top:6px">${icon("star", 14)} ${s.rating} (${s.reviews} reviews)</div></div>`;
     }
     return `<button class="card hover" data-act="go" data-to="shop">
-      <div class="row sp"><div class="b up" style="font-size:18px">${esc(s.name)}</div>${shopOpen() ? '<span class="badge g">OPEN NOW</span>' : '<span class="badge">CLOSED NOW</span>'}</div>
+      <div class="row sp"><div class="b up" style="font-size:18px">${esc(s.name)}</div>${shopOpen() ? '<span class="badge g">Open now</span>' : '<span class="badge">Closed now</span>'}</div>
       <div class="small muted" style="margin-top:4px">${esc(s.area)} · ${s.distanceKm} km away</div>
       <div class="row small" style="margin-top:6px">${icon("star", 14)} <b>${s.rating}</b> (${s.reviews} reviews) · ${esc(s.hours || "")}</div>
       <div class="tiny b up" style="margin-top:8px">Bookable now</div></button>`;
   };
   const list = shops.length ? shops.map(shopCard).join("") :
-    `<div class="empty">${icon("store", 40)}<p class="muted">No shops match "${esc(state.ui.search)}".</p><button class="btn secondary sm" data-act="clearSearch">CLEAR SEARCH</button></div>`;
+    `<div class="empty">${icon("store", 40)}<p class="muted">No shops match "${esc(state.ui.search)}".</p><button class="btn secondary sm" data-act="clearSearch">Clear search</button></div>`;
   return `<section class="hero" data-tour="home-hero">
-      <h1>BOOK YOUR NEXT HAIRCUT IN UNDER A MINUTE.</h1>
+      <h1>Book your next haircut in under a minute.</h1>
       <input class="input" id="shopSearch" type="search" placeholder="Search shops by name or area" value="${esc(state.ui.search)}" data-in="ui.search" data-render="1" aria-label="Search shops">
     </section>
     ${nextCard}
@@ -352,7 +352,7 @@ function shopHtml() {
       <div class="small row">${icon("star", 14)} ${b.rating.toFixed(1)}</div>
       <div class="tiny">Next free: ${esc(nextFree(b))}</div></div>`).join("");
   return `<section class="card">
-      <div class="row sp"><div class="b up" style="font-size:22px">${esc(sh.name)}</div>${shopOpen() ? '<span class="badge g">OPEN NOW</span>' : ""}</div>
+      <div class="row sp"><div class="b up" style="font-size:22px">${esc(sh.name)}</div>${shopOpen() ? '<span class="badge g">Open now</span>' : ""}</div>
       <div class="small" style="margin-top:6px">${esc(sh.area)}</div>
       <div class="small">Hours: ${esc(sh.hours)}</div>
       <div class="row small" style="margin-top:4px">${icon("star", 14)} <b>${sh.rating}</b> (${sh.reviews} reviews)</div>
@@ -362,8 +362,8 @@ function shopHtml() {
     <p class="tiny muted">Sample prices. Final prices come from the partner shop.</p>
     <h3 class="up">Barbers</h3>
     <div class="row scroll-x" style="gap:10px;overflow-x:auto">${bars}</div>
-    <div class="notice">PAY AT THE SHOP. The system only reserves your slot.</div>
-    <button class="btn block" data-act="startBook">BOOK AN APPOINTMENT →</button>`;
+    <div class="notice">Pay at the shop. The system only reserves your slot.</div>
+    <button class="btn block" data-act="startBook">Book an appointment →</button>`;
 }
 function stylesHtml() {
   return `<h2 class="up">Style gallery</h2>
@@ -378,8 +378,8 @@ function styleStepHtml() {
     ${catChips()}
     <div data-tour="style-grid">${styleGrid("book", d.styleId)}</div>
     ${photoBlock(d)}
-    <button class="btn secondary block" data-act="skipStyle">SKIP, I'LL DECIDE AT THE SHOP</button>
-    <button class="btn block" data-act="toStep" data-to="book/barber">CONTINUE →</button>
+    <button class="btn secondary block" data-act="skipStyle">Skip, i'll decide at the shop</button>
+    <button class="btn block" data-act="toStep" data-to="book/barber">Continue →</button>
   </div>`;
 }
 function barberHtml() {
@@ -394,11 +394,11 @@ function barberHtml() {
   return stepbar(2) + `<div class="col">
     <div class="col stag">${any}${cards}</div>
     <section class="card" data-tour="prefs">
-      <div class="row sp"><div class="b up">Haircut preferences</div>${d.usual ? '<span class="badge g">YOUR USUAL</span>' : ""}</div>
+      <div class="row sp"><div class="b up">Haircut preferences</div>${d.usual ? '<span class="badge g">Your usual</span>' : ""}</div>
       <div style="margin-top:12px">${prefsForm(d.prefs, "draft")}</div>
       <label class="row" style="margin-top:12px;gap:8px"><input type="checkbox" data-ch="draft.saveUsual" ${d.saveUsual ? "checked" : ""}> <span class="small b">Save as my usual</span></label>
     </section>
-    <button class="btn block" data-act="toStep" data-to="book/schedule">CONTINUE →</button>
+    <button class="btn block" data-act="toStep" data-to="book/schedule">Continue →</button>
   </div>`;
 }
 function scheduleHtml() {
@@ -437,12 +437,12 @@ function scheduleHtml() {
       ${assigned ? `<div class="notice" style="margin-top:10px">Assigned to ${esc(assigned.name)}</div>` : ""}
       <p class="tiny muted" style="margin-top:10px">Taken slots cannot be booked, so double booking will not happen.</p>
     </section>
-    <button class="btn block" data-act="toStep" data-to="book/review">CONTINUE →</button>
+    <button class="btn block" data-act="toStep" data-to="book/review">Continue →</button>
   </div>`;
 }
 function reviewHtml() {
   const d = state.draft;
-  if (!d || !d.date || d.start == null) return emptyBox("Your booking details are missing.", "PICK A TIME", "book/schedule");
+  if (!d || !d.date || d.start == null) return emptyBox("Your booking details are missing.", "Pick a time", "book/schedule");
   d.step = 4;
   const dur = durFor(d.serviceId, d.styleId), sv = getService(d.serviceId), st = getStyle(d.styleId), shop = partnerShop();
   const bar = d.barberId === "any" ? (d.assigned ? getBarber(d.assigned) : null) : getBarber(d.barberId);
@@ -464,18 +464,18 @@ function reviewHtml() {
   return stepbar(4) + `<div class="col">
     <dl class="card" style="padding:6px 14px">${rows.map(([k, v]) => `<div class="sumrow"><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl>
     <div class="notice">Payment is made at the shop. The system only reserves your slot.</div>
-    <button class="btn block" data-act="confirm">CONFIRM BOOKING →</button>
+    <button class="btn block" data-act="confirm">Confirm booking →</button>
     <div class="row wrap" style="gap:8px">
-      <button class="btn secondary sm" data-act="go" data-to="book/style">EDIT STYLE</button>
-      <button class="btn secondary sm" data-act="go" data-to="book/barber">EDIT BARBER</button>
-      <button class="btn secondary sm" data-act="go" data-to="book/schedule">EDIT TIME</button>
+      <button class="btn secondary sm" data-act="go" data-to="book/style">Edit style</button>
+      <button class="btn secondary sm" data-act="go" data-to="book/barber">Edit barber</button>
+      <button class="btn secondary sm" data-act="go" data-to="book/schedule">Edit time</button>
     </div>
   </div>`;
 }
 function confirmHtml(fresh) {
   const b = bookingById(state.ui.lastBookingId);
   state.draft = null;
-  if (!b) return emptyBox("No booking to show yet.", "BOOK A HAIRCUT", "home");
+  if (!b) return emptyBox("No booking to show yet.", "Book a haircut", "home");
   const st = getStyle(b.styleId), bar = getBarber(b.barberId), sh = partnerShop();
   const first = state.customer.name.split(" ")[0];
   const when = `${fmtShort(b.date)}, ${fmtTime(b.start)}`;
@@ -498,17 +498,17 @@ function confirmHtml(fresh) {
       <div style="padding:10px 12px;font-size:13px;line-height:1.45">Hi ${esc(first)}, your ${esc(styleName)} with ${esc(barName)} is confirmed for ${esc(when)} at ${esc(sh.name)}. Payment is made at the shop. To change the time, open My Bookings and tap Reschedule.</div></div>
     <div class="sms">BarberBook PH: Hi ${esc(first)}! Your haircut with ${esc(barName)} is confirmed for ${esc(when)} at ${esc(sh.name)}. Reply or open the app to reschedule. Ref ${esc(b.id)}</div>
     ${state.ui.reminder ? `<div class="sms" style="align-self:flex-end;border-radius:14px 14px 2px 14px">Reminder: your haircut is in 1 hour. ${esc(barName)} is ready for you at ${esc(sh.name)}, ${esc(fmtTime(b.start))}.</div>` : ""}
-    <button class="btn block" data-act="ics" data-id="${esc(b.id)}">ADD TO MY CALENDAR</button>
-    <button class="btn secondary block" data-act="reminder">SIMULATE REMINDER</button>
-    <button class="btn secondary block" data-act="go" data-to="bookings">GO TO MY BOOKINGS →</button>
+    <button class="btn block" data-act="ics" data-id="${esc(b.id)}">Add to my calendar</button>
+    <button class="btn secondary block" data-act="reminder">Simulate reminder</button>
+    <button class="btn secondary block" data-act="go" data-to="bookings">Go to my bookings →</button>
   </div>`;
 }
 function bookCard(b) {
   const st = getStyle(b.styleId), bar = getBarber(b.barberId);
   const live = b.status === "confirmed" || b.status === "pending";
   let act = "";
-  if (live) act = `<div class="row wrap" style="margin-top:10px"><button class="btn secondary sm" data-act="resched" data-id="${esc(b.id)}">RESCHEDULE</button><button class="btn danger sm" data-act="askCancel" data-id="${esc(b.id)}">CANCEL</button></div>`;
-  else if (b.status === "done" && !b.rated) act = `<div style="margin-top:10px"><button class="btn sm" data-act="rate" data-id="${esc(b.id)}">RATE YOUR CUT</button></div>`;
+  if (live) act = `<div class="row wrap" style="margin-top:10px"><button class="btn secondary sm" data-act="resched" data-id="${esc(b.id)}">Reschedule</button><button class="btn danger sm" data-act="askCancel" data-id="${esc(b.id)}">Cancel</button></div>`;
+  else if (b.status === "done" && !b.rated) act = `<div style="margin-top:10px"><button class="btn sm" data-act="rate" data-id="${esc(b.id)}">Rate your cut</button></div>`;
   else if (b.status === "done") act = `<div class="tiny muted" style="margin-top:8px">Thanks for rating this cut.</div>`;
   const reason = b.status === "cancelled" && b.cancelReason ? `<div class="small muted">Reason: ${esc(b.cancelReason)}</div>` : "";
   return `<article class="card">
@@ -528,9 +528,9 @@ function bookingsHtml() {
     .map(([k, l]) => `<button class="${tab === k ? "on" : ""}" data-act="bookTab" data-v="${k}">${l}</button>`).join("");
   let body;
   if (list.length) body = `<div class="col stag">${list.map(bookCard).join("")}</div>`;
-  else if (tab === "upcoming") body = `<div class="empty">${icon("cal", 40)}<p class="muted">No upcoming cuts yet.</p><button class="btn sm" data-act="startBook">BOOK A HAIRCUT</button></div>`;
-  else if (tab === "past") body = `<div class="empty">${icon("cal", 40)}<p class="muted">Finished cuts will show up here.</p><button class="btn secondary sm" data-act="go" data-to="home">BROWSE SHOPS</button></div>`;
-  else body = `<div class="empty">${icon("cal", 40)}<p class="muted">No cancelled bookings.</p><button class="btn secondary sm" data-act="go" data-to="home">BROWSE SHOPS</button></div>`;
+  else if (tab === "upcoming") body = `<div class="empty">${icon("cal", 40)}<p class="muted">No upcoming cuts yet.</p><button class="btn sm" data-act="startBook">Book a haircut</button></div>`;
+  else if (tab === "past") body = `<div class="empty">${icon("cal", 40)}<p class="muted">Finished cuts will show up here.</p><button class="btn secondary sm" data-act="go" data-to="home">Browse shops</button></div>`;
+  else body = `<div class="empty">${icon("cal", 40)}<p class="muted">No cancelled bookings.</p><button class="btn secondary sm" data-act="go" data-to="home">Browse shops</button></div>`;
   return `<div class="segmented" role="tablist">${tabs}</div>${body}`;
 }
 function profileHtml() {
@@ -543,14 +543,14 @@ function profileHtml() {
     return `<div class="card row" style="padding:10px;gap:10px">${styleThumb(b.styleId, 44)}
       <div class="grow"><div class="b up small">${esc(st ? st.name : "No style selected")}</div><div class="tiny muted">${esc(fmtDate(b.date))}</div></div>
       <span class="st-pill st-${b.status}">${STATUS[b.status]}</span></div>`;
-  }).join("") : `<div class="empty"><p class="muted">No visits yet. Your finished cuts will appear here.</p><button class="btn sm" data-act="startBook">BOOK A CUT</button></div>`;
+  }).join("") : `<div class="empty"><p class="muted">No visits yet. Your finished cuts will appear here.</p><button class="btn sm" data-act="startBook">Book a cut</button></div>`;
   return `<section class="card">
       <div class="b up" style="font-size:20px">${esc(c.name)}</div>
       <div class="small">${esc(c.mobile)}</div><div class="small">${esc(c.email)}</div>
       <p class="tiny muted" style="margin-top:8px">Demo account, no login in this prototype.</p>
     </section>
     <section class="card">
-      <div class="row sp"><div class="b up">My usual</div><button class="btn secondary sm" data-act="editPrefs">EDIT</button></div>
+      <div class="row sp"><div class="b up">My usual</div><button class="btn secondary sm" data-act="editPrefs">Edit</button></div>
       <div class="cu-thumb-row" style="margin-top:10px">
         <div style="width:64px;flex:none">${styleThumb(sp.styleId || "", 64)}</div>
         <div class="grow"><div class="b up">${esc(usual ? usual.name : "No style")}</div>
@@ -697,7 +697,7 @@ Object.assign(MODALS, {
     return `<div style="background:var(--red);color:#fff;border:2.5px solid #000;border-radius:10px;padding:10px 12px;margin-bottom:12px">
       <h2 style="color:#fff;margin:0">Sorry, that slot was just taken</h2></div>
       <p class="small">Someone else booked this time a moment ago. Pick another time, and your style and barber choices stay as they are.</p>
-      <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn danger" data-act="toSchedule">BACK TO SCHEDULE →</button></div>`;
+      <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn danger" data-act="toSchedule">Back to schedule →</button></div>`;
   },
   cancel(m) {
     const b = bookingById(m.id);
@@ -709,8 +709,8 @@ Object.assign(MODALS, {
       CANCEL_REASONS.map(r => `<button class="chip ${m.reason === r ? "on" : ""}" data-act="setReason" data-v="${esc(r)}">${esc(r)}</button>`).join("") +
       `</div>
       <div class="row" style="justify-content:flex-end;gap:8px;margin-top:16px">
-        <button class="btn secondary" data-act="closeModal">KEEP BOOKING</button>
-        <button class="btn danger" data-act="doCancel">CANCEL BOOKING</button>
+        <button class="btn secondary" data-act="closeModal">Keep booking</button>
+        <button class="btn danger" data-act="doCancel">Cancel booking</button>
       </div>`;
   },
   rate(m) {
@@ -726,8 +726,8 @@ Object.assign(MODALS, {
       <div class="tiny b up" style="margin:12px 0 6px">Comment (optional)</div>
       <textarea class="textarea" maxlength="300" data-in="ui.modal.comment" placeholder="Anything the barber should know">${esc(m.comment || "")}</textarea>
       <div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px">
-        <button class="btn secondary" data-act="closeModal">LATER</button>
-        <button class="btn" data-act="submitRate">SUBMIT RATING →</button>
+        <button class="btn secondary" data-act="closeModal">Later</button>
+        <button class="btn" data-act="submitRate">Submit rating →</button>
       </div>`;
   },
   editPrefs(m) {
@@ -736,8 +736,8 @@ Object.assign(MODALS, {
       <p class="small muted">Saved preferences prefill every new booking.</p>
       <div style="margin-top:12px">${prefsForm(p, "modal")}</div>
       <div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px">
-        <button class="btn secondary" data-act="closeModal">CANCEL</button>
-        <button class="btn" data-act="savePrefs">SAVE MY USUAL</button>
+        <button class="btn secondary" data-act="closeModal">Cancel</button>
+        <button class="btn" data-act="savePrefs">Save my usual</button>
       </div>`;
   }
 });
