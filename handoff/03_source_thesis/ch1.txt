@@ -1,0 +1,161 @@
+NOTE Note to the group: Everything highlighted in yellow is something you need to fill in, check, or rewrite in your own words. Once you are done, select all (Ctrl+A), set the highlight to "No Color," and delete this note and the Title Options page before you submit.
+C **TITLE OPTIONS FOR THE GROUP**
+NOTE Choose ONE title, then use Find and Replace (Ctrl+H) to change "BarberBook PH: An Online Appointment and Haircut Preference System for Local Barbershops" and "BarberBook PH" throughout the paper if you pick Option 2 or 3. Delete this page after choosing.
+P **Option 1 (current working title).** BARBERBOOK PH: An Online Appointment and Haircut Preference System for Local Barbershops
+P *Why it works:* It is clear and already matches your Statement of the Problem. The phrase "Haircut Preference" is the part that makes your study different from ordinary booking systems, and it is right in the title.
+P **Option 2 (more technical, good for an IT panel).** TRIMTIME: A Web-Based Appointment Scheduling and Hairstyle Preference Management System for Barbershops in [[MUNICIPALITY / CITY]]
+P *Why it works:* The words "Web-Based" and "Management System" tell the panel right away what kind of software it is, and naming your locale shows that the study has a real, specific setting.
+P **Option 3 (catchy and local).** GUPITGO: A Mobile-Responsive Booking and Haircut Preference Recording System for Local Barbershops with Customer Records Management
+P *Why it works:* "Gupit" is the Filipino word for haircut, so the name is easy to remember. "Customer Records Management" also highlights the record-keeping side of the system, which is a good fit if some members of your group are from accountancy.
+PB
+# CHAPTER 1
+# THE PROBLEM AND ITS BACKGROUND
+## Introduction
+P Almost every town in the Philippines has at least one barbershop. Some are small, one-chair shops beside a sari-sari store, while others are air-conditioned barber lounges with four or five barbers working at the same time. Whatever the size, the barbershop is a place where men and boys go regularly, usually every few weeks, to have their hair cut, their beard trimmed, or sometimes just to relax and talk with the barber. For many Filipino customers, the neighborhood barbershop is not only a business but also a familiar part of their routine.
+P Even with this familiarity, the way most local barbershops handle their customers has stayed almost the same for years. The common practice is first come, first served. A customer walks in, looks at how many people are already waiting, and then decides whether to stay or come back another time. On busy days such as weekends, paydays, and the days before school opening, graduation, or the town fiesta, the waiting time can reach [[one to two hours (replace with the actual waiting time you observed or were told by the owner)]]. Some shops accept reservations through Facebook Messenger or text message, but these are usually handled by the owner using his personal phone, and the list of appointments is written in a notebook or simply remembered.
+P At the same time, Filipinos are among the most active internet users in the world. Based on the Digital 2026 report for the Philippines, there were around 98 million internet users in the country, or about 83.8 percent of the population, and around 137 million cellular mobile connections (Kemp, 2026). Many customers already use their phones to order food, book rides, and pay bills. Because of this, it is reasonable to expect that they would also welcome a simple way of booking a haircut online, in the same way that they already book other everyday services.
+P Another concern that is often overlooked is the communication between the customer and the barber. A haircut is a very personal service, and the result depends a lot on whether the barber understood what the customer wanted. Customers often describe their preferred style using general words such as "semi-kalbo," "clean cut," "short on the sides," or "the usual," or they show a photo from social media at the last minute. When the barber misunderstands the request, the customer may go home unhappy, and the shop may lose a regular client. Price and Arnould (1999) pointed out that in personal services such as hairstyling, the relationship and understanding between the service provider and the client have a strong effect on the client's satisfaction and loyalty.
+P Because of these concerns, the proponents propose **BarberBook PH: An Online Appointment and Haircut Preference System for Local Barbershops**. It is a web-based system that allows customers to reserve a time slot in a barbershop, choose a preferred barber, select a hairstyle from a photo gallery, and save their personal haircut preferences so that the barber can review them before the appointment. On the side of the barbershop, the owner will have a dashboard for managing barbers, working hours, available slots, and the daily list of appointments. Through this study, the proponents hope to give local barbershops a practical and affordable tool that fits the way Filipino customers already use their phones.
+## Background of the Study
+P The barbershop business belongs to the large group of micro, small, and medium enterprises (MSMEs) in the country. According to the Department of Trade and Industry (DTI, n.d.), there were 1,246,373 business enterprises in the Philippines in 2023, and 99.63 percent of these were MSMEs. Micro enterprises alone made up 90.43 percent of all establishments, and MSMEs as a whole generated 66.97 percent of the country's total employment. The sector of "other service activities," where personal services such as barbershops and salons are usually classified, was among the top five industries with 87,197 MSME establishments (DTI, n.d.). These numbers show that small service businesses like barbershops are an important part of the local economy, even if each individual shop is small.
+P Most of these small businesses operate with limited resources. They usually cannot afford commercial booking software that charges monthly subscription fees, and many owners have no formal training in record keeping. A study of small entrepreneurs in Davao City found that most of them used ordinary notebooks as their main tool for recording income, expenses, and payables instead of standard ledgers (Patayon, 2016). Santos et al. (2024) also found that MSME owners in a Philippine city were very aware of the records required of them by law, but many still could not comply because of their limited accounting knowledge. These findings are similar to what the proponents observed in local barbershops, where the only record of appointments and customers is often a handwritten list.
+P To understand the situation better, the proponents made an initial visit to [[NAME OF PARTNER BARBERSHOP]], located at [[STREET / BARANGAY, MUNICIPALITY OR CITY, PROVINCE]]. The shop has [[NUMBER]] barbers and is open from [[OPENING TIME]] to [[CLOSING TIME]], [[DAYS OPEN, e.g., Monday to Sunday]]. During the visit, the owner, [[Mr./Ms. FULL NAME OF OWNER]], shared that [[WRITE ONE OR TWO SENTENCES FROM YOUR ACTUAL INTERVIEW, for example: "some customers leave when they see more than three people waiting" or "there were times when two customers were booked at the same time through Messenger"]]. The proponents also observed that [[WRITE YOUR OWN OBSERVATION, for example: how customers wait, how many customers came in during your visit, how the owner writes down reservations]].
+P From these initial observations, the proponents identified several problems. First, customers experience long and unpredictable waiting times, especially during peak days. Maister (1985) explained that waiting feels longer to customers when it is uncertain and unexplained, and Taylor (1994) found that delays lower the customer's overall evaluation of a service. Second, reservations made through chat or text can overlap because there is no single schedule that the owner and all the barbers can see. Third, the customer's haircut preference is not written down anywhere, so the barber has to ask the same questions every visit, and misunderstandings still happen. Fourth, customers sometimes forget their appointment, and the reserved slot goes to waste. Lastly, the shop has no organized customer records, so the owner cannot easily tell how many customers came in during the week, who the regular customers are, or which barber is most requested.
+P Online appointment systems have already helped other service industries deal with similar problems. In health care, appointment scheduling has been studied for many years as a way of balancing the waiting time of patients with the idle time of doctors (Cayirli & Veral, 2003; Gupta & Denton, 2008), and text message reminders have been shown to increase attendance at scheduled appointments (Guy et al., 2012). In the Philippines, online appointment and reservation systems have been developed for a government regional office (Marasigan, 2025), university client services (Concepcion et al., 2026), resorts (Balintag et al., 2025; Ramento et al., 2024), and salons in Pangasinan (Carino et al., 2025). However, the proponents found only a few local studies that focused specifically on barbershops, and even fewer that included a way to record and communicate the haircut preference of the customer.
+P This is the gap that BarberBook PH aims to address. The proponents believe that combining online booking with a hairstyle gallery and saved haircut preferences will not only reduce waiting time and scheduling conflicts but will also improve the quality of the haircut service itself, because the barber will already know what the customer wants before the cut starts. The system will also give the owner a simple digital record of appointments and customers, which can later help in making better decisions about staffing, shop hours, and promotions.
+## Theoretical Framework
+P This study is anchored on four theories and models. The first two explain why customers and barbershop owners would accept and continue using the proposed system, the third explains why reducing uncertain waiting is important, and the fourth provides the basis for evaluating the system.
+H3 Technology Acceptance Model (TAM)
+P The Technology Acceptance Model was introduced by Davis (1989) to explain why people accept or reject a new information technology. According to TAM, two beliefs mainly influence a person's intention to use a system. The first is *perceived usefulness*, or the degree to which a person believes that using the system will improve his or her performance. The second is *perceived ease of use*, or the degree to which a person believes that using the system will be free of effort. Venkatesh et al. (2003) later expanded this idea in the Unified Theory of Acceptance and Use of Technology (UTAUT), which added factors such as social influence and facilitating conditions.
+P In this study, TAM explains why BarberBook PH must be both useful and easy to use. If customers feel that booking online saves them time and that the steps are simple, they are more likely to use the system instead of just walking in. The same is true for barbers and the shop owner, who need to feel that the dashboard makes their work easier and not more complicated. This is the reason why the proponents kept the screens plain and the booking process short, as shown in the proposed user interface.
+H3 DeLone and McLean Information Systems Success Model
+P DeLone and McLean (2003) proposed that the success of an information system can be understood through six connected dimensions: system quality, information quality, service quality, use or intention to use, user satisfaction, and net benefits. A system that works well and gives accurate information is more likely to be used, and continued use leads to satisfaction and to benefits for both the users and the organization.
+P This model supports the idea that BarberBook PH should not only work from a technical point of view. It should also give accurate schedules and customer information, satisfy its users, and bring actual benefits to the barbershop, such as fewer scheduling conflicts, fewer forgotten appointments, and more organized customer records. User satisfaction, one of the dimensions in this model, is also one of the criteria that will be used to evaluate the system.
+H3 Psychology of Waiting Lines
+P Maister (1985) described several principles about how people experience waiting. Among these are that unoccupied time feels longer than occupied time, that uncertain waits feel longer than known and finite waits, and that unexplained waits feel longer than explained waits. Taylor (1994) supported this by showing that service delays affect the feelings of customers and lower their evaluation of the service.
+P These principles are important to this study because one of the main purposes of BarberBook PH is to replace uncertain walk-in waiting with a known appointment time. When customers know exactly when they will be served and receive a confirmation and reminder, the experience becomes more predictable and less frustrating, even if they still have to wait a few minutes at the shop.
+H3 ISO/IEC 25010 Software Quality Model
+P The International Organization for Standardization (ISO, 2011) published ISO/IEC 25010 as a model for describing and evaluating the quality of software products. The model has two parts. The product quality model includes characteristics such as functional suitability, performance efficiency, usability, and reliability, while the quality in use model includes effectiveness, efficiency, satisfaction, freedom from risk, and context coverage. A revised version of the product quality model was released in 2023, which renamed some characteristics, such as usability becoming interaction capability, and added safety as a new characteristic (ISO, 2023).
+P In this study, the ISO/IEC 25010 model serves as the basis of the evaluation instrument that will measure the acceptability of BarberBook PH in terms of functionality, usability, efficiency, reliability, and user satisfaction, as stated in the fifth research question. [[Ask your adviser which version (2011 or 2023) your department prefers, and adjust this paragraph and your questionnaire if needed.]]
+P Figure 1 shows how these four theories and models relate to the development and evaluation of the proposed system.
+FIG img/fig1_theoretical.png
+CAP Figure 1. Theoretical Framework of the Study
+## Conceptual Framework
+P The conceptual framework of this study follows the Input-Process-Output (IPO) model, as shown in Figure 2. The IPO model is commonly used in system development studies because it clearly shows what is needed to build the system, how it will be built, and what the expected result is.
+P **Input.** The input frame contains the knowledge requirements, software requirements, and hardware requirements of the study. The knowledge requirements include the existing appointment and haircut preference practices of the partner barbershop, the problems encountered by customers and barbers, and the features that the users need. These will be gathered through interviews with the owner and barbers, observation of the shop, and a survey of customers. The software requirements include HTML5, CSS3, JavaScript, and Bootstrap for the front end; PHP with the Laravel framework for the back end; MySQL for the database; and XAMPP, Visual Studio Code, GitHub, and Figma as development tools. The hardware requirements include a laptop or desktop computer with at least 8 GB of RAM, an Android or iOS phone for testing, and a stable internet connection.
+P **Process.** The process frame follows the Agile software development model (Beck et al., 2001). It includes planning and requirements gathering, system design, development in sprints, testing, and deployment. During design, the proponents will prepare the data flow diagram, entity relationship diagram, use case diagram, and screen layouts, following common practices in systems analysis and design (Satzinger et al., 2016). After development, the system will be evaluated by the target users through a questionnaire based on ISO/IEC 25010, and the results will be treated using the weighted mean.
+P **Output.** The output of the study is the developed BarberBook PH: An Online Appointment and Haircut Preference System for Local Barbershops, together with the results of the acceptability evaluation and the proposed improvements based on user feedback.
+P The feedback arrow from the output going back to the process shows that the comments and suggestions of the users will be used to improve the system. This follows the Agile idea of building the system in small parts and improving it after every cycle, instead of waiting until the very end to ask for the opinion of the users.
+FIG img/fig2_conceptual.png
+CAP Figure 2. Conceptual Framework of the Study
+## Statement of the Problem
+P This study aims to develop BARBERBOOK PH: An Online Appointment and Haircut Preference System for Local Barbershops to provide a convenient and organized way for customers to schedule appointments and communicate their preferred haircut styles before visiting a barbershop. The system is intended to address common concerns such as long waiting times, appointment conflicts, difficulty in communicating haircut preferences, and the lack of an organized appointment management process among local barbershops.
+P Specifically, this study seeks to answer the following questions:
+L1 1.|What are the existing appointment and haircut preference practices of local barbershops in terms of:
+L2 1.1|appointment scheduling;
+L2 1.2|customer information management;
+L2 1.3|barber availability;
+L2 1.4|recording of haircut preferences; and
+L2 1.5|appointment confirmation and tracking?
+L1 2.|What problems are encountered by customers and barbers when using traditional or manual appointment processes, particularly in terms of:
+L2 2.1|waiting time;
+L2 2.2|scheduling conflicts;
+L2 2.3|difficulty in communicating haircut preferences;
+L2 2.4|missed or forgotten appointments; and
+L2 2.5|management of customer records?
+L1 3.|What features should be incorporated into BARBERBOOK PH to address the identified problems, particularly in terms of:
+L2 3.1|online appointment scheduling;
+L2 3.2|barber and schedule availability;
+L2 3.3|haircut preference selection and recording;
+L2 3.4|appointment confirmation and notifications;
+L2 3.5|customer profile and appointment history; and
+L2 3.6|barbershop appointment management?
+L1 4.|How can the proposed BARBERBOOK PH system improve the process of booking appointments and communicating haircut preferences between customers and local barbershops?
+L1 5.|How acceptable is the developed BARBERBOOK PH system to its intended users in terms of:
+L2 5.1|functionality;
+L2 5.2|usability;
+L2 5.3|efficiency;
+L2 5.4|reliability; and
+L2 5.5|user satisfaction?
+L1 6.|What improvements can be proposed to further enhance BARBERBOOK PH based on the evaluation and feedback of its intended users?
+## Objectives of the Study
+H3 General Objective
+P The general objective of this study is to design, develop, and evaluate BarberBook PH, a web-based appointment and haircut preference system for local barbershops in [[MUNICIPALITY / CITY, PROVINCE]].
+H3 Specific Objectives
+P Specifically, the study aims to:
+L1 1.|determine the existing appointment and haircut preference practices of the partner barbershop in terms of appointment scheduling, customer information management, barber availability, recording of haircut preferences, and appointment confirmation and tracking;
+L1 2.|identify the problems encountered by customers and barbers in the traditional or manual appointment process in terms of waiting time, scheduling conflicts, communication of haircut preferences, missed or forgotten appointments, and management of customer records;
+L1 3.|design and develop a system with the following features:
+L2 a.|online appointment scheduling through a calendar and time slots, where slots that are already taken are automatically hidden;
+L2 b.|viewing of barber and schedule availability, including the option to choose a preferred barber or any available barber;
+L2 c.|a hairstyle gallery with photos and a haircut preference form where the customer can record details such as guard number, length on top, and beard trim;
+L2 d.|automatic appointment confirmation and reminder through email or SMS;
+L2 e.|a customer profile with saved preferences and appointment history; and
+L2 f.|an administrator dashboard where the barbershop owner can manage barbers, working hours, available slots, the daily queue, and simple booking reports;
+L1 4.|describe how the developed system improves the process of booking appointments and communicating haircut preferences between customers and the barbershop;
+L1 5.|evaluate the acceptability of the developed system to its intended users in terms of functionality, usability, efficiency, reliability, and user satisfaction using a questionnaire based on ISO/IEC 25010; and
+L1 6.|propose improvements to the system based on the results of the evaluation and the feedback of the users.
+## Assumptions of the Study
+P Since this is a descriptive-developmental study, the proponents will not test a statistical hypothesis. Instead, the study is guided by the following assumptions:
+L1 1.|The partner barbershop currently uses a walk-in or manual reservation process that causes waiting time, scheduling conflicts, and difficulty in communicating haircut preferences.
+L1 2.|Customers and barbers are willing to use an online system if it is useful and easy to use.
+L1 3.|The respondents will answer the questionnaire honestly and based on their actual experience in using the system.
+L1 4.|The developed system will be rated as acceptable by its intended users in terms of functionality, usability, efficiency, reliability, and user satisfaction.
+NOTE Some advisers require a null hypothesis even for developmental studies (for example: "There is no significant difference between the ratings of customers and barbers on the acceptability of the system"). If yours does, ask first, because adding a hypothesis also means adding a statistical test such as a t-test in Chapter 3.
+## Significance of the Study
+P The results of this study will be beneficial to the following:
+P **Barbershop Owners.** The system will give them an organized, digital schedule that lessens double booking and missed appointments. The simple booking reports per day, per week, and per barber will help them decide on shop hours, the number of barbers needed on busy days, and promotions for regular customers.
+P **Barbers.** They will know ahead of time who their customers are for the day and what haircut each customer wants. This will make their work faster, lessen misunderstandings, and help them build a better relationship with their regular customers.
+P **Customers.** They will save time because they will no longer need to wait in line without knowing when they will be served. They can also be more confident that the haircut they receive is the one they asked for, since their preferred style and details are already saved in their profile.
+P **Local Small Business Community.** The study can serve as an example of how a low-cost digital tool can help micro enterprises improve their service and keep better records, which supports the broader goal of helping MSMEs adopt digital technology.
+P **The Proponents.** The study will allow the proponents to apply what they learned in programming, database management, systems analysis and design, and [[ADD A SUBJECT RELATED TO YOUR COURSE, e.g., accounting information systems or business process management]] in an actual small business setting.
+P **[[NAME OF SCHOOL / DEPARTMENT]].** The study can add to the collection of capstone projects of the department and can show how students apply their skills to help local businesses in the community.
+P **Future Researchers.** The study can serve as a reference for other students who want to develop a booking or scheduling system for other small service businesses such as salons, spas, dental clinics, and repair shops.
+## Scope and Delimitation
+P This study focuses on the design, development, and evaluation of BarberBook PH, a web-based appointment and haircut preference system that can be accessed using a browser on a mobile phone, tablet, or computer. The study will be conducted at [[NAME OF PARTNER BARBERSHOP]] in [[MUNICIPALITY / CITY, PROVINCE]] from [[October 2026]] to [[March 2027]].
+P The system will cover the following:
+B customer registration and login;
+B searching and viewing of participating barbershops with their address, operating hours, services, and price list;
+B a hairstyle gallery with photos grouped into categories such as trending, fades, classic, and textured;
+B selection of a preferred barber, or the option to choose any available barber;
+B saved haircut preferences and short notes for the barber;
+B calendar and time slot booking, where slots that are already taken are automatically hidden to prevent double booking;
+B booking summary, confirmation, rescheduling, and cancellation;
+B email or SMS confirmation and reminder before the appointment;
+B an administrator dashboard for the barbershop owner showing the daily queue, barber schedules, and simple reports of bookings per day, per week, and per barber; and
+B customer rating and short feedback after the appointment.
+P The respondents of the study will be [[one (1)]] owner, [[three (3) to five (5)]] barbers of the partner barbershop, and [[thirty (30)]] customers who regularly have their haircut there, chosen through purposive sampling. [[If your adviser requires IT experts as evaluators, add them here, e.g., "and five (5) IT professionals."]] The acceptability of the system will be evaluated using a questionnaire adapted from ISO/IEC 25010 with a four-point Likert scale, and the results will be interpreted using the weighted mean.
+P The study is delimited to the following:
+B The system will not process online payments. Payment will still be made at the shop, and the system will only reserve the time slot.
+B The system will not include payroll, inventory of supplies, or the full accounting records of the barbershop. The booking reports are for monitoring appointments only.
+B The system will not use artificial intelligence or augmented reality to preview how a haircut will look on the face of the customer. The hairstyle gallery will only use reference photos provided or approved by the partner barbershop.
+B The system will be tested in one partner barbershop only, although the design will allow more shops to be added in the future.
+B Walk-in customers who do not use the internet will still be served by the shop, and the owner will encode them manually in the dashboard.
+B The system requires an internet connection. SMS notifications will depend on the availability and cost of the SMS gateway that the proponents can use.
+## Definition of Terms
+P To help the readers understand the study, the following terms are defined conceptually and operationally:
+DEF Administrator Dashboard.|The main page seen by the barbershop owner after logging in. In this study, it shows the daily queue, barber schedules, available slots, the style gallery, and simple booking reports.
+DEF Agile Model.|A software development approach that builds a system in small, repeated cycles and welcomes changes in requirements (Beck et al., 2001). In this study, it is the model the proponents will use, with development divided into sprints.
+DEF Appointment.|An agreed date and time for a service. In this study, it refers to a reserved time slot for a haircut or related service in the partner barbershop.
+DEF Appointment History.|The list of past and upcoming bookings of a customer, which can be viewed in the customer profile.
+DEF Barber.|A person who cuts, trims, and styles hair, usually for male customers. In this study, barbers are also respondents who will evaluate the system.
+DEF BarberBook PH.|The name of the proposed web-based online appointment and haircut preference system developed in this study.
+DEF Booking Report.|A summary generated by the system showing the number of appointments per day, per week, and per barber.
+DEF Customer Profile.|The personal account page of a registered customer, which contains contact details, saved haircut preferences, and appointment history.
+DEF Double Booking.|A situation where two or more customers are given the same barber at the same date and time.
+DEF Efficiency.|In ISO/IEC 25010, this refers to how well a system performs in relation to the time and resources it uses (ISO, 2011). In this study, it refers to how fast the system responds and how quickly users can complete a booking.
+DEF Functionality.|The degree to which a system provides functions that meet the stated and implied needs of its users (ISO, 2011). In this study, it refers to whether the features of BarberBook PH work correctly and completely.
+DEF Haircut Preference.|The specific way a customer wants his hair to be cut. In this study, it includes the chosen hairstyle from the gallery, the guard number on the sides, the length on top, beard trim, and other notes saved in the customer profile.
+DEF Hairstyle Gallery.|A collection of haircut photos grouped into categories inside the system, which customers can browse and choose from when booking.
+DEF Laravel.|A free and open-source PHP web framework. In this study, it is used to build the back end of the system.
+DEF Likert Scale.|A rating scale used in questionnaires to measure the level of agreement of respondents (Likert, 1932). In this study, a four-point scale will be used, from "Strongly Disagree" to "Strongly Agree."
+DEF Local Barbershop.|A small, independently owned barbershop that serves customers within its community. In this study, it refers to [[NAME OF PARTNER BARBERSHOP]].
+DEF MySQL.|An open-source relational database management system. In this study, it is used to store customer, barber, appointment, and preference records.
+DEF No-show.|A customer who books an appointment but does not arrive and does not cancel.
+DEF Notification.|An automatic message sent through email or SMS to confirm a booking or remind the customer of an upcoming appointment.
+DEF Reliability.|The degree to which a system performs its functions under stated conditions for a period of time (ISO, 2011). In this study, it refers to whether BarberBook PH works consistently without errors or crashes.
+DEF Time Slot.|A specific period, such as 1:00 PM to 1:45 PM, that can be reserved by one customer with one barber.
+DEF Usability.|The degree to which a system can be used by its users to achieve their goals with effectiveness, efficiency, and satisfaction (ISO, 2011). In this study, it refers to how easy it is for customers, barbers, and the owner to learn and use the system.
+DEF User Satisfaction.|The degree to which user needs are satisfied when a system is used (ISO, 2011; DeLone & McLean, 2003). In this study, it refers to how satisfied the respondents are with BarberBook PH as a whole.
+DEF Walk-in Customer.|A customer who goes to the barbershop without an appointment and waits for his turn.
+DEF Weighted Mean.|A statistical tool that computes the average of responses where each response is multiplied by its assigned weight. In this study, it is used to interpret the results of the acceptability evaluation.

@@ -1,0 +1,9 @@
+NOTE Note to the group: Everything highlighted in yellow is something you need to fill in, check, or rewrite in your own words. Once you are done, select all (Ctrl+A), set the highlight to "No Color," and delete this note and the Title Options page before you submit.
+C **TITLE OPTIONS FOR THE GROUP**
+NOTE Choose ONE title, then use Find and Replace (Ctrl+H) to change "BarberBook PH: An Online Appointment and Haircut Preference System for Local Barbershops" and "BarberBook PH" throughout the paper if you pick Option 2 or 3. Delete this page after choosing.
+P **Option 1 (current working title).** BARBERBOOK PH: An Online Appointment and Haircut Preference System for Local Barbershops
+P *Why it works:* It is clear and already matches your Statement of the Problem. The phrase "Haircut Preference" is the part that makes your study different from ordinary booking systems, and it is right in the title.
+P **Option 2 (more technical, good for an IT panel).** TRIMTIME: A Web-Based Appointment Scheduling and Hairstyle Preference Management System for Barbershops in [[MUNICIPALITY / CITY]]
+P *Why it works:* The words "Web-Based" and "Management System" tell the panel right away what kind of software it is, and naming your locale shows that the study has a real, specific setting.
+P **Option 3 (catchy and local).** GUPITGO: A Mobile-Responsive Booking and Haircut Preference Recording System for Local Barbershops with Customer Records Management
+P *Why it works:* "Gupit" is the Filipino word for haircut, so the name is easy to remember. "Customer Records Management" also highlights the record-keeping side of the system, which is a good fit if some members of your group are from accountancy.

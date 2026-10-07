@@ -1,0 +1,54 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:transparent;font-family:Arial,sans-serif}
+#hero{width:1100px;height:1100px;position:relative;overflow:hidden;background:radial-gradient(circle at 60% 40%,#4a3a2c 0%,#2a221c 45%,#1b1a17 80%)}
+#hero .ph{position:absolute;width:300px;border-radius:26px;box-shadow:0 30px 60px rgba(0,0,0,.55);border:6px solid #111}
+#hero .ph img{width:100%;display:block;border-radius:20px}
+.pole{position:absolute;width:70px;height:760px;border-radius:35px;overflow:hidden;background:repeating-linear-gradient(135deg,#b3261e 0 34px,#fff 34px 68px,#1d4e89 68px 102px,#fff 102px 136px);box-shadow:0 0 0 10px #c9a227,0 20px 40px rgba(0,0,0,.5)}
+.cap{position:absolute;width:110px;height:50px;background:#c9a227;border-radius:50px 50px 12px 12px}
+#wait{width:1000px;height:640px;background:#fff;position:relative}
+#close{width:1920px;height:1080px;position:relative;overflow:hidden;background:linear-gradient(135deg,#1b1a17 0%,#2e2620 60%,#3e3026 100%)}
+#close .stripes{position:absolute;right:-200px;top:-100px;width:700px;height:1400px;transform:rotate(18deg);opacity:.12;background:repeating-linear-gradient(135deg,#b3261e 0 60px,#fff 60px 120px,#1d4e89 120px 180px,#fff 180px 240px)}
+#content-bg{width:1920px;height:1080px;background:#fff}
+</style></head><body>
+<div id="hero">
+ <div class="cap" style="left:70px;top:150px"></div>
+ <div class="pole" style="left:90px;top:190px"></div>
+ <div class="cap" style="left:70px;top:945px;border-radius:12px 12px 50px 50px"></div>
+ <svg style="position:absolute;left:0;top:0" width="1100" height="1100">
+  <g stroke="#c9a227" stroke-width="3" fill="none" opacity=".35">
+   <circle cx="900" cy="170" r="120"/><circle cx="900" cy="170" r="160" stroke-dasharray="6 10"/>
+  </g>
+  <g transform="translate(830,110) scale(2.2)" fill="none" stroke="#c9a227" stroke-width="3" opacity=".9" stroke-linecap="round">
+   <circle cx="10" cy="44" r="9"/><circle cx="46" cy="44" r="9"/><path d="M17,38 L52,2 M39,38 L4,2"/>
+  </g>
+ </svg>
+ <div class="ph" style="left:250px;top:330px;transform:rotate(-10deg)"><img src="img/screen2.png"></div>
+ <div class="ph" style="left:720px;top:360px;transform:rotate(9deg)"><img src="img/screen4.png"></div>
+ <div class="ph" style="left:470px;top:250px;z-index:3;width:330px"><img src="img/screen3.png"></div>
+</div>
+
+<div id="wait">
+ <svg width="1000" height="640" viewBox="0 0 1000 640">
+  <rect x="0" y="560" width="1000" height="6" fill="#e4e0d8"/>
+  <!-- clock -->
+  <g transform="translate(820,120)"><circle r="80" fill="#fff" stroke="#1b1a17" stroke-width="10"/><path d="M0,0 V-50 M0,0 L38,22" stroke="#8a5a2b" stroke-width="10" stroke-linecap="round"/><circle r="8" fill="#1b1a17"/></g>
+  <text x="820" y="250" font-size="30" text-anchor="middle" fill="#6f6a60" font-family="Arial">1 to 2 hours?</text>
+  <!-- bench and people -->
+  <rect x="40" y="470" width="620" height="22" rx="8" fill="#8a5a2b"/>
+  <rect x="70" y="492" width="16" height="70" fill="#5a3a1a"/><rect x="614" y="492" width="16" height="70" fill="#5a3a1a"/>
+  <g fill="#1b1a17">
+   <g transform="translate(120,0)"><circle cx="0" cy="330" r="38"/><rect x="-42" y="375" width="84" height="100" rx="30"/><rect x="-36" y="470" width="24" height="90" rx="10"/><rect x="12" y="470" width="24" height="90" rx="10"/></g>
+   <g transform="translate(270,0)" fill="#4a3f36"><circle cx="0" cy="330" r="38"/><rect x="-42" y="375" width="84" height="100" rx="30"/><rect x="-36" y="470" width="24" height="90" rx="10"/><rect x="12" y="470" width="24" height="90" rx="10"/><rect x="30" y="395" width="36" height="58" rx="6" fill="#c9a227"/></g>
+   <g transform="translate(420,0)"><circle cx="0" cy="330" r="38"/><rect x="-42" y="375" width="84" height="100" rx="30"/><rect x="-36" y="470" width="24" height="90" rx="10"/><rect x="12" y="470" width="24" height="90" rx="10"/></g>
+   <g transform="translate(570,0)" fill="#4a3f36"><circle cx="0" cy="330" r="38"/><rect x="-42" y="375" width="84" height="100" rx="30"/><rect x="-36" y="470" width="24" height="90" rx="10"/><rect x="12" y="470" width="24" height="90" rx="10"/></g>
+  </g>
+  <!-- speech bubble -->
+  <g transform="translate(120,190)"><rect x="-10" y="0" width="300" height="80" rx="40" fill="#f3e7d9"/><path d="M40,78 L20,120 L80,78z" fill="#f3e7d9"/><text x="140" y="52" font-size="30" text-anchor="middle" font-family="Arial" fill="#1b1a17">"Yung dati lang po"</text></g>
+  <g transform="translate(400,110)"><rect x="0" y="0" width="250" height="80" rx="40" fill="#1b1a17"/><path d="M150,78 L165,120 L200,78z" fill="#1b1a17"/><text x="125" y="52" font-size="28" text-anchor="middle" font-family="Arial" fill="#fff">Double booked!</text></g>
+  <!-- notebook -->
+  <g transform="translate(730,380)"><rect width="190" height="170" rx="10" fill="#fff" stroke="#1b1a17" stroke-width="6"/><path d="M30,50 H160 M30,85 H160 M30,120 H120" stroke="#c9b9a6" stroke-width="6"/><path d="M40,40 L150,135" stroke="#b3261e" stroke-width="8"/></g>
+ </svg>
+</div>
+
+<div id="close"><div class="stripes"></div></div>
+</body></html>

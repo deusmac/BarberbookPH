@@ -1,0 +1,152 @@
+# BarberBook PH
+C **The Simple Guide to Your Chapter 1 and Chapter 2**
+C *What was written, why it was written that way, and exactly what your group needs to do next*
+NOTE Read this guide first, before opening the chapters. It takes about 20 minutes and will save you from the most common mistakes students make before their first adviser review.
+## 1. What You Received
+P Your package has three files:
+B **Chapters_1-2_BarberBook_PH.docx** is the actual manuscript: title options, a title page, Chapter 1 (The Problem and Its Background), Chapter 2 (Review of Related Literature and Studies), and the References. It is formatted the way most Philippine colleges want it: Times New Roman 12, double-spaced, 1.5-inch left margin for binding, and page numbers on the upper right.
+B **This guide** explains everything in plain language so every member can defend the paper, not just the one who typed it.
+B **BarberBook_PH_Preliminary_Presentation.pptx** is a slide deck you can use for your first presentation to your adviser or panel.
+P Everything highlighted in **yellow** in the manuscript is something only your group can fill in: your names, your school, your partner barbershop, your actual interview answers, and a few things you need to confirm with your adviser.
+## 2. Your Study in 60 Seconds
+P If someone stops you in the hallway and asks "What is your thesis about?", this is your answer:
+P *"Local barbershops still use walk-in or chat-based reservations, so customers wait a long time, bookings overlap, and it's hard to explain the haircut you want. We are building BarberBook PH, a website where customers can book a time slot, pick their barber, choose a hairstyle from a photo gallery, and save their haircut preferences so the barber already knows what they want. The owner gets a dashboard for the schedule and simple reports. We will test it with our partner barbershop and have the owner, barbers, and customers rate it using ISO/IEC 25010."*
+P Notice the three problems (waiting, overlapping bookings, explaining the haircut) and the one special feature (saved haircut preferences). That special feature is your "selling point." Every chapter keeps coming back to it on purpose.
+## 3. Choose Your Title
+P You asked for title options, so the first page of the manuscript has three. Here is a quick comparison:
+TBL
+Option|Title|Best if...
+1|BarberBook PH: An Online Appointment and Haircut Preference System for Local Barbershops|you want to stay safe. It already matches your Statement of the Problem, so nothing else needs to change.
+2|TrimTime: A Web-Based Appointment Scheduling and Hairstyle Preference Management System for Barbershops in [[Municipality]]|your panel is very technical. "Web-Based" and "Management System" sound more like IT, and naming your town shows a clear locale.
+3|GupitGo: A Mobile-Responsive Booking and Haircut Preference Recording System for Local Barbershops with Customer Records Management|you want something catchy and local, and your group has accountancy members. "Customer Records Management" connects the study to record keeping.
+ENDTBL
+P **Our recommendation:** Option 1, unless your adviser asks for a locale in the title. If you choose Option 2 or 3, use Find and Replace (Ctrl+H) in Word to replace the old title and the name "BarberBook PH" everywhere, including the Statement of the Problem and the figures in the slides.
+## 4. Chapter 1, Section by Section
+P Chapter 1 answers one question: **"What is the problem, and why is it worth studying?"** Here is what each part does.
+H2 Introduction
+P *What it says:* Paints the picture. Barbershops are everywhere, but they still use walk-ins and notebooks, even though almost every Filipino now has a phone and internet. It also introduces the haircut communication problem ("semi-kalbo," "the usual") and ends by naming your system.
+P *Why it's there:* The panel should understand the problem even if they have never been inside a barbershop.
+P *What you do:* Replace the waiting time estimate with the real number you observed or were told.
+H2 Background of the Study
+P *What it says:* Gives the bigger context with numbers (99.63 percent of Philippine businesses are MSMEs, based on DTI), shows that small businesses often keep records in notebooks (Patayon, 2016; Santos et al., 2024), describes your partner barbershop, and lists the five problems you found.
+P *Why it's there:* This is where the problem becomes real and local. The paragraph about your partner barbershop is the most important "personal touch" in the whole paper.
+P *What you do:* Fill in the shop name, address, number of barbers, hours, the owner's name, and write one or two real sentences from your interview and your own observation. **Do not skip this.** A panel can easily tell when the background has no real data.
+H2 Theoretical Framework (Figure 1)
+P *What it says:* Explains the four "big ideas" your study stands on (see Section 6 of this guide for plain explanations).
+P *Why it's there:* Every thesis must show it is based on accepted theories, not just on the students' opinions.
+H2 Conceptual Framework (Figure 2)
+P *What it says:* Uses the Input-Process-Output (IPO) model. Input is what you need (knowledge, software, hardware). Process is how you build and test it (Agile, sprints, evaluation). Output is the finished system and its evaluation results. The feedback arrow means user comments go back into improving the system.
+P *Why it's there:* It is the "map" of your whole project in one picture. Expect to explain this figure out loud.
+H2 Statement of the Problem
+P *What it says:* Your six research questions, copied exactly as you provided them. Do not change these without telling your adviser, because Chapters 3, 4, and 5 will answer them one by one.
+H2 Objectives of the Study
+P *What it says:* The same six questions turned into "to do" statements (determine, identify, design and develop, describe, evaluate, propose). Objective 3 lists the features one by one.
+P *Why it's there:* Many advisers check that each research question has a matching objective. They match one-to-one here.
+H2 Assumptions of the Study
+P *What it says:* Since this is a descriptive-developmental study, there is no statistical hypothesis. Instead, it lists what the study assumes (for example, that the respondents will answer honestly).
+P *What you do:* Ask your adviser if they want a null hypothesis instead. There's a highlighted note in the manuscript about this.
+H2 Significance of the Study
+P *What it says:* Who benefits and how: owners, barbers, customers, the local business community, the proponents, your school, and future researchers.
+P *What you do:* Add a subject from your course and your school or department name.
+H2 Scope and Delimitation
+P *What it says:* What the system WILL do (booking, gallery, preferences, reminders, dashboard, ratings) and what it will NOT do (no online payment, no payroll or inventory, no AI hairstyle preview, one partner shop only).
+P *Why it's there:* This protects you. If a panelist asks "Why can't customers pay online?", your answer is "That is in our delimitations," followed by a reason.
+P *What you do:* Confirm the number of respondents and whether your adviser wants IT experts as evaluators.
+H2 Definition of Terms
+P *What it says:* 25 terms, in alphabetical order, each with a general meaning and how it is used in your study (this is called an "operational" definition).
+## 5. Chapter 2, Section by Section
+P Chapter 2 answers: **"What have other people already said and built, and what is still missing?"** It is divided the standard Philippine way:
+TBL
+Part|What it contains
+Foreign Literature|Theories and ideas from abroad: waiting psychology, appointment scheduling, SMS reminders, self-service technology, the barber-client relationship, technology acceptance, ISO/IEC 25010, and Agile.
+Local Literature|Philippine context: DTI MSME statistics, internet and mobile use (DataReportal 2026), the Philippine Development Plan, the E-Commerce Act, and the Data Privacy Act.
+Foreign Studies|Real barbershop booking systems built in Indonesia and Malaysia, plus a study on SMS reminders.
+Local Studies|Philippine appointment and reservation systems (salons in Pangasinan, BulSU, two resorts, PRC Region IV-A) and studies on how small businesses keep records.
+Related Existing Systems|Commercial apps like Booksy and Fresha, and why Messenger is not enough.
+Synthesis|Table 1 compares the studies to yours, then states the research gap.
+ENDTBL
+P **The research gap in one sentence:** Many systems handle booking and queues, but very few treat the customer's haircut preference as a main feature, and there is almost no published local study on this for Filipino barbershops.
+P **Literature vs. studies:** "Literature" means books, articles, laws, and reports that discuss ideas. "Studies" means actual research where someone built or measured something. Panels sometimes ask this, so remember the difference.
+## 6. The Theories in Plain Words
+P You do not need to memorize the textbook definitions. You need to be able to explain them like this:
+FIG img/fig1_theoretical.png|6.2
+TBL
+Theory|Plain explanation|How it connects to BarberBook PH
+Technology Acceptance Model (Davis, 1989)|People use a new app if they believe it is useful and easy. Like GCash: people switched because it saved time and was simple.|That's why the booking has only a few steps and the screens are plain.
+DeLone and McLean IS Success Model (2003)|A system is "successful" if it works well, gives correct information, people keep using it, they are satisfied, and it actually helps the business.|It's where "user satisfaction" in your evaluation comes from.
+Psychology of Waiting Lines (Maister, 1985)|Waiting feels longer when you don't know how long it will be. A 20-minute wait with a known time feels shorter than an unknown wait.|A fixed appointment slot turns an unknown wait into a known one.
+ISO/IEC 25010 (ISO, 2011, 2023)|An international "checklist" for judging software quality.|Your questionnaire in Chapter 3 will be based on it: functionality, usability, efficiency, reliability, and user satisfaction.
+ENDTBL
+## 7. Your Yellow Highlight Checklist
+P Go through the manuscript with this list. Tick each item when done.
+TBL
+Where|What to fill in or check
+Title Options page|Choose one title. Delete the page after.
+Title page|School name, address, college, degree program, all member names, month and year.
+Introduction, paragraph 2|The actual waiting time on busy days at your partner shop.
+Background, paragraph 3|Shop name, address, number of barbers, hours, days open, owner's name, a real quote from your interview, and your own observation.
+Theoretical Framework, ISO paragraph|Ask your adviser: ISO/IEC 25010:2011 or 2023? Adjust if needed.
+Objectives, General Objective|Your municipality or city.
+Assumptions|Ask if your adviser prefers a null hypothesis.
+Significance|A subject from your course; your school or department name.
+Scope and Delimitation|Partner shop, locale, study period, number of respondents, and whether IT experts are included.
+Definition of Terms|"Local Barbershop" needs your partner shop's name.
+Chapter 2, PDP paragraph|Optional: add a chapter or page number from the PDP if your adviser asks.
+Chapter 2, Related Existing Systems|Visit the Booksy and Fresha websites and confirm what they offer.
+Chapter 2, Synthesis|Search your school library and Google Scholar for any local barbershop thesis. Add it if found.
+References|Replace "Retrieved [DATE]" with the actual date you opened each website (Booksy, Fresha, DTI).
+ENDTBL
+P When everything is done: press Ctrl+A, set the highlight color to "No Color," and delete all the yellow notes.
+## 8. About the References
+P There are **46 references**, and every one of them is a real, published source: journal articles with DOIs, conference papers, official government pages, laws, ISO standards, and well-known textbooks. None were invented. Here is how to handle them:
+B **Open each one at least once.** Click the DOI link (the ones that start with https://doi.org/) or the website link. Read at least the abstract. If a panelist asks "What did Hidayat and Wibowo find?", you should be able to answer in one or two sentences.
+B **Some studies are from Indonesia** and have Indonesian titles. That is normal in APA. The English translation is in square brackets right after the title.
+B **"n.d." means "no date."** It is used for websites that do not show when they were published.
+B **"et al." means "and others."** In APA 7th edition, use it in the text when a source has three or more authors, starting with the first time you cite it.
+B **Every in-text citation has a matching entry in the reference list, and every reference is cited in the text.** If you delete a paragraph, check whether its source is still cited somewhere else. If not, remove it from the list too.
+B **Add your own finds.** If you find a thesis in your school library about a booking or reservation system, add it under Local Studies. Advisers like seeing sources from their own institution.
+## 9. Questions Your Panel Will Probably Ask
+P Practice answering these as a group. Each member should be able to answer at least three.
+P **Q: What makes your system different from other booking systems?**
+P A: The haircut preference feature. Customers pick a style from a photo gallery and save details like guard number, length on top, and beard trim. Most of the systems we reviewed focused only on scheduling or queues.
+P **Q: Why web-based and not a mobile app?**
+P A: A website works on any phone, tablet, or computer without downloading anything, and it is cheaper and faster to build and update within one school year. It is still mobile-friendly because we use a responsive layout.
+P **Q: Why no online payment?**
+P A: It is in our delimitations. Most local barbershops still collect cash, adding payment would need a payment gateway with fees and extra security requirements, and the main problems we are solving are waiting, scheduling, and communication.
+P **Q: What if the customer doesn't show up?**
+P A: The system sends reminders, which research shows can increase attendance (Guy et al., 2012). The owner can also see no-shows in the records. [[You may add a feature idea here, like a cancellation deadline, if your group decides on one.]]
+P **Q: What about customers who don't have internet?**
+P A: Walk-ins are still accepted. The owner encodes them in the dashboard so the schedule stays complete.
+P **Q: How will you protect customer data?**
+P A: We follow the Data Privacy Act of 2012. We ask for consent, collect only what we need, use password-protected accounts, and limit access to the owner and barbers.
+P **Q: Why Agile and not Waterfall?**
+P A: The owner will likely request changes once he sees the first version. Agile lets us build in sprints, show each part, and improve it right away.
+P **Q: Why ISO/IEC 25010?**
+P A: It is an international standard for software quality, and it is widely used in Philippine developmental studies. Several of the local studies we reviewed used it too, so our results can be compared with theirs.
+P **Q: What is the connection to accountancy?** [[Keep this only if your group has accountancy members.]]
+P A: Small business owners often keep records in notebooks (Patayon, 2016). BarberBook PH gives the shop an organized digital record of customers and bookings per barber, which can later be connected to sales and accounting records.
+## 10. Making It Yours
+P Your adviser will expect the paper to sound like your group, and the panel will expect every member to understand it. Before you submit:
+B **Read every paragraph out loud as a group.** If a sentence doesn't sound like something you would say, rewrite it in your own words. Small changes are fine and actually make the paper stronger.
+B **Add your real data.** Your interview answers, what you observed at the shop, and your survey results are what make the study yours. No one else can write those parts.
+B **Keep the citations when you rephrase.** If you rewrite a sentence that has a citation, keep the citation.
+B **Check your school's policy on AI tools.** Many schools now have rules about using AI tools in theses, and some require you to declare it. Follow whatever your school or adviser requires.
+## 11. What Comes Next: Chapter 3
+P After your adviser approves Chapters 1 and 2, Chapter 3 (Research Methodology) usually includes:
+B Research design (descriptive-developmental)
+B Respondents and sampling (purposive: 1 owner, 3 to 5 barbers, 30 customers)
+B Research instrument (ISO/IEC 25010 questionnaire, four-point Likert scale)
+B Data gathering procedure (interview, observation, survey, evaluation)
+B Statistical treatment (weighted mean and the interpretation scale, such as 3.26 to 4.00 = Highly Acceptable)
+B Software development methodology (Agile, with the sprints from your concept paper)
+B System design diagrams (DFD, ERD, use case diagram, and the user interface screens)
+P Your concept paper already has most of this. It just needs to be expanded.
+## 12. Final Checklist Before Sending to Your Adviser
+B One title was chosen, and the Title Options page is deleted.
+B All yellow highlights are filled in, and the highlight is removed.
+B All yellow notes are deleted.
+B Every member has read the whole paper at least once.
+B Every member can explain Figure 1 and Figure 2 without reading.
+B Every reference link was opened at least once.
+B The file is saved as a Word document and a PDF copy, following your department's naming format.
+C *Good luck. You have a solid foundation. Now make it yours.*

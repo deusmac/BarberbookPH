@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BarberBook PH — UI Mockup</title>
+<style>
+  :root{
+    --ink:#1b1a17;
+    --muted:#6f6a60;
+    --line:#e4e0d8;
+    --paper:#fbf9f5;
+    --card:#ffffff;
+    --accent:#8a5a2b;
+    --accent-soft:#f3e7d9;
+    --gold:#c9a227;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  }
+  header.page{
+    padding:28px 24px 8px;
+    text-align:center;
+  }
+  header.page h1{
+    margin:0 0 4px;
+    font-size:22px;
+    letter-spacing:.5px;
+  }
+  header.page p{
+    margin:0;
+    color:var(--muted);
+    font-size:13px;
+  }
+  .grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:26px;
+    justify-content:center;
+    padding:24px 20px 48px;
+  }
+  .phone{
+    width:280px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+    display:flex;
+    flex-direction:column;
+  }
+  .caption{
+    text-align:center;
+    font-size:12px;
+    color:var(--muted);
+    margin-top:8px;
+  }
+  .screen-wrap{width:280px}
+  .statusbar{
+    background:var(--ink);
+    color:#fff;
+    font-size:10px;
+    padding:5px 12px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .appbar{
+    padding:12px 14px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .appbar .logo{
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:.4px;
+  }
+  .appbar .logo span{color:var(--accent)}
+  .appbar .back{color:var(--muted);font-size:16px}
+  .body{padding:14px;flex:1}
+  h2.sec{
+    font-size:14px;
+    margin:0 0 10px;
+  }
+  p.sub{font-size:11px;color:var(--muted);margin:0 0 12px;line-height:1.5}
+  .hero{
+    background:linear-gradient(135deg,#2b2723,#4a3f36);
+    color:#fff;
+    padding:18px 14px 20px;
+  }
+  .hero h3{margin:0 0 6px;font-size:17px;line-height:1.3}
+  .hero p{margin:0;font-size:11px;opacity:.8}
+  .search{
+    margin-top:12px;
+    background:#fff;
+    border-radius:8px;
+    padding:8px 10px;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    background:var(--accent);
+    color:#fff;
+    border:0;
+    border-radius:8px;
+    padding:10px;
+    font-size:12px;
+    font-weight:600;
+    margin-top:12px;
+    cursor:pointer;
+  }
+  .btn.ghost{
+    background:#fff;
+    color:var(--accent);
+    border:1px solid var(--accent);
+  }
+  .shop{
+    display:flex;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .thumb{
+    width:52px;height:52px;border-radius:8px;
+    background:var(--accent-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;flex:none;
+  }
+  .shop-name{font-size:12px;font-weight:600;margin:0 0 2px}
+  .shop-meta{font-size:10px;color:var(--muted);margin:0;line-height:1.5}
+  .stars{color:var(--gold);font-size:10px}
+  .styles{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .style-card{
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    text-align:center;
+    padding-bottom:8px;
+  }
+  .style-card.selected{border:2px solid var(--accent);background:#fdf8f2}
+  .style-img{
+    height:64px;
+    background:var(--accent-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;
+  }
+  .style-name{font-size:10.5px;font-weight:600;margin:6px 0 1px}
+  .style-tag{font-size:9px;color:var(--muted)}
+  .chip{
+    display:inline-block;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:5px 10px;
+    font-size:10px;
+    margin:0 5px 7px 0;
+  }
+  .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .barber{
+    display:flex;align-items:center;gap:10px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:9px;
+    margin-bottom:9px;
+  }
+  .barber.on{border:2px solid var(--accent);background:#fdf8f2}
+  .avatar{
+    width:36px;height:36px;border-radius:50%;
+    background:var(--accent-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;flex:none;
+  }
+  .cal{
+    display:grid;grid-template-columns:repeat(7,1fr);gap:4px;
+    font-size:9.5px;text-align:center;
+  }
+  .cal div{padding:5px 0;border-radius:5px;color:var(--muted)}
+  .cal .d{background:#f3f1ec;color:var(--ink)}
+  .cal .on{background:var(--accent);color:#fff;font-weight:700}
+  .cal .off{opacity:.35}
+  .slots{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px}
+  .slot{
+    border:1px solid var(--line);border-radius:6px;
+    padding:6px 0;text-align:center;font-size:10px;
+  }
+  .slot.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .slot.x{opacity:.35;text-decoration:line-through}
+  .rowline{
+    display:flex;justify-content:space-between;
+    font-size:11px;padding:7px 0;border-bottom:1px dashed var(--line);
+  }
+  .rowline span:first-child{color:var(--muted)}
+  .total{
+    display:flex;justify-content:space-between;
+    font-size:13px;font-weight:700;padding-top:9px;
+  }
+  .ok{
+    text-align:center;padding:24px 6px 10px;
+  }
+  .ok .mark{
+    width:52px;height:52px;border-radius:50%;
+    background:#e8f3e8;color:#2e7d32;
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;margin:0 auto 12px;
+  }
+  .ok h3{margin:0 0 6px;font-size:15px}
+  .ok p{margin:0;font-size:11px;color:var(--muted);line-height:1.6}
+  .ticket{
+    margin-top:14px;border:1px dashed var(--line);border-radius:10px;
+    padding:11px;text-align:left;background:#fdfcfa;
+  }
+  .tabbar{
+    display:flex;border-top:1px solid var(--line);
+    font-size:9px;color:var(--muted);text-align:center;
+  }
+  .tabbar div{flex:1;padding:8px 0}
+  .tabbar div.on{color:var(--accent);font-weight:700}
+  .note{
+    max-width:820px;margin:0 auto 30px;padding:0 24px;
+    font-size:12px;color:var(--muted);line-height:1.7;text-align:center;
+  }
+</style>
+</head>
+<body>
+
+<header class="page">
+  <h1>BarberBook PH — Proposed User Interface</h1>
+  <p>Sample screens for the online barbershop appointment and haircut preference system</p>
+</header>
+
+<div class="grid">
+
+  <!-- 1. Home -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="statusbar"><span>9:41</span><span>PH</span></div>
+      <div class="appbar"><div class="logo">Barber<span>Book</span> PH</div></div>
+      <div class="hero">
+        <h3>Book your next haircut in under a minute.</h3>
+        <p>Find a shop near you, pick your barber, choose your style.</p>
+        <div class="search">Search barbershop or city...</div>
+      </div>
+      <div class="body">
+        <h2 class="sec">Nearby shops</h2>
+        <div class="shop">
+          <div class="thumb">&#9986;</div>
+          <div>
+            <p class="shop-name">Kings Cut Barbershop</p>
+            <p class="shop-meta">Poblacion, Tanza &middot; 1.2 km<br><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.8 (126)</p>
+          </div>
+        </div>
+        <div class="shop">
+          <div class="thumb">&#9986;</div>
+          <div>
+            <p class="shop-name">Fadez Manila Barber Lounge</p>
+            <p class="shop-meta">Trece Martires &middot; 3.4 km<br><span class="stars">&#9733;&#9733;&#9733;&#9733;</span> 4.5 (89)</p>
+          </div>
+        </div>
+        <div class="shop" style="border-bottom:0">
+          <div class="thumb">&#9986;</div>
+          <div>
+            <p class="shop-name">The Gentlemen&#39;s Chair</p>
+            <p class="shop-meta">Imus &middot; 5.0 km<br><span class="stars">&#9733;&#9733;&#9733;&#9733;</span> 4.4 (54)</p>
+          </div>
+        </div>
+        <button class="btn">Book an appointment</button>
+      </div>
+      <div class="tabbar"><div class="on">Home</div><div>Styles</div><div>Bookings</div><div>Profile</div></div>
+    </div>
+    <div class="caption">Screen 1 — Home / Shop list</div>
+  </div>
+
+  <!-- 2. Hairstyle -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="statusbar"><span>9:41</span><span>PH</span></div>
+      <div class="appbar"><span class="back">&#8592;</span><div class="logo">Choose a style</div></div>
+      <div class="body">
+        <p class="sub">Pick a haircut from the style gallery so your barber knows exactly what you want. Trending styles are updated by the shop.</p>
+        <div>
+          <span class="chip on">Trending</span><span class="chip">Fades</span><span class="chip">Classic</span><span class="chip">Textured</span>
+        </div>
+        <div class="styles">
+          <div class="style-card selected">
+            <div class="style-img">&#128100;</div>
+            <div class="style-name">Mid Taper Fade</div>
+            <div class="style-tag">Trending &middot; 45 min</div>
+          </div>
+          <div class="style-card">
+            <div class="style-img">&#128100;</div>
+            <div class="style-name">Two Block</div>
+            <div class="style-tag">Trending &middot; 50 min</div>
+          </div>
+          <div class="style-card">
+            <div class="style-img">&#128100;</div>
+            <div class="style-name">Textured Fringe</div>
+            <div class="style-tag">Popular &middot; 40 min</div>
+          </div>
+          <div class="style-card">
+            <div class="style-img">&#128100;</div>
+            <div class="style-name">Buzz Cut</div>
+            <div class="style-tag">Classic &middot; 25 min</div>
+          </div>
+        </div>
+        <button class="btn">Continue</button>
+        <button class="btn ghost">Upload my own photo</button>
+      </div>
+    </div>
+    <div class="caption">Screen 2 — Hairstyle gallery with photos</div>
+  </div>
+
+  <!-- 3. Barber + preferences -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="statusbar"><span>9:41</span><span>PH</span></div>
+      <div class="appbar"><span class="back">&#8592;</span><div class="logo">Choose your barber</div></div>
+      <div class="body">
+        <div class="barber on">
+          <div class="avatar">&#128100;</div>
+          <div>
+            <p class="shop-name">Kuya Ramil</p>
+            <p class="shop-meta"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.9 &middot; Fades, skin fade</p>
+          </div>
+        </div>
+        <div class="barber">
+          <div class="avatar">&#128100;</div>
+          <div>
+            <p class="shop-name">Jhun</p>
+            <p class="shop-meta"><span class="stars">&#9733;&#9733;&#9733;&#9733;</span> 4.6 &middot; Classic, scissor cut</p>
+          </div>
+        </div>
+        <div class="barber">
+          <div class="avatar">&#128100;</div>
+          <div>
+            <p class="shop-name">Any available barber</p>
+            <p class="shop-meta">Fastest schedule</p>
+          </div>
+        </div>
+
+        <h2 class="sec" style="margin-top:14px">My haircut preferences</h2>
+        <p class="sub" style="margin-bottom:8px">Saved to your profile so you do not have to explain it again next time.</p>
+        <div>
+          <span class="chip on">Sides: no. 2 guard</span>
+          <span class="chip on">Keep the top long</span>
+          <span class="chip">Trim eyebrows</span>
+          <span class="chip on">No hair product</span>
+          <span class="chip">Beard trim</span>
+        </div>
+        <button class="btn">Next: pick a schedule</button>
+      </div>
+    </div>
+    <div class="caption">Screen 3 — Preferred barber and haircut preferences</div>
+  </div>
+
+  <!-- 4. Schedule -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="statusbar"><span>9:41</span><span>PH</span></div>
+      <div class="appbar"><span class="back">&#8592;</span><div class="logo">Pick a schedule</div></div>
+      <div class="body">
+        <h2 class="sec">September 2026</h2>
+        <div class="cal">
+          <div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div>
+          <div class="off">7</div><div class="d">8</div><div class="d">9</div><div class="on">10</div><div class="d">11</div><div class="d">12</div><div class="off">13</div>
+          <div class="off">14</div><div class="d">15</div><div class="d">16</div><div class="d">17</div><div class="d">18</div><div class="d">19</div><div class="off">20</div>
+        </div>
+        <h2 class="sec" style="margin-top:14px">Available time</h2>
+        <p class="sub" style="margin-bottom:8px">Slots already taken are hidden automatically, so double booking will not happen.</p>
+        <div class="slots">
+          <div class="slot">9:00</div>
+          <div class="slot x">10:00</div>
+          <div class="slot">11:00</div>
+          <div class="slot on">1:00</div>
+          <div class="slot">2:00</div>
+          <div class="slot x">3:00</div>
+          <div class="slot">4:00</div>
+          <div class="slot">5:00</div>
+          <div class="slot">6:00</div>
+        </div>
+        <button class="btn">Review booking</button>
+      </div>
+    </div>
+    <div class="caption">Screen 4 — Calendar and available time slots</div>
+  </div>
+
+  <!-- 5. Summary -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="statusbar"><span>9:41</span><span>PH</span></div>
+      <div class="appbar"><span class="back">&#8592;</span><div class="logo">Review your booking</div></div>
+      <div class="body">
+        <div class="rowline"><span>Barbershop</span><span>Kings Cut</span></div>
+        <div class="rowline"><span>Barber</span><span>Kuya Ramil</span></div>
+        <div class="rowline"><span>Haircut</span><span>Mid Taper Fade</span></div>
+        <div class="rowline"><span>Date</span><span>Sep 10, 2026</span></div>
+        <div class="rowline"><span>Time</span><span>1:00 PM</span></div>
+        <div class="rowline"><span>Duration</span><span>45 minutes</span></div>
+        <div class="rowline"><span>Notes</span><span>No. 2 sides</span></div>
+        <div class="total"><span>Total</span><span>PHP 250.00</span></div>
+        <p class="sub" style="margin-top:12px">Payment is made at the shop. The system only reserves your slot.</p>
+        <button class="btn">Confirm booking</button>
+        <button class="btn ghost">Cancel</button>
+      </div>
+    </div>
+    <div class="caption">Screen 5 — Booking summary</div>
+  </div>
+
+  <!-- 6. Confirmation -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="statusbar"><span>9:41</span><span>PH</span></div>
+      <div class="appbar"><div class="logo">Barber<span>Book</span> PH</div></div>
+      <div class="body">
+        <div class="ok">
+          <div class="mark">&#10003;</div>
+          <h3>Your slot is reserved</h3>
+          <p>A confirmation was sent to your email and SMS. Please arrive five minutes early.</p>
+          <div class="ticket">
+            <div class="rowline"><span>Booking no.</span><span>BB-2026-00147</span></div>
+            <div class="rowline"><span>Shop</span><span>Kings Cut</span></div>
+            <div class="rowline"><span>Barber</span><span>Kuya Ramil</span></div>
+            <div class="rowline" style="border:0"><span>Schedule</span><span>Sep 10, 1:00 PM</span></div>
+          </div>
+        </div>
+        <button class="btn ghost">Add to my calendar</button>
+        <button class="btn ghost">Reschedule or cancel</button>
+      </div>
+      <div class="tabbar"><div>Home</div><div>Styles</div><div class="on">Bookings</div><div>Profile</div></div>
+    </div>
+    <div class="caption">Screen 6 — Confirmation and booking record</div>
+  </div>
+
+  <!-- 7. Admin -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="statusbar"><span>9:41</span><span>PH</span></div>
+      <div class="appbar"><div class="logo">Shop dashboard</div></div>
+      <div class="body">
+        <p class="sub">What the barbershop owner sees when they log in.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+          <div style="border:1px solid var(--line);border-radius:9px;padding:9px">
+            <div style="font-size:19px;font-weight:700">12</div>
+            <div style="font-size:9.5px;color:var(--muted)">Bookings today</div>
+          </div>
+          <div style="border:1px solid var(--line);border-radius:9px;padding:9px">
+            <div style="font-size:19px;font-weight:700">3</div>
+            <div style="font-size:9.5px;color:var(--muted)">Open slots left</div>
+          </div>
+        </div>
+        <h2 class="sec">Today&#39;s queue</h2>
+        <div class="rowline"><span>9:00 &middot; Ramil</span><span>Mark T.</span></div>
+        <div class="rowline"><span>10:00 &middot; Jhun</span><span>Aldrin R.</span></div>
+        <div class="rowline"><span>1:00 &middot; Ramil</span><span>Josh T.</span></div>
+        <div class="rowline"><span>2:00 &middot; Jhun</span><span>Kevin S.</span></div>
+        <button class="btn">Manage barber schedule</button>
+        <button class="btn ghost">Update style gallery</button>
+      </div>
+      <div class="tabbar"><div class="on">Queue</div><div>Barbers</div><div>Styles</div><div>Reports</div></div>
+    </div>
+    <div class="caption">Screen 7 — Barbershop owner dashboard</div>
+  </div>
+
+</div>
+
+<p class="note">
+  Screens are proposed designs only. Actual colors, photos and shop names will be finalized after the interview with the partner barbershop.
+</p>
+
+</body>
+</html>

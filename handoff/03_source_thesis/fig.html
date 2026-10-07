@@ -1,0 +1,76 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#111}
+.fig{width:1100px;padding:30px;box-sizing:border-box;background:#fff}
+.box{border:2px solid #222;border-radius:6px;padding:14px 16px;background:#fff}
+.box h4{margin:0 0 6px;font-size:19px;text-align:center}
+.box p{margin:0;font-size:15.5px;line-height:1.45;text-align:center}
+.box .who{font-size:14px;color:#444;text-align:center;margin-bottom:8px;font-style:italic}
+#f1 .grid{display:grid;grid-template-columns:1fr 1fr;gap:40px 380px;position:relative}
+#f1 .center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:250px;border:3px solid #111;background:#f4ece2;text-align:center;padding:22px 14px;border-radius:8px}
+#f1 .center b{font-size:22px;display:block;margin-bottom:6px}
+#f1 .center span{font-size:15px;line-height:1.4}
+svg.lines{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+#f2 .row{display:grid;grid-template-columns:1fr 60px 1fr 60px 1fr;align-items:stretch}
+#f2 .col h3{margin:0 0 10px;text-align:center;font-size:21px;letter-spacing:1px}
+#f2 .box{height:100%;box-sizing:border-box;text-align:left}
+#f2 .box ul{margin:0;padding-left:18px;font-size:15px;line-height:1.5}
+#f2 .box li{margin-bottom:4px}
+#f2 .box .k{font-weight:bold;font-size:15.5px;margin:8px 0 3px}
+#f2 .box .k:first-child{margin-top:0}
+.arrow{display:flex;align-items:center;justify-content:center;padding-top:34px}
+.fb{margin:0 auto;width:100%;position:relative;height:70px}
+</style></head><body>
+<div class="fig" id="f1">
+ <div class="grid">
+  <div class="box"><h4>Technology Acceptance Model</h4><div class="who">Davis (1989); Venkatesh et al. (2003)</div><p>Perceived usefulness and perceived ease of use influence the intention to use a system.</p></div>
+  <div class="box"><h4>DeLone and McLean IS Success Model</h4><div class="who">DeLone and McLean (2003)</div><p>System and information quality lead to use, user satisfaction, and net benefits.</p></div>
+  <div class="box"><h4>Psychology of Waiting Lines</h4><div class="who">Maister (1985); Taylor (1994)</div><p>Uncertain and unexplained waits feel longer and lower the evaluation of the service.</p></div>
+  <div class="box"><h4>ISO/IEC 25010 Quality Model</h4><div class="who">ISO (2011, 2023)</div><p>Functionality, usability, efficiency, reliability, and satisfaction as measures of software quality.</p></div>
+  <div class="center"><b>BarberBook PH</b><span>Online Appointment and Haircut Preference System for Local Barbershops</span></div>
+  <svg class="lines" viewBox="0 0 1040 400" >
+   <defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker></defs>
+  </svg>
+ </div>
+</div>
+<div style="height:30px"></div>
+<div class="fig" id="f2">
+ <div class="row">
+  <div class="col"><h3>INPUT</h3><div class="box">
+   <div class="k">Knowledge Requirements</div>
+   <ul><li>Existing appointment and haircut preference practices</li><li>Problems of customers and barbers</li><li>Needed system features</li></ul>
+   <div class="k">Software Requirements</div>
+   <ul><li>HTML5, CSS3, JavaScript, Bootstrap</li><li>PHP (Laravel), MySQL</li><li>XAMPP, VS Code, GitHub, Figma</li></ul>
+   <div class="k">Hardware Requirements</div>
+   <ul><li>Laptop/desktop (8 GB RAM or higher)</li><li>Android / iOS phone</li><li>Stable internet connection</li></ul>
+  </div></div>
+  <div class="arrow"><svg width="54" height="40"><path d="M2,20 H40" stroke="#111" stroke-width="4"/><path d="M36,8 L52,20 L36,32 z" fill="#111"/></svg></div>
+  <div class="col"><h3>PROCESS</h3><div class="box">
+   <div class="k">Agile Software Development</div>
+   <ul><li>Planning and requirements gathering (interview, observation, survey)</li><li>Design (DFD, ERD, use case, screen layout)</li><li>Development by sprint<br>Sprint 1: accounts and booking<br>Sprint 2: gallery and preferences<br>Sprint 3: dashboard and notifications</li><li>Testing</li><li>Deployment</li></ul>
+   <div class="k">Evaluation</div>
+   <ul><li>ISO/IEC 25010-based questionnaire</li><li>Weighted mean</li></ul>
+  </div></div>
+  <div class="arrow"><svg width="54" height="40"><path d="M2,20 H40" stroke="#111" stroke-width="4"/><path d="M36,8 L52,20 L36,32 z" fill="#111"/></svg></div>
+  <div class="col"><h3>OUTPUT</h3><div class="box" style="display:flex;flex-direction:column;justify-content:center;text-align:center">
+   <p style="font-size:17px;font-weight:bold;margin-bottom:12px">BarberBook PH: An Online Appointment and Haircut Preference System for Local Barbershops</p>
+   <p style="font-size:15px">Acceptability results in terms of functionality, usability, efficiency, reliability, and user satisfaction</p>
+   <p style="font-size:15px;margin-top:10px">Proposed improvements</p>
+  </div></div>
+ </div>
+ <svg width="1040" height="70" style="display:block">
+  <path d="M900,4 V46 H520 V8" fill="none" stroke="#111" stroke-width="3"/>
+  <path d="M510,14 L520,0 L530,14 z" fill="#111"/>
+  <text x="710" y="66" font-size="16" text-anchor="middle" font-style="italic">FEEDBACK</text>
+ </svg>
+</div>
+<script>
+const g=document.querySelector('#f1 .grid'),svg=g.querySelector('svg');
+const R=g.getBoundingClientRect();svg.setAttribute('viewBox',`0 0 ${R.width} ${R.height}`);
+const c=g.querySelector('.center').getBoundingClientRect();
+g.querySelectorAll('.box').forEach((b,i)=>{const r=b.getBoundingClientRect();
+ const left=i%2==0; const x1=(left?r.right:r.left)-R.left, y1=r.top+r.height/2-R.top;
+ const x2=(left?c.left:c.right)-R.left+(left?-4:4), y2=c.top+c.height/2-R.top+(i<2?-30:30);
+ const p=document.createElementNS('http://www.w3.org/2000/svg','line');
+ p.setAttribute('x1',x1);p.setAttribute('y1',y1);p.setAttribute('x2',x2);p.setAttribute('y2',y2);
+ p.setAttribute('stroke','#222');p.setAttribute('stroke-width','2.5');p.setAttribute('marker-end','url(#a)');svg.appendChild(p);});
+</script></body></html>
