@@ -136,7 +136,7 @@ window.addEventListener("storage", e => {
 });
 
 /* ===== TOUR ===== */
-function ensureDraft() { if (!state.draft) startBooking({}); }
+function tourEnsureDraft() { if (!state.draft) startBooking({}); }
 function ensureBooking() {
   const ui = state.ui;
   if (!ui.lastBookingId || !state.bookings.some(b => b.id === ui.lastBookingId)) ui.lastBookingId = quickCreateDemoBooking();
@@ -150,9 +150,9 @@ function cardTarget() {
 const TOUR = [
   { r: "c/home", sel: "[data-tour=home-hero]", t: "Online booking", x: "Customers book online instead of waiting in line." },
   { r: "c/home", sel: "[data-tour=rebook]", t: "Quick rebook", x: "Saved preferences make repeat bookings one tap." },
-  { r: "c/book/style", sel: "[data-tour=style-grid]", t: "Style gallery", x: "Customers show exactly what they want, with trending styles or their own photo.", pre: ensureDraft },
-  { r: "c/book/barber", sel: "[data-tour=prefs]", t: "Haircut preferences", x: "Guard number, top length, beard, notes. Saved to the profile.", pre: ensureDraft },
-  { r: "c/book/schedule", sel: "[data-tour=slots]", t: "Schedule", x: "Only free slots can be picked. No double booking.", pre: ensureDraft },
+  { r: "c/book/style", sel: "[data-tour=style-grid]", t: "Style gallery", x: "Customers show exactly what they want, with trending styles or their own photo.", pre: tourEnsureDraft },
+  { r: "c/book/barber", sel: "[data-tour=prefs]", t: "Haircut preferences", x: "Guard number, top length, beard, notes. Saved to the profile.", pre: tourEnsureDraft },
+  { r: "c/book/schedule", sel: "[data-tour=slots]", t: "Schedule", x: "Only free slots can be picked. No double booking.", pre: tourEnsureDraft },
   { r: "c/confirm", sel: "[data-tour=ticket]", t: "Confirmation", x: "Instant confirmation with Email and SMS previews and reminders.", pre: ensureBooking },
   { r: "o/queue", sel: "[data-tour=timeline]", t: "Owner queue", x: "The owner sees the day at a glance.", pre: () => { state.ui.drawer = null; } },
   { r: "o/queue", sel: "[data-tour=pcard]", t: "Preference card", x: "The barber reads this before the cut. This is our main feature.", pre: cardTarget },

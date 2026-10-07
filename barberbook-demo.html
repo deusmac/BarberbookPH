@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BarberBook PH - Interactive Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&display=swap">
+<style>
+/* ===== TOKENS / CSS ===== */
+:root{
+  --blue:#1E50FF; --yellow:#FFE600; --yellow-hover:#EDD400; --yellow-soft:#FEF08A; --ice:#E2F1F8;
+  --card:#FFFFFF; --ink:#000000; --ink-2:#111827; --muted:#333333;
+  --green:#22C55E; --red:#EF4444; --amber:#F59E0B;
+  --bw:2.5px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:9999px;
+  --sh-sm:2px 2px 0 #000; --sh-md:4px 4px 0 #000; --sh-lg:6px 6px 0 #000; --sh-xl:8px 8px 0 #000;
+  --font:'Outfit','Poppins','Segoe UI',Arial,sans-serif; --ease:cubic-bezier(.2,.9,.3,1.2);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--font);font-weight:500;color:var(--ink-2);background:var(--blue);display:flex;flex-direction:column;height:100dvh;overflow:hidden;font-size:15px;line-height:1.35}
+body.role-o{background:var(--ice)}
+button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer;background:none;border:0}
+input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+h1,h2,h3,h4{font-weight:900;text-transform:uppercase;letter-spacing:-0.02em;line-height:1.05}
+h1{font-size:30px} h2{font-size:22px} h3{font-size:17px} h4{font-size:14px}
+:focus-visible{outline:3px solid #000;outline-offset:2px;background-clip:padding-box}
+.ic{flex:none;vertical-align:middle}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.muted{color:var(--muted)} .small{font-size:12.5px} .tiny{font-size:11px} .b{font-weight:800} .up{text-transform:uppercase}
+.row{display:flex;align-items:center;gap:8px} .col{display:flex;flex-direction:column;gap:10px} .wrap{flex-wrap:wrap} .grow{flex:1;min-width:0} .sp{justify-content:space-between}
+.hide{display:none!important}
+
+/* demo bar */
+#demobar{flex:none;background:#000;color:var(--yellow);display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:7px 12px;font-weight:800;font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;z-index:30}
+#demobar .ttl{margin-right:auto}
+.seg-dark{display:flex;border:2px solid var(--yellow);border-radius:8px;overflow:hidden}
+.seg-dark button{padding:5px 10px;font-weight:800;text-transform:uppercase;font-size:12px;color:var(--yellow)}
+.seg-dark button.on{background:var(--yellow);color:#000}
+.dbtn{border:2px solid var(--yellow);border-radius:8px;padding:5px 10px;font-weight:800;text-transform:uppercase;font-size:12px;color:var(--yellow)}
+.dbtn:hover{background:var(--yellow);color:#000}
+.dbtn.on{background:var(--yellow);color:#000}
+#stage{flex:1;min-height:0;overflow:auto;position:relative}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--yellow);color:#000;border:var(--bw) solid #000;border-radius:10px;box-shadow:var(--sh-md);padding:10px 16px;font-weight:800;text-transform:uppercase;letter-spacing:-0.01em;transition:transform 120ms,box-shadow 120ms,background 120ms;min-height:44px;text-align:center}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:var(--sh-lg);background:var(--yellow-hover)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #000}
+.btn.secondary{background:#fff}.btn.secondary:hover{background:#f6f6f6}
+.btn.danger{background:var(--red);color:#fff}.btn.danger:hover{background:#dc2626}
+.btn.green{background:var(--green)}
+.btn.sm{padding:6px 12px;min-height:36px;font-size:13px;box-shadow:var(--sh-sm)}
+.btn.block{display:flex;width:100%}
+.btn.icon{width:44px;padding:0}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.card{background:#fff;border:var(--bw) solid #000;border-radius:14px;box-shadow:var(--sh-md);padding:14px}
+.card.hover{transition:transform 120ms,box-shadow 120ms;cursor:pointer;text-align:left;width:100%;display:block}
+.card.hover:hover{transform:translate(-2px,-2px);box-shadow:var(--sh-lg)}
+.card.yellow{background:var(--yellow)} .card.soft{background:var(--yellow-soft)} .card.ice{background:var(--ice)}
+.chip{display:inline-flex;align-items:center;gap:6px;border:2px solid #000;border-radius:var(--r-pill);padding:5px 12px;font-weight:700;background:#fff;font-size:13.5px;min-height:34px}
+.chip.on{background:var(--blue);color:#fff;box-shadow:var(--sh-sm)}
+.badge{display:inline-block;border:2px solid #000;background:var(--yellow-soft);box-shadow:var(--sh-sm);padding:2px 8px;font-size:10.5px;font-weight:900;text-transform:uppercase;letter-spacing:.02em;transform:rotate(-3deg);border-radius:4px;white-space:nowrap}
+.badge.r{transform:rotate(3deg)} .badge.g{background:var(--green)} .badge.b{background:var(--blue);color:#fff} .badge.y{background:var(--yellow)}
+.input,.select,.textarea{width:100%;background:#fff;border:2px solid #000;border-radius:8px;padding:9px 11px;font-weight:600;min-height:42px}
+.textarea{resize:vertical;min-height:80px}
+.input:focus,.select:focus,.textarea:focus{background:#FFFAEC;outline:2px solid #000;outline-offset:2px}
+label.lbl{display:block;font-weight:800;font-size:12.5px;text-transform:uppercase;margin-bottom:4px}
+.stepper{display:inline-flex;align-items:center;gap:10px}
+.stepper button{width:40px;height:40px;border:2px solid #000;background:#fff;border-radius:8px;box-shadow:var(--sh-sm);font-weight:900;font-size:20px;display:grid;place-items:center}
+.stepper button:active{transform:translate(2px,2px);box-shadow:none}
+.stepper .val{min-width:44px;text-align:center;font-weight:900;font-size:26px}
+.toggle{width:50px;height:28px;border:2px solid #000;border-radius:var(--r-pill);background:#fff;position:relative;flex:none;transition:background 120ms}
+.toggle::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;background:#000;border-radius:50%;transition:transform 140ms var(--ease)}
+.toggle.on{background:var(--yellow)}.toggle.on::after{transform:translateX(22px)}
+.segmented{display:flex;border:2px solid #000;border-radius:10px;overflow:hidden;background:#fff}
+.segmented button{flex:1;padding:8px 6px;font-weight:800;font-size:13px;border-right:2px solid #000;text-transform:uppercase}
+.segmented button:last-child{border-right:0}
+.segmented button.on{background:var(--yellow);box-shadow:inset 0 0 0 0 #000}
+.stepbar{display:flex;align-items:center;padding:6px 4px 2px}
+.stepbar .st{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:800;text-transform:uppercase}
+.stepbar .dot{width:30px;height:30px;border:2.5px solid #000;border-radius:50%;display:grid;place-items:center;font-weight:900;background:#fff}
+.stepbar .st.cur .dot{background:var(--yellow);box-shadow:var(--sh-sm)}
+.stepbar .st.done .dot{background:#000;color:var(--yellow)}
+.stepbar .ln{flex:1;height:3px;background:#000;margin:0 4px 14px}
+.empty{text-align:center;padding:26px 10px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.empty .ic{opacity:.8}
+.st-pill{display:inline-block;border:2px solid #000;border-radius:var(--r-pill);padding:1px 9px;font-size:11.5px;font-weight:800;text-transform:uppercase;white-space:nowrap}
+.st-pending{background:var(--amber)} .st-confirmed{background:var(--blue);color:#fff} .st-inchair{background:var(--yellow)}
+.st-done{background:var(--green)} .st-cancelled{background:#cfcfcf;text-decoration:line-through} .st-noshow{background:var(--red);color:#fff}
+
+/* toasts / modal */
+#toasts{position:fixed;top:56px;right:12px;display:flex;flex-direction:column;gap:8px;z-index:80;width:min(340px,calc(100vw - 24px));pointer-events:none}
+.toast{display:flex;background:#fff;border:var(--bw) solid #000;border-radius:12px;box-shadow:var(--sh-md);overflow:hidden;pointer-events:auto;animation:tin 260ms var(--ease)}
+.toast .ti{width:44px;display:grid;place-items:center;border-right:var(--bw) solid #000;background:var(--green)}
+.toast.amber .ti{background:var(--amber)} .toast.red .ti{background:var(--red);color:#fff} .toast.blue .ti{background:var(--blue);color:#fff}
+.toast .tb{padding:9px 12px;font-weight:700;font-size:13.5px}
+.toast.out{opacity:0;transform:translateX(30px);transition:all 240ms}
+@keyframes tin{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+@media (max-width:767px){#toasts{right:50%;transform:translateX(50%)}}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:60;display:grid;place-items:center;padding:14px}
+.modal{background:#fff;border:var(--bw) solid #000;border-radius:16px;box-shadow:var(--sh-xl);padding:18px;width:min(460px,100%);max-height:90dvh;overflow:auto;animation:up 200ms var(--ease)}
+.modal h2{margin-bottom:10px}
+.drawer-bd{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:40}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--ice);border-left:3px solid #000;z-index:41;overflow:auto;padding:16px;animation:slide 220ms var(--ease)}
+@keyframes slide{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes up{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.enter{animation:up 200ms var(--ease)}
+.stag>*{animation:up 240ms var(--ease) both}
+.stag>*:nth-child(2){animation-delay:40ms}.stag>*:nth-child(3){animation-delay:80ms}.stag>*:nth-child(4){animation-delay:120ms}
+.stag>*:nth-child(5){animation-delay:160ms}.stag>*:nth-child(6){animation-delay:200ms}.stag>*:nth-child(7){animation-delay:240ms}.stag>*:nth-child(8){animation-delay:280ms}
+.pop{animation:pop 260ms var(--ease)}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+.stamp{animation:stamp 520ms var(--ease) both}
+@keyframes stamp{0%{transform:scale(0) rotate(-20deg)}70%{transform:scale(1.15) rotate(6deg)}100%{transform:scale(1) rotate(0)}}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;top:30%;left:50%;width:9px;height:9px;border:1.5px solid #000;animation:cf 900ms ease-out forwards}
+@keyframes cf{to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
+.flash{animation:flash 1.2s ease-out}
+@keyframes flash{0%,40%{background:var(--yellow)}100%{}}
+.wig{animation:wig 700ms var(--ease)}
+@keyframes wig{0%{transform:rotate(-12deg) scale(0)}60%{transform:rotate(6deg) scale(1.2)}100%{transform:rotate(-3deg) scale(1)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* phone frame + customer app */
+.cwrap{display:flex;justify-content:center;align-items:flex-start;gap:28px;padding:22px 14px;min-height:100%}
+.phone-frame{width:390px;height:844px;flex:none;border:3px solid #000;border-radius:36px;box-shadow:var(--sh-xl);overflow:hidden;background:#fff;display:flex;flex-direction:column;position:relative}
+.pstatus{flex:none;background:#000;color:#fff;font-weight:800;font-size:12px;display:flex;justify-content:space-between;padding:6px 20px}
+.capp{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--ice);position:relative}
+.cbar{flex:none;background:var(--yellow);border-bottom:3px solid #000;display:flex;align-items:center;gap:8px;padding:8px 12px}
+.logo{font-weight:900;font-size:21px;letter-spacing:-0.03em;text-transform:uppercase}
+.logo b{color:var(--blue);font-weight:900}
+.cbody{flex:1;min-height:0;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:14px}
+.ctabs{flex:none;display:grid;grid-template-columns:repeat(4,1fr);border-top:3px solid #000;background:#fff}
+.ctabs button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:11px;font-weight:800;text-transform:uppercase;border-right:2px solid #000}
+.ctabs button:last-child{border-right:0}
+.ctabs button.on{background:var(--yellow)}
+.hero{background:var(--blue);color:#fff;border:var(--bw) solid #000;border-radius:14px;box-shadow:var(--sh-md);padding:16px}
+.hero h1{font-size:27px;margin-bottom:12px}
+.hero .input{color:#000}
+.notice{background:var(--yellow-soft);border:2px dashed #000;border-radius:10px;padding:8px 10px;font-weight:700;font-size:12.5px}
+.side{width:300px;flex:none;position:sticky;top:22px}
+.side ul{padding-left:18px;display:flex;flex-direction:column;gap:7px;margin-top:8px;font-weight:600}
+.styles-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.scard{border:var(--bw) solid #000;border-radius:12px;background:#fff;box-shadow:var(--sh-sm);padding:8px;text-align:left;position:relative;display:flex;flex-direction:column;gap:5px;transition:transform 120ms,box-shadow 120ms}
+.scard:hover{transform:translate(-2px,-2px);box-shadow:var(--sh-md)}
+.scard.sel{background:var(--yellow);box-shadow:var(--sh-lg)}
+.scard .art{border:2px solid #000;border-radius:8px;overflow:hidden;background:var(--ice);line-height:0}
+.scard .art svg,.art svg{width:100%;height:auto}
+.scard .chk{position:absolute;top:-8px;right:-8px;width:28px;height:28px;border:2.5px solid #000;border-radius:50%;background:#000;color:var(--yellow);display:grid;place-items:center}
+.scard .bd{position:absolute;top:-8px;left:-6px}
+.bcard{border:var(--bw) solid #000;border-radius:12px;background:#fff;padding:10px;display:flex;gap:10px;align-items:center;text-align:left;width:100%;box-shadow:var(--sh-sm);transition:transform 120ms,box-shadow 120ms}
+.bcard:hover{transform:translate(-2px,-2px);box-shadow:var(--sh-md)}
+.bcard.sel{background:var(--yellow);box-shadow:var(--sh-lg)}
+.avatar{width:46px;height:46px;border-radius:50%;border:2.5px solid #000;display:grid;place-items:center;font-weight:900;font-size:16px;flex:none}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal .dh{font-size:10.5px;font-weight:900;text-align:center;text-transform:uppercase}
+.cal button{aspect-ratio:1;border:2px solid #000;border-radius:8px;background:#fff;font-weight:800;position:relative;font-size:14px}
+.cal button.on{background:var(--yellow);box-shadow:var(--sh-sm)}
+.cal button[disabled]{background:#e8e8e8;color:#777;border-color:#777;cursor:not-allowed}
+.cal button.today{box-shadow:inset 0 -4px 0 var(--blue)}
+.cal .full{position:absolute;bottom:0;left:0;right:0;font-size:8px;font-weight:900;background:#000;color:#fff;line-height:11px}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.slot{border:2px solid #000;border-radius:8px;background:#fff;padding:7px 2px;font-weight:800;font-size:13px;text-align:center;line-height:1.15}
+.slot:hover{box-shadow:var(--sh-sm)}
+.slot.on{background:var(--yellow);box-shadow:var(--sh-md);transform:scale(1.04)}
+.slot.taken{background:#e8e8e8;color:#666;text-decoration:line-through;border-color:#666;cursor:not-allowed;box-shadow:none}
+.slot.taken small{display:block;text-decoration:none;font-size:9px;font-weight:800;text-transform:uppercase}
+.sumrow{display:flex;gap:10px;padding:8px 0;border-bottom:2px dashed #000}
+.sumrow:last-child{border:0}.sumrow dt{width:92px;font-weight:900;font-size:11.5px;text-transform:uppercase;flex:none}
+.sumrow dd{flex:1;min-width:0;font-weight:700}
+.ticket{border:var(--bw) solid #000;border-radius:14px;background:#fff;box-shadow:var(--sh-md);overflow:hidden;position:relative}
+.ticket .tp{background:var(--yellow);padding:10px 14px;border-bottom:2.5px dashed #000}
+.sms{background:#e5e7eb;border:2px solid #000;border-radius:14px 14px 14px 2px;padding:10px 12px;font-weight:600;font-size:13px;max-width:92%}
+.mail{border:2px solid #000;border-radius:10px;background:#fff;overflow:hidden}
+.mail .mh{background:var(--ice);border-bottom:2px solid #000;padding:7px 10px;font-weight:800;font-size:12.5px}
+.stars{display:flex;gap:6px}
+.stars button{width:46px;height:46px;border:2.5px solid #000;border-radius:10px;background:#fff;display:grid;place-items:center;box-shadow:var(--sh-sm)}
+.stars button.on{background:var(--yellow)}
+.pcard-guard{background:var(--yellow);border:3px solid #000;box-shadow:var(--sh-md);border-radius:12px;text-align:center;padding:8px 14px}
+.pcard-guard b{display:block;font-size:54px;line-height:1;font-weight:900}
+.sticky-note{background:var(--yellow-soft);border:2px solid #000;box-shadow:var(--sh-sm);padding:10px 12px;transform:rotate(-1deg);font-weight:700}
+
+/* owner */
+.odash{display:grid;grid-template-columns:230px 1fr;min-height:100%;background:var(--ice)}
+.osb{background:#fff;border-right:3px solid #000;padding:14px;display:flex;flex-direction:column;gap:10px;position:sticky;top:0;height:100%;align-self:start;min-height:calc(100dvh - 44px)}
+.osb .nav{display:flex;align-items:center;gap:10px;padding:10px 12px;border:2.5px solid transparent;border-radius:10px;font-weight:800;text-transform:uppercase;text-align:left;width:100%}
+.osb .nav:hover{border-color:#000}
+.osb .nav.on{background:var(--yellow);border-color:#000;box-shadow:3px 3px 0 #000}
+.omain{padding:18px;min-width:0;display:flex;flex-direction:column;gap:16px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi b{display:block;font-size:34px;font-weight:900;line-height:1}
+.kpi span{font-size:12px;font-weight:800;text-transform:uppercase}
+.board{display:grid;grid-template-columns:54px repeat(var(--n),minmax(150px,1fr));border:var(--bw) solid #000;border-radius:12px;background:#fff;overflow:auto;box-shadow:var(--sh-md)}
+.board .hd{position:sticky;top:0;background:var(--yellow);border-bottom:2.5px solid #000;border-left:2px solid #000;padding:8px;font-weight:900;text-transform:uppercase;text-align:center;z-index:3;font-size:13px}
+.board .hd:first-child{border-left:0}
+.board .tc{border-top:1px dashed #bbb;height:40px;font-size:10.5px;font-weight:800;padding:2px 4px;color:#444}
+.bcol{position:relative;border-left:2px solid #000;height:calc(var(--rows)*40px);background:repeating-linear-gradient(#fff 0 39px,#d4d4d4 39px 40px)}
+.bk{position:absolute;left:4px;right:4px;border:2px solid #000;border-radius:8px;padding:3px 7px;overflow:hidden;font-size:12px;font-weight:700;text-align:left;box-shadow:var(--sh-sm);z-index:2;line-height:1.2}
+.bk:hover{z-index:4;box-shadow:var(--sh-md)}
+.bk.brk{background:repeating-linear-gradient(45deg,#ddd 0 6px,#ccc 6px 12px);border-style:dashed;box-shadow:none;color:#444}
+.bk .nm{font-weight:900}
+.nowline{position:absolute;left:0;right:0;height:0;border-top:3px solid var(--red);z-index:5;pointer-events:none}
+.nowline::before{content:"NOW";position:absolute;left:0;top:-10px;background:var(--red);color:#fff;font-size:9px;font-weight:900;padding:1px 4px}
+.offcol{position:absolute;inset:0;background:repeating-linear-gradient(135deg,#eee 0 8px,#ddd 8px 16px);display:grid;place-items:center;font-weight:900;text-transform:uppercase;color:#555;z-index:1}
+table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+table.t th{background:var(--yellow);border:2px solid #000;padding:7px 8px;text-align:left;font-weight:900;text-transform:uppercase;font-size:11.5px}
+table.t td{border:2px solid #000;border-top:0;padding:7px 8px;background:#fff;font-weight:600}
+.scroll-x{overflow-x:auto}
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.bar-lbl{font-size:12px;font-weight:800}
+.heat{display:grid;gap:3px}
+.footer{font-size:12px;font-weight:700;text-align:center;padding:14px;color:#000}
+.cfooter{color:#fff}
+/* tour */
+#tour{position:fixed;inset:0;z-index:100;pointer-events:none}
+#tour .hole{position:fixed;border:3px solid var(--yellow);border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.62);transition:all 200ms}
+#tour .tc{position:fixed;width:min(340px,calc(100vw - 20px));background:#fff;border:var(--bw) solid #000;border-radius:14px;box-shadow:var(--sh-lg);padding:14px;pointer-events:auto}
+#tour .tc h3{margin-bottom:6px}
+.tdots{display:flex;gap:4px;margin:8px 0}.tdots i{width:14px;height:6px;border:1.5px solid #000;background:#fff}.tdots i.on{background:var(--yellow)}
+
+/* split + responsive */
+.splitwrap{display:flex;gap:22px;align-items:flex-start;padding:18px}
+.opane{flex:1;min-width:0;height:844px;overflow:auto;border:3px solid #000;border-radius:16px;box-shadow:var(--sh-xl);background:var(--ice);position:relative}
+.opane .odash{grid-template-columns:170px 1fr;min-height:100%}
+.opane .osb{min-height:100%;position:static;padding:10px}
+.opane .osb .nav{font-size:12px;padding:8px}
+.opane .kpis{grid-template-columns:repeat(2,1fr)}
+@media (max-width:1023px){
+  .cwrap{padding:0;display:block}
+  .phone-frame{width:100%;height:100%;border:0;border-radius:0;box-shadow:none}
+  .pstatus{display:none}
+  .side{display:none}
+}
+@media (max-width:767px){
+  .odash{grid-template-columns:1fr}
+  .osb{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;min-height:0;flex-direction:row;overflow-x:auto;border-right:0;border-top:3px solid #000;z-index:35;padding:6px;gap:6px}
+  .osb .nav{flex-direction:column;font-size:10px;padding:6px 8px;gap:2px;white-space:nowrap;width:auto;flex:none}
+  .osb .brandrow{display:none}
+  .omain{padding:12px 12px 90px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+<div id="demobar" role="toolbar" aria-label="Demo controls"></div>
+<div id="stage"></div>
+<div id="toasts" aria-live="polite" aria-atomic="false"></div>
+<div id="tour"></div>
+<noscript>This prototype needs JavaScript.</noscript>
+<script>
+"use strict";
+/* ===== CONFIG ===== */
+const CONFIG = {
+  partnerShopName: "Kings Cut Barbershop",   // change to your partner shop
+  municipality: "Tanza, Cavite",
+  demoCustomerName: "Juan Dela Cruz",
+  currency: "PHP",
+  today: null  // null = use the real date; or "2026-11-10" to freeze the demo date
+};
+
+/* ===== ICONS ===== */
+const ICONS = {
+  home:'<path d="M3 11l9-8 9 8v10H3z"/>', scissors:'<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 8L21 19M8.5 16L21 5"/>',
+  cal:'<rect x="3" y="5" width="18" height="16"/><path d="M3 10h18M8 3v4M16 3v4"/>', user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-5 4-7 8-7s8 2 8 7"/>',
+  check:'<path d="M4 12l5 5L20 6"/>', plus:'<path d="M12 4v16M4 12h16"/>', minus:'<path d="M4 12h16"/>', star:'<path d="M12 3l2.8 5.8 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.3l1.1-6.2L3 9.7l6.2-.9z"/>',
+  x:'<path d="M5 5l14 14M19 5L5 19"/>', clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', bell:'<path d="M6 17V11a6 6 0 0112 0v6l2 2H4zM10 21h4"/>',
+  phone:'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>', mail:'<rect x="3" y="5" width="18" height="14"/><path d="M3 6l9 7 9-7"/>',
+  upload:'<path d="M12 16V4M7 9l5-5 5 5M4 20h16"/>', trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14"/>', chart:'<path d="M4 20V4M4 20h16M8 16v-5M12 16V8M16 16v-8"/>',
+  list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h1M3 12h1M3 18h1"/>', grid:'<rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/>',
+  back:'<path d="M15 5l-7 7 7 7"/>', arrow:'<path d="M4 12h15M13 6l6 6-6 6"/>', play:'<path d="M7 4l13 8-13 8z"/>', reset:'<path d="M4 4v6h6M4 10a8 8 0 112 8"/>',
+  store:'<path d="M3 9l2-5h14l2 5M4 9v11h16V9M3 9h18"/>', msg:'<path d="M4 4h16v12H9l-5 4z"/>', edit:'<path d="M4 20l4-1 11-11-3-3L5 16z"/>',
+  eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>', download:'<path d="M12 4v12M7 11l5 5 5-5M4 20h16"/>',
+  pin:'<path d="M12 22s7-7 7-12a7 7 0 00-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>', walk:'<circle cx="12" cy="5" r="2.5"/><path d="M12 8v7l-3 6M12 15l3 6M8 11l4-3 4 3"/>',
+  split:'<rect x="3" y="4" width="18" height="16"/><path d="M12 4v16"/>', users:'<circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-4 3-6 7-6s7 2 7 6M16 14c3 0 6 1 6 5"/>',
+  img:'<rect x="3" y="4" width="18" height="16"/><circle cx="9" cy="10" r="2"/><path d="M3 18l6-5 5 4 3-3 4 4"/>', info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>'
+};
+const icon = (n, s = 20) => `<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">${ICONS[n] || ""}</svg>`;
+
+/* ===== HELPERS (dates, money, ids) ===== */
+const $ = (s, r = document) => r.querySelector(s);
+const pad = n => String(n).padStart(2, "0");
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTHS_L = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+function nowDate() {
+  const d = new Date();
+  if (CONFIG.today) { const [y, m, dd] = CONFIG.today.split("-").map(Number); return new Date(y, m - 1, dd, d.getHours(), d.getMinutes()); }
+  return d;
+}
+const dkey = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const parseKey = k => { const [y, m, d] = k.split("-").map(Number); return new Date(y, m - 1, d); };
+const addDays = (k, n) => { const d = parseKey(k); d.setDate(d.getDate() + n); return dkey(d); };
+const todayKey = () => dkey(nowDate());
+const nowMin = () => { const d = nowDate(); return d.getHours() * 60 + d.getMinutes(); };
+const hhmm = s => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
+const toHHMM = m => `${pad(Math.floor(m / 60))}:${pad(m % 60)}`;
+const fmtTime = m => { let h = Math.floor(m / 60); const mm = m % 60; const ap = h >= 12 ? "PM" : "AM"; h = h % 12 || 12; return `${h}:${pad(mm)} ${ap}`; };
+const fmtDate = k => { const d = parseKey(k); return `${DAYS[d.getDay()]}, ${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`; };
+const fmtShort = k => { const d = parseKey(k); return `${DAYS[d.getDay()]} ${MONTHS[d.getMonth()]} ${d.getDate()}`; };
+const dow = k => parseKey(k).getDay();
+const diffDays = (a, b) => Math.round((parseKey(a) - parseKey(b)) / 864e5);
+const money = n => `${CONFIG.currency} ${Number(n).toLocaleString("en-PH")}`;
+const initials = n => n.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase();
+const ACTIVE = s => s !== "cancelled" && s !== "noshow";
+const STATUS = { pending: "Pending", confirmed: "Confirmed", inchair: "In chair", done: "Done", cancelled: "Cancelled", noshow: "No-show" };
+const COLORS = ["#FFE600", "#22C55E", "#F59E0B", "#FEF08A", "#93C5FD", "#F9A8D4"];
+function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const hashStr = s => { let h = 7; for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; };
+
+/* ===== SEED DATA ===== */
+const SEED_STYLES = [
+  { id: "midtaper", name: "Mid Taper Fade", category: "Fades", mins: 40, trending: true },
+  { id: "lowfade", name: "Low Fade", category: "Fades", mins: 35, trending: false },
+  { id: "highfade", name: "High Skin Fade", category: "Fades", mins: 45, trending: false },
+  { id: "twoblock", name: "Two Block", category: "Textured", mins: 40, trending: true },
+  { id: "fringe", name: "Textured Fringe", category: "Textured", mins: 40, trending: true },
+  { id: "frenchcrop", name: "French Crop", category: "Classic", mins: 30, trending: false },
+  { id: "buzz", name: "Buzz Cut", category: "Classic", mins: 20, trending: false },
+  { id: "crew", name: "Crew Cut", category: "Classic", mins: 25, trending: false },
+  { id: "sidepart", name: "Side Part (Classic)", category: "Classic", mins: 35, trending: false },
+  { id: "pompadour", name: "Pompadour", category: "Classic", mins: 45, trending: false },
+  { id: "mullet", name: "Mullet (Modern)", category: "Textured", mins: 45, trending: true },
+  { id: "kids", name: "Kids' Cut", category: "Kids", mins: 25, trending: false }
+].map(s => ({ ...s, hidden: false, art: s.id }));
+const NAMES = ["Mark T.", "Aldrin R.", "Josh T.", "Kevin S.", "Carlo M.", "Renz P.", "Migs D.", "Paulo V.", "JM C.", "Rafael B.", "Ian G.", "Dennis L.", "Bryan A.", "Nico F.", "Ericson H."];
+const NOTES = ["", "", "", "Medyo manipis sa gilid, ingat po.", "Konting trim lang sa taas.", "May cowlick sa likod.", "Pantay lang po sa sides."];
+
+function baseData() {
+  return {
+    v: 1,
+    shops: [
+      { id: "s1", name: CONFIG.partnerShopName, area: "Poblacion, " + CONFIG.municipality, distanceKm: 1.2, rating: 4.8, reviews: 126, hours: "9:00 AM - 7:00 PM", openDays: [0, 1, 2, 3, 4, 5, 6], partner: true },
+      { id: "s2", name: "Fadez Manila Barber Lounge", area: "Trece Martires", distanceKm: 3.4, rating: 4.5, reviews: 89, comingSoon: true },
+      { id: "s3", name: "The Gentlemen's Chair", area: "Imus", distanceKm: 5.0, rating: 4.4, reviews: 54, comingSoon: true }
+    ],
+    services: [
+      { id: "sv1", name: "Haircut", price: 150, mins: 30 },
+      { id: "sv2", name: "Haircut + Beard Trim", price: 220, mins: 45 },
+      { id: "sv3", name: "Haircut + Hair Wash", price: 200, mins: 40 },
+      { id: "sv4", name: "Kids' Haircut (12 and below)", price: 120, mins: 25 },
+      { id: "sv5", name: "Beard Trim Only", price: 100, mins: 15 }
+    ],
+    barbers: [
+      { id: "b1", name: "Kuya Ramil", specialty: "Fades, skin fade", rating: 4.9, years: 8, days: [1, 2, 3, 4, 5, 6], start: "09:00", end: "18:00", breakAt: "12:00" },
+      { id: "b2", name: "Jhun", specialty: "Classic, scissor cut", rating: 4.6, years: 5, days: [0, 1, 2, 3, 5, 6], start: "10:00", end: "19:00", breakAt: "13:00" },
+      { id: "b3", name: "Paolo", specialty: "Textured, two block, kids", rating: 4.7, years: 3, days: [0, 2, 3, 4, 5, 6], start: "09:00", end: "17:00", breakAt: "12:00" }
+    ],
+    styles: SEED_STYLES.map(s => ({ ...s })),
+    customer: {
+      id: "juan", name: CONFIG.demoCustomerName, mobile: "0917 123 4567", email: "juan.delacruz@example.com", favoriteBarber: "b1",
+      savedPrefs: { styleId: "midtaper", guard: 2, top: "Keep it long (scissor only)", beard: "Line-up only", extras: ["No hair product"], notes: "Please don't cut the top too short. May cowlick sa likod." }
+    },
+    bookings: [], feedback: [], counter: 100, dayOff: {}
+  };
+}
+function calcDur(d, serviceId, styleId) {
+  const sv = d.services.find(s => s.id === serviceId) || d.services[0];
+  const st = d.styles.find(s => s.id === styleId);
+  const extra = st && serviceId !== "sv5" ? Math.max(0, st.mins - 30) : 0;
+  return Math.ceil((sv.mins + extra) / 5) * 5;
+}
+function seedState() {
+  const d = baseData(), t = todayKey();
+  const mk = (o) => {
+    const dur = calcDur(d, o.serviceId, o.styleId);
+    d.counter++;
+    const b = { id: `BB-${o.date.slice(0, 4)}-${String(d.counter).padStart(5, "0")}`, shopId: "s1", cid: null, photo: null, walkin: false, rated: false, created: o.date,
+      prefs: { guard: 2, top: "Medium", beard: "None", extras: [], notes: "" }, ...o, dur };
+    d.bookings.push(b); return b;
+  };
+  const busy = (bid, date, s, dur) => d.bookings.some(x => x.barberId === bid && x.date === date && ACTIVE(x.status) && s < x.start + x.dur && s + dur > x.start);
+  const worksOn = (b, date) => b.days.includes(dow(date));
+  const gen = (date, perBarber, mode) => {
+    const r = rng(hashStr(date)), made = [];
+    d.barbers.filter(b => worksOn(b, date)).forEach(b => {
+      let n = perBarber(r), tries = 0;
+      while (n > 0 && tries++ < 60) {
+        const s = hhmm(b.start) + Math.floor(r() * ((hhmm(b.end) - hhmm(b.start)) / 30 - 1)) * 30;
+        const svId = r() < .12 ? "sv2" : r() < .15 ? "sv3" : r() < .1 ? "sv4" : "sv1";
+        const stId = svId === "sv4" ? "kids" : d.styles[Math.floor(r() * 11)].id;
+        const dur = calcDur(d, svId, stId), br = hhmm(b.breakAt);
+        if (s + dur > hhmm(b.end) || (s < br + 60 && s + dur > br) || busy(b.id, date, s, dur)) continue;
+        made.push(mk({ barberId: b.id, date, start: s, serviceId: svId, styleId: stId, name: NAMES[Math.floor(r() * NAMES.length)], status: "confirmed",
+          prefs: { guard: Math.floor(r() * 6), top: ["Short", "Medium", "Keep it long (scissor only)"][Math.floor(r() * 3)], beard: svId === "sv2" ? "Full trim" : "None", extras: r() < .3 ? ["Trim eyebrows"] : [], notes: NOTES[Math.floor(r() * NOTES.length)] } }));
+        n--;
+      }
+    });
+    made.sort((a, b) => a.start - b.start);
+    return made;
+  };
+  // today
+  const td = gen(t, r => 4 + (r() < .5 ? 1 : 0), "today");
+  td.forEach((b, i) => { b.status = i < 2 ? "done" : i === 2 ? "inchair" : "confirmed"; });
+  if (td[td.length - 1]) { td[td.length - 1].walkin = true; td[td.length - 1].name = "Walk-in guest"; }
+  // next 5 days
+  for (let i = 1; i <= 5; i++) gen(addDays(t, i), r => 2 + (r() < .6 ? 1 : 0), "future");
+  // past 14 days
+  const past = [];
+  for (let i = 1; i <= 14; i++) past.push(...gen(addDays(t, -i), r => 1 + (r() < .7 ? 1 : 0), "past"));
+  past.forEach((b, i) => { b.status = i === 4 || i === 17 ? "noshow" : i === 9 ? "cancelled" : "done"; b.rated = true; });
+  // Juan
+  const pickB = (date, pref) => (d.barbers.find(b => b.id === pref && worksOn(b, date)) || d.barbers.find(b => worksOn(b, date))).id;
+  [[-10, "midtaper"], [-24, "midtaper"], [-38, "lowfade"]].forEach(([off, st], i) => {
+    const date = addDays(t, off), bid = pickB(date, "b1"); let s = 600; while (busy(bid, date, s, 40)) s += 30;
+    mk({ barberId: bid, date, start: s, serviceId: "sv1", styleId: st, name: d.customer.name, cid: "juan", status: "done", rated: i > 0, prefs: { ...d.customer.savedPrefs, guard: 2, styleId: undefined } });
+  });
+  const up = addDays(t, 2), ub = pickB(up, "b1"); let us = 780; while (busy(ub, up, us, 40)) us += 30;
+  mk({ barberId: ub, date: up, start: us, serviceId: "sv1", styleId: "midtaper", name: d.customer.name, cid: "juan", status: "confirmed", prefs: { ...d.customer.savedPrefs } });
+  const fb = (name, bid, stars, tags, comment, off) => d.feedback.push({ id: "f" + d.feedback.length, name, barberId: bid, stars, tags, comment, date: addDays(t, off) });
+  fb("Mark T.", "b1", 5, ["Sulit", "Exactly what I asked"], "Solid fade, sulit!", -1);
+  fb("Aldrin R.", "b3", 5, ["On time", "Friendly"], "Hindi na ako naghintay, galing.", -2);
+  fb("Kevin S.", "b2", 4, ["Clean shop"], "Ayos yung gupit, malinis pa shop.", -3);
+  fb("Josh T.", "b1", 5, ["Exactly what I asked"], "Nakuha agad yung gusto ko, lagi akong dito na.", -4);
+  fb("Carlo M.", "b3", 4, ["Friendly", "Sulit"], "Mabait si Paolo, sulit ang presyo.", -5);
+  fb("Renz P.", "b2", 5, ["On time"], "On time yung slot ko, walang pila.", -6);
+  return d;
+}
+
+/* ===== STORE ===== */
+const KEY = "barberbook-demo-v1";
+const PERSIST = ["v", "shops", "services", "barbers", "styles", "customer", "bookings", "feedback", "counter", "dayOff"];
+function freshUi() {
+  const d = new Date();
+  return { role: "c", croute: "home", oroute: "queue", split: false, notice: true, qdate: null, qview: "timeline", otab: "upcoming", btab: "upcoming", cat: "Trending",
+    search: "", cal: { y: nowDate().getFullYear(), m: nowDate().getMonth() }, modal: null, drawer: null, tour: null, lastBookingId: null, fresh: false, flash: null, reminder: false,
+    walk: { name: "", serviceId: "sv1", styleId: "", barberId: "any", when: "now", time: "" }, range: "week", gcat: "All", _d: d.getTime() };
+}
+let state = (() => {
+  let data = null;
+  try { const s = localStorage.getItem(KEY); if (s) data = JSON.parse(s); } catch (e) { data = null; }
+  if (!data || data.v !== 1 || !data.bookings) data = seedState();
+  return { ...data, ui: freshUi(), draft: null };
+})();
+const subs = [];
+const store = {
+  getState: () => state,
+  setState(patch) { Object.assign(state, typeof patch === "function" ? patch(state) : patch); persist(); subs.forEach(f => f(state)); },
+  subscribe(fn) { subs.push(fn); }
+};
+function persist() {
+  try { const o = {}; PERSIST.forEach(k => o[k] = state[k]); localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) { /* storage blocked: stay in memory */ }
+}
+const commit = () => store.setState({});
+
+/* ===== DOMAIN LOGIC ===== */
+const getStyle = id => state.styles.find(s => s.id === id);
+const getBarber = id => state.barbers.find(b => b.id === id);
+const getService = id => state.services.find(s => s.id === id);
+const visibleStyles = () => state.styles.filter(s => !s.hidden);
+const durFor = (svId, stId) => calcDur(state, svId, stId);
+function barberWorks(b, date) { return b.days.includes(dow(date)) && !(state.dayOff[b.id] && state.dayOff[b.id][date]); }
+function isFree(b, date, start, dur, excludeId) {
+  if (!b || date < todayKey()) return false;
+  if (!barberWorks(b, date)) return false;
+  if (start < hhmm(b.start) || start + dur > hhmm(b.end)) return false;
+  if (b.breakAt) { const br = hhmm(b.breakAt); if (start < br + 60 && start + dur > br) return false; }
+  if (date === todayKey() && start < nowMin()) return false;
+  return !state.bookings.some(x => x.barberId === b.id && x.date === date && x.id !== excludeId && ACTIVE(x.status) && start < x.start + x.dur && start + dur > x.start);
+}
+const pool = sel => sel === "any" || !sel ? state.barbers : state.barbers.filter(b => b.id === sel);
+function candidateTimes(date, sel) {
+  const set = new Set();
+  pool(sel).filter(b => barberWorks(b, date)).forEach(b => { for (let t = hhmm(b.start); t + 30 <= hhmm(b.end); t += 30) set.add(t); });
+  return [...set].sort((a, b) => a - b);
+}
+const freeBarbers = (date, start, dur, sel, excludeId) => pool(sel).filter(b => isFree(b, date, start, dur, excludeId));
+const dayHasFree = (date, sel, dur, excludeId) => candidateTimes(date, sel).some(t => freeBarbers(date, t, dur, sel, excludeId).length);
+function pickAuto(date, start, dur, excludeId) {
+  const fb = freeBarbers(date, start, dur, "any", excludeId);
+  const load = b => state.bookings.filter(x => x.barberId === b.id && x.date === date && ACTIVE(x.status)).length;
+  return fb.sort((a, b) => load(a) - load(b))[0] || null;
+}
+function nextFree(b) {
+  const t = todayKey();
+  for (let i = 0; i < 8; i++) { const d = addDays(t, i); for (const s of candidateTimes(d, b.id)) if (isFree(b, d, s, 30)) return i === 0 ? `${fmtTime(s)} today` : `${fmtShort(d)} ${fmtTime(s)}`; }
+  return "No slots this week";
+}
+const isUpcoming = b => b.cid === "juan" && (b.status === "confirmed" || b.status === "pending" || b.status === "inchair");
+const myBookings = () => state.bookings.filter(b => b.cid === "juan");
+const upcomingMine = () => myBookings().filter(isUpcoming).sort((a, b) => (a.date + toHHMM(a.start)).localeCompare(b.date + toHHMM(b.start)));
+function newBookingNo() { state.counter++; return `BB-${todayKey().slice(0, 4)}-${String(state.counter).padStart(5, "0")}`; }
+function avgRating() { const f = state.feedback; return f.length ? f.reduce((a, x) => a + x.stars, 0) / f.length : 0; }
+function lastVisit(b) {
+  const prev = state.bookings.filter(x => x.status === "done" && x.id !== b.id && ((b.cid && x.cid === b.cid) || (!b.cid && x.name === b.name && x.name !== "Walk-in guest")) && (x.date < b.date || (x.date === b.date && x.start < b.start)))
+    .sort((a, c) => (c.date + toHHMM(c.start)).localeCompare(a.date + toHHMM(a.start)))[0];
+  return prev || null;
+}
+
+/* ===== GLUE: actions, modals, toasts, navigation, path setter ===== */
+const ACTIONS = {};   // data-act handlers: ACTIONS.name(dataset, event)
+const MODALS = {};    // MODALS[type](modalState) -> inner html of the modal card (shell wraps backdrop + .modal)
+function toast(msg, type) { // type: green (default) | amber | red | blue
+  const box = $("#toasts"); if (!box) return;
+  const el = document.createElement("div"); el.className = "toast " + (type || "green");
+  const ic = type === "amber" ? "bell" : type === "red" ? "x" : type === "blue" ? "info" : "check";
+  el.innerHTML = `<div class="ti">${icon(ic, 20)}</div><div class="tb">${esc(msg)}</div>`;
+  box.appendChild(el); while (box.children.length > 3) box.firstChild.remove();
+  setTimeout(() => { el.classList.add("out"); setTimeout(() => el.remove(), 260); }, 4000);
+}
+function openModal(m) { state.ui.modal = m; commit(); }
+function closeModal() { state.ui.modal = null; commit(); }
+function go(route) { location.hash = "#/c/" + route; }          // customer route, e.g. "home", "book/style"
+function setPath(path, value) {                                  // path from state root, e.g. "draft.prefs.notes"
+  const keys = path.split("."); let o = state;
+  for (let i = 0; i < keys.length - 1; i++) { if (o[keys[i]] == null) o[keys[i]] = {}; o = o[keys[i]]; }
+  o[keys[keys.length - 1]] = value;
+}
+const splitOn = () => state.ui.split && window.innerWidth >= 1280;
+/* ===== CUSTOMER SIDE: hairstyle art, screens C1-C10, booking flow, customer actions and modals ===== */
+const EXTRA_CSS_A = `
+.starbtn{width:52px;height:52px;border:2.5px solid #000;border-radius:10px;background:#fff;box-shadow:var(--sh-sm);display:grid;place-items:center;transition:transform 120ms,box-shadow 120ms}
+.starbtn:hover{transform:translate(-2px,-2px);box-shadow:var(--sh-md)}
+.starbtn:active{transform:translate(2px,2px);box-shadow:none}
+.starbtn.on{background:var(--yellow)}
+.starbtn.on svg{fill:#000}
+.cu-thumb-row{display:flex;gap:12px;align-items:flex-start}
+.cu-photo{width:100%;max-height:220px;object-fit:cover;border:2px solid #000;border-radius:8px;margin-top:8px;display:block}
+`;
+
+/* ===== HAIRSTYLE ART (flat icons, reference only) ===== */
+const ART_DEFS = {
+  midtaper: { top: "M46 60 C38 24 122 24 114 60 C106 48 54 48 46 60 Z", sides: ["M46 60 L46 90 L55 90 L55 54 Z", "M114 60 L114 90 L105 90 L105 54 Z"] },
+  lowfade: { top: "M46 54 C40 22 120 22 114 54 C108 44 52 44 46 54 Z", sides: ["M46 54 L46 104 L56 104 L56 48 Z", "M114 54 L114 104 L104 104 L104 48 Z"] },
+  highfade: { top: "M56 26 C60 12 100 12 104 26 L106 40 C92 34 68 34 54 40 Z", sides: ["M46 58 L46 22 L58 22 L56 58 Z", "M114 58 L114 22 L102 22 L104 58 Z"] },
+  twoblock: { top: "M46 46 L46 30 C46 18 114 18 114 30 L114 46 C100 40 60 40 46 46 Z", sides: ["M46 46 L46 74 L54 74 L54 46 Z", "M114 46 L114 74 L106 74 L106 46 Z"] },
+  fringe: { top: "M46 60 C40 24 120 24 114 60 L110 46 L100 56 L92 42 L82 54 L72 42 L62 56 L52 44 Z" },
+  frenchcrop: { top: "M48 50 C46 30 114 30 112 50 C104 42 90 46 84 40 C76 46 60 42 48 50 Z" },
+  buzz: { top: "M47 50 C45 36 115 36 113 50 C100 44 60 44 47 50 Z", fill: "#4B5563" },
+  crew: { top: "M46 56 L46 36 C46 28 114 28 114 36 L114 56 C104 48 56 48 46 56 Z", fill: "#1F2937" },
+  sidepart: { top: "M46 56 C42 26 122 22 114 56 C108 40 92 34 78 36 C66 38 56 42 46 56 Z", part: "M70 36 L62 50" },
+  pompadour: { top: "M44 56 C30 18 60 2 80 4 C104 2 130 18 116 56 C106 40 54 40 44 56 Z" },
+  mullet: { back: ["M42 50 L32 124 L48 128 L52 60 Z", "M118 50 L128 124 L112 128 L108 60 Z"], top: "M47 52 C46 30 114 30 113 52 C100 44 60 44 47 52 Z" },
+  kids: { top: "M46 62 C40 24 120 24 114 62 L114 50 C104 38 56 38 46 50 Z", small: true },
+  generic: { top: "M48 56 C46 32 114 32 112 56 C104 46 56 46 48 56 Z" }
+};
+function styleArt(styleId) {
+  const def = ART_DEFS[styleId] || ART_DEFS.generic;
+  const st = getStyle(styleId);
+  const label = st ? st.name : "Hairstyle";
+  const shape = (d, f) => `<path d="${d}" fill="${f}" stroke="#000" stroke-width="3" stroke-linejoin="round"/>`;
+  const back = (def.back || []).map(d => shape(d, "#111")).join("");
+  const sides = (def.sides || []).map(d => shape(d, "#6B7280")).join("");
+  const part = def.part ? `<path d="${def.part}" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>` : "";
+  const figure = shape("M20 160 C20 128 46 116 80 116 C114 116 140 128 140 160 Z", "#fff") +
+    `<rect x="68" y="102" width="24" height="20" fill="#F5D0B0" stroke="#000" stroke-width="3"/>` +
+    `<ellipse cx="48" cy="78" rx="6" ry="9" fill="#F5D0B0" stroke="#000" stroke-width="3"/>` +
+    `<ellipse cx="112" cy="78" rx="6" ry="9" fill="#F5D0B0" stroke="#000" stroke-width="3"/>` +
+    `<ellipse cx="80" cy="72" rx="32" ry="38" fill="#F5D0B0" stroke="#000" stroke-width="3"/>` +
+    sides + shape(def.top, def.fill || "#111") + part +
+    `<circle cx="68" cy="74" r="2.8" fill="#000"/><circle cx="92" cy="74" r="2.8" fill="#000"/>` +
+    `<path d="M70 91 Q80 98 90 91" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>`;
+  const inner = def.small ? `<g transform="translate(16 20) scale(0.8)">${figure}</g>` : figure;
+  return `<svg viewBox="0 0 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(label)} reference image"><rect width="160" height="160" fill="#E2F1F8"/>${back}${inner}</svg>`;
+}
+function styleThumb(styleId, size) {
+  const sz = size ? ` style="width:${size}px;max-width:100%"` : "";
+  return `<div class="art"${sz}>${styleArt(styleId)}</div>`;
+}
+
+/* ===== SHARED UI PIECES ===== */
+function stepbar(cur) {
+  const labels = ["Style", "Barber", "Schedule", "Review"];
+  return '<div class="stepbar" role="list" aria-label="Booking steps">' + labels.map((l, i) => {
+    const n = i + 1, cls = n < cur ? "done" : n === cur ? "cur" : "";
+    return `<div class="st ${cls}" role="listitem"><span class="dot">${n < cur ? icon("check", 16) : n}</span>${l}</div>` + (n < 4 ? '<span class="ln"></span>' : "");
+  }).join("") + "</div>";
+}
+const CAT_LIST = ["Trending", "Fades", "Classic", "Textured", "Kids", "All"];
+const TOP_OPTS = ["Short", "Medium", "Keep it long (scissor only)"];
+const BEARD_OPTS = ["None", "Line-up only", "Full trim"];
+const EXTRA_OPTS = ["Trim eyebrows", "No hair product", "Hair wash", "Hard part"];
+const RATE_TAGS = ["Sulit", "On time", "Exactly what I asked", "Friendly", "Clean shop"];
+const CANCEL_REASONS = ["Schedule conflict", "Feeling sick", "Found another time", "Other"];
+
+function catChips() {
+  return `<div class="row wrap" role="group" aria-label="Style categories">` +
+    CAT_LIST.map(c => `<button class="chip ${state.ui.cat === c ? "on" : ""}" data-act="setCat" data-v="${c}">${c}</button>`).join("") + "</div>";
+}
+function catStyles() {
+  const c = state.ui.cat;
+  return visibleStyles().filter(s => c === "All" ? true : c === "Trending" ? s.trending : s.category === c);
+}
+function styleGrid(ctx, selId) {
+  const list = catStyles();
+  if (!list.length) {
+    return `<div class="empty">${icon("img", 40)}<p class="muted">No styles in this category yet.</p><button class="btn secondary sm" data-act="setCat" data-v="All">SHOW ALL STYLES</button></div>`;
+  }
+  return `<div class="styles-grid stag">` + list.map(s => {
+    const sel = selId === s.id;
+    return `<button class="scard ${sel ? "sel" : ""}" data-act="pickStyle" data-id="${esc(s.id)}" data-ctx="${ctx}" aria-pressed="${sel ? "true" : "false"}">` +
+      (s.trending ? '<span class="badge y bd">TRENDING</span>' : "") +
+      (sel ? `<span class="chk">${icon("check", 16)}</span>` : "") +
+      styleThumb(s.id) +
+      `<div class="b up">${esc(s.name)}</div><div class="tiny muted">${s.mins} min · Reference image</div></button>`;
+  }).join("") + "</div>";
+}
+function avatarHtml(b) {
+  const i = Math.max(0, state.barbers.indexOf(b));
+  return `<span class="avatar" style="background:${COLORS[i % COLORS.length]}">${esc(initials(b.name))}</span>`;
+}
+function emptyBox(msg, label, route) {
+  return `<div class="empty">${icon("info", 40)}<p class="muted">${msg}</p><button class="btn sm" data-act="go" data-to="${route}">${label}</button></div>`;
+}
+const partnerShop = () => state.shops.find(s => s.partner) || state.shops[0];
+function shopOpen() {
+  const sh = partnerShop(), m = nowMin();
+  return m >= 540 && m < 1140 && sh.openDays.includes(dow(todayKey()));   // 9:00 AM to 7:00 PM
+}
+const bookingById = id => state.bookings.find(x => x.id === id);
+const sortAt = (a, b) => (a.date + toHHMM(a.start)).localeCompare(b.date + toHHMM(b.start));
+function bookingsFor(tab) {
+  const today = todayKey(), all = myBookings();
+  if (tab === "cancelled") return all.filter(b => b.status === "cancelled").sort((a, b) => sortAt(b, a));
+  if (tab === "past") return all.filter(b => b.status === "done" || b.status === "noshow" || (isUpcoming(b) && b.date < today)).sort((a, b) => sortAt(b, a));
+  return all.filter(b => isUpcoming(b) && b.date >= today).sort(sortAt);
+}
+function prefsFrom(p) {
+  p = p || {};
+  return { guard: Number(p.guard) || 0, top: p.top || TOP_OPTS[1], beard: p.beard || BEARD_OPTS[0], extras: [...(p.extras || [])], notes: p.notes || "" };
+}
+function isUsual() {
+  const d = state.draft, sp = state.customer.savedPrefs;
+  if (!d) return false;
+  const p = d.prefs;
+  return p.guard === sp.guard && p.top === sp.top && p.beard === sp.beard &&
+    (p.extras || []).join("|") === (sp.extras || []).join("|") && (p.notes || "") === (sp.notes || "");
+}
+function prefsForm(p, t) {
+  const notesPath = t === "modal" ? "ui.modal.prefs.notes" : "draft.prefs.notes";
+  const seg = (opts, cur, act) => `<div class="segmented">` + opts.map(o =>
+    `<button class="${cur === o ? "on" : ""}" data-act="${act}" data-t="${t}" data-v="${esc(o)}">${esc(o)}</button>`).join("") + "</div>";
+  return `<div class="col">
+    <div><div class="tiny b up">Guard number on the sides</div>
+      <div class="row sp" style="margin-top:6px"><div class="stepper"><button data-act="guardMinus" data-t="${t}" aria-label="Lower guard">${icon("minus", 18)}</button><span class="val">${p.guard}</span><button data-act="guardPlus" data-t="${t}" aria-label="Raise guard">${icon("plus", 18)}</button></div><span class="tiny muted">0 = skin, 8 = long</span></div></div>
+    <div><div class="tiny b up">Length on top</div><div style="margin-top:6px">${seg(TOP_OPTS, p.top, "setTop")}</div></div>
+    <div><div class="tiny b up">Beard</div><div style="margin-top:6px">${seg(BEARD_OPTS, p.beard, "setBeard")}</div></div>
+    <div><div class="tiny b up">Extras</div><div class="row wrap" style="margin-top:6px">` +
+    EXTRA_OPTS.map(x => `<button class="chip ${p.extras.includes(x) ? "on" : ""}" data-act="toggleExtra" data-t="${t}" data-v="${esc(x)}">${esc(x)}</button>`).join("") + `</div></div>
+    <div><div class="tiny b up">Notes to barber</div>
+      <textarea class="textarea" maxlength="200" data-in="${notesPath}" placeholder="Tell the barber what to watch out for">${esc(p.notes)}</textarea>
+      <div class="tiny muted" style="text-align:right">${(p.notes || "").length}/200</div></div>
+  </div>`;
+}
+function prefsOf(ds) { return ds.t === "modal" ? state.ui.modal.prefs : ensureDraft().prefs; }
+function photoBlock(d) {
+  if (d.photo) {
+    return `<section class="card"><div class="tiny b up">Your reference photo (sent to the barber)</div>` +
+      `<img class="cu-photo" src="${d.photo}" alt="Reference photo you uploaded">` +
+      `<div class="row" style="margin-top:10px"><button class="btn secondary sm" data-act="clearPhoto">REMOVE PHOTO</button></div></section>`;
+  }
+  return `<label class="btn secondary block" style="cursor:pointer">${icon("upload", 18)} UPLOAD MY OWN PHOTO` +
+    `<input type="file" accept="image/*" data-file="photoPicked" style="display:none"></label>`;
+}
+function readPhoto(file, cb) {
+  const fr = new FileReader();
+  fr.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const sc = Math.min(1, 640 / Math.max(img.width, img.height));
+        const cv = document.createElement("canvas");
+        cv.width = Math.round(img.width * sc); cv.height = Math.round(img.height * sc);
+        cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+        cb(cv.toDataURL("image/jpeg", 0.85));
+      } catch (e) { cb(fr.result); }
+    };
+    img.onerror = () => cb(fr.result);
+    img.src = fr.result;
+  };
+  fr.readAsDataURL(file);
+}
+function confettiHtml() {
+  let h = '<div class="confetti" aria-hidden="true">';
+  for (let i = 0; i < 20; i++) {
+    const r = rng(i * 17 + 5);
+    const x = Math.round(r() * 280 - 140), y = Math.round(r() * 220 - 150), rot = Math.round(r() * 720 - 360), delay = Math.round(r() * 120);
+    h += `<i style="--x:${x}px;--y:${y}px;--r:${rot}deg;background:${["#FFE600", "#1E50FF", "#000000"][i % 3]};animation-delay:${delay}ms"></i>`;
+  }
+  return h + "</div>";
+}
+function downloadIcs(b) {
+  const z = n => String(n).padStart(2, "0");
+  const stamp = (k, m) => k.replace(/-/g, "") + "T" + z(Math.floor(m / 60)) + z(m % 60) + "00";
+  const now = new Date();
+  const dtstamp = `${now.getUTCFullYear()}${z(now.getUTCMonth() + 1)}${z(now.getUTCDate())}T${z(now.getUTCHours())}${z(now.getUTCMinutes())}${z(now.getUTCSeconds())}Z`;
+  const ics = s => String(s).replace(/\\/g, "\\\\").replace(/[,;]/g, m => "\\" + m).replace(/\n/g, "\\n");
+  const bar = getBarber(b.barberId), st = getStyle(b.styleId), sh = partnerShop();
+  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//BarberBook PH Demo//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "BEGIN:VEVENT",
+    `UID:${b.id}@barberbook-demo`, `DTSTAMP:${dtstamp}`, `DTSTART:${stamp(b.date, b.start)}`, `DTEND:${stamp(b.date, b.start + b.dur)}`,
+    `SUMMARY:${ics("Haircut at " + sh.name)}`, `LOCATION:${ics(sh.area)}`,
+    `DESCRIPTION:${ics((st ? st.name : "Haircut") + " with " + (bar ? bar.name : "your barber") + ". Ref " + b.id + ". Pay at the shop.")}`,
+    "END:VEVENT", "END:VCALENDAR"];
+  const url = URL.createObjectURL(new Blob([lines.join("\r\n")], { type: "text/calendar;charset=utf-8" }));
+  const a = document.createElement("a");
+  a.href = url; a.download = `${b.id}.ics`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+/* ===== DRAFT + BOOKING FLOW ===== */
+function newDraft(opts = {}) {
+  const c = state.customer;
+  return { shopId: "s1", serviceId: opts.serviceId || "sv1", styleId: opts.styleId || "", skipped: false, photo: null,
+    barberId: opts.barberId || c.favoriteBarber || "any", prefs: prefsFrom(c.savedPrefs), usual: true, saveUsual: true,
+    date: "", start: null, assigned: null, rescheduleId: null, step: 1 };
+}
+function ensureDraft() { if (!state.draft) state.draft = newDraft(); return state.draft; }
+function startBooking(opts = {}) {
+  const prev = state.draft;
+  if (opts.rescheduleBooking) {
+    const b = opts.rescheduleBooking;
+    state.draft = { shopId: "s1", serviceId: b.serviceId, styleId: b.styleId || "", skipped: !b.styleId, photo: b.photo || null,
+      barberId: b.barberId, prefs: prefsFrom(b.prefs), usual: false, saveUsual: true, date: b.date, start: b.start,
+      assigned: b.barberId, rescheduleId: b.id, step: 3 };
+  } else {
+    state.draft = newDraft({ styleId: opts.styleId, barberId: opts.barberId,
+      serviceId: prev && !prev.rescheduleId ? prev.serviceId : "sv1" });
+  }
+  commit();
+  go(opts.jumpTo || (opts.rescheduleBooking ? "book/schedule" : "book/style"));
+}
+function firstAvailable(sel, dur, rid) {
+  const t = todayKey();
+  for (let i = 0; i <= 60; i++) { const k = addDays(t, i); if (dayHasFree(k, sel, dur, rid)) return k; }
+  return null;
+}
+function confirmBooking() {
+  const d = state.draft;
+  if (!d || !d.date || d.start == null) { toast("Pick a date and time first.", "amber"); return go("book/schedule"); }
+  const dur = durFor(d.serviceId, d.styleId);
+  const fixed = d.barberId === "any" ? null : getBarber(d.barberId);
+  const b = d.barberId === "any" ? pickAuto(d.date, d.start, dur, d.rescheduleId)
+    : (fixed && isFree(fixed, d.date, d.start, dur, d.rescheduleId) ? fixed : null);
+  if (!b) { d.start = null; openModal({ type: "taken" }); return go("book/schedule"); }
+  const st = getStyle(d.styleId);
+  const fields = { barberId: b.id, serviceId: d.serviceId, styleId: d.styleId || "", photo: d.photo || null,
+    prefs: prefsFrom(d.prefs), date: d.date, start: d.start, dur, status: "confirmed" };
+  const old = d.rescheduleId ? bookingById(d.rescheduleId) : null;
+  let bk;
+  if (old) {
+    Object.assign(old, fields); bk = old;
+    toast(`Rescheduled: ${bk.id} now ${fmtShort(d.date)}, ${fmtTime(d.start)} with ${b.name}`, "blue");
+  } else {
+    bk = { id: newBookingNo(), shopId: "s1", cid: state.customer.id, name: state.customer.name, walkin: false, rated: false, created: todayKey(), ...fields };
+    state.bookings.push(bk);
+    toast(`New booking: ${state.customer.name} · ${st ? st.name : "No style selected"} · ${fmtTime(d.start)} · ${b.name}`, "blue");
+  }
+  if (d.saveUsual) {
+    const sp = state.customer.savedPrefs;
+    state.customer.savedPrefs = { ...prefsFrom(d.prefs), styleId: d.styleId || sp.styleId };
+  }
+  d.assigned = b.id;
+  state.ui.lastBookingId = bk.id; state.ui.flash = bk.id; state.ui.reminder = false; state.ui.fresh = true;
+  commit();
+  go("confirm");
+}
+function quickCreateDemoBooking() {
+  const last = state.bookings.find(x => x.id === state.ui.lastBookingId && isUpcoming(x));
+  if (last) return last.id;
+  const sp = state.customer.savedPrefs, dur = durFor("sv1", sp.styleId), t = todayKey();
+  for (let i = 1; i <= 14; i++) {
+    const date = addDays(t, i);
+    for (const s of candidateTimes(date, "any")) {
+      const b = pickAuto(date, s, dur, null);
+      if (!b) continue;
+      const bk = { id: newBookingNo(), shopId: "s1", cid: state.customer.id, name: state.customer.name, barberId: b.id,
+        serviceId: "sv1", styleId: sp.styleId || "", photo: null, prefs: prefsFrom(sp), date, start: s, dur,
+        status: "confirmed", walkin: false, rated: false, created: t };
+      state.bookings.push(bk);
+      state.ui.lastBookingId = bk.id; state.ui.flash = bk.id;
+      persist();
+      return bk.id;
+    }
+  }
+  return null;
+}
+
+/* ===== SCHEDULE HELPERS ===== */
+function calOf(k) { const [y, m] = k.split("-").map(Number); return { y, m: m - 1 }; }
+function slotList(date, sel, dur, rid) {
+  const bs = pool(sel).filter(b => barberWorks(b, date));
+  const today = todayKey();
+  const fits = t => bs.some(b => t >= hhmm(b.start) && t + dur <= hhmm(b.end) &&
+    !(b.breakAt && t < hhmm(b.breakAt) + 60 && t + dur > hhmm(b.breakAt)));
+  return candidateTimes(date, sel).filter(fits).map(t => ({
+    t, free: freeBarbers(date, t, dur, sel, rid).length > 0, past: date === today && t < nowMin()
+  }));
+}
+function calHtml(sel, dur, rid) {
+  const c = state.ui.cal, d = state.draft, today = todayKey();
+  const days = new Date(c.y, c.m + 1, 0).getDate();
+  const lead = new Date(c.y, c.m, 1).getDay();
+  let h = '<div class="cal">' + DAYS.map(x => `<div class="dh">${x}</div>`).join("");
+  for (let i = 0; i < lead; i++) h += "<span></span>";
+  for (let n = 1; n <= days; n++) {
+    const k = `${c.y}-${pad(c.m + 1)}-${pad(n)}`;
+    const off = !pool(sel).some(b => barberWorks(b, k));
+    const dis = k < today || off;
+    const full = !dis && !dayHasFree(k, sel, dur, rid);
+    const cls = [d.date === k ? "on" : "", k === today ? "today" : ""].join(" ").trim();
+    h += `<button class="${cls}" data-act="pickDate" data-d="${k}" ${dis ? "disabled" : ""} aria-label="${k}">${n}${full ? '<span class="full">FULL</span>' : ""}</button>`;
+  }
+  return h + "</div>";
+}
+
+/* ===== SCREENS ===== */
+function homeHtml() {
+  const nxt = bookingsFor("upcoming")[0];
+  let nextCard = "";
+  if (nxt) {
+    const bar = getBarber(nxt.barberId), st = getStyle(nxt.styleId);
+    const n = diffDays(nxt.date, todayKey());
+    const when = n <= 0 ? "today" : n === 1 ? "tomorrow" : `in ${n} days`;
+    nextCard = `<section class="card yellow" aria-label="Your next cut">
+      <div class="row sp"><span class="badge">Your next cut</span><span class="tiny b up">${when}</span></div>
+      <div class="b up" style="font-size:20px;margin-top:8px">${fmtDate(nxt.date)}</div>
+      <div class="b">${fmtTime(nxt.start)}</div>
+      <div class="small">${esc(st ? st.name : "No style selected")} with ${esc(bar ? bar.name : "any barber")}</div>
+      <div class="row wrap" style="margin-top:10px"><button class="btn secondary sm" data-act="go" data-to="bookings">VIEW</button><button class="btn secondary sm" data-act="resched" data-id="${esc(nxt.id)}">RESCHEDULE</button></div>
+    </section>`;
+  }
+  const sp = state.customer.savedPrefs, usualSt = getStyle(sp.styleId), fav = getBarber(state.customer.favoriteBarber);
+  const quick = `<section class="card soft" data-tour="rebook">
+    <div class="tiny b up">Quick rebook</div>
+    <p class="b up" style="font-size:18px;margin:6px 0 10px">Book YOUR USUAL: ${esc(usualSt ? usualSt.name : "Haircut")} with ${esc(fav ? fav.name : "any barber")}</p>
+    <button class="btn block" data-act="quick">BOOK NOW →</button></section>`;
+  const q = state.ui.search.trim().toLowerCase();
+  const shops = state.shops.filter(s => !q || s.name.toLowerCase().includes(q) || s.area.toLowerCase().includes(q));
+  const shopCard = s => {
+    if (s.comingSoon) {
+      return `<div class="card" aria-disabled="true" style="opacity:.75">
+        <div class="row sp"><div class="b up">${esc(s.name)}</div><span class="badge r">COMING SOON</span></div>
+        <div class="small muted" style="margin-top:4px">${esc(s.area)}</div>
+        <div class="row small" style="margin-top:6px">${icon("star", 14)} ${s.rating} (${s.reviews} reviews)</div></div>`;
+    }
+    return `<button class="card hover" data-act="go" data-to="shop">
+      <div class="row sp"><div class="b up" style="font-size:18px">${esc(s.name)}</div>${shopOpen() ? '<span class="badge g">OPEN NOW</span>' : '<span class="badge">CLOSED NOW</span>'}</div>
+      <div class="small muted" style="margin-top:4px">${esc(s.area)} · ${s.distanceKm} km away</div>
+      <div class="row small" style="margin-top:6px">${icon("star", 14)} <b>${s.rating}</b> (${s.reviews} reviews) · ${esc(s.hours || "")}</div>
+      <div class="tiny b up" style="margin-top:8px">Bookable now</div></button>`;
+  };
+  const list = shops.length ? shops.map(shopCard).join("") :
+    `<div class="empty">${icon("store", 40)}<p class="muted">No shops match "${esc(state.ui.search)}".</p><button class="btn secondary sm" data-act="clearSearch">CLEAR SEARCH</button></div>`;
+  return `<section class="hero" data-tour="home-hero">
+      <h1>BOOK YOUR NEXT HAIRCUT IN UNDER A MINUTE.</h1>
+      <input class="input" id="shopSearch" type="search" placeholder="Search shops by name or area" value="${esc(state.ui.search)}" data-in="ui.search" data-render="1" aria-label="Search shops">
+    </section>
+    ${nextCard}
+    ${quick}
+    <div class="b up">Shops near ${esc(CONFIG.municipality)}</div>
+    <div class="col stag">${list}</div>`;
+}
+function shopHtml() {
+  const sh = partnerShop(), d = state.draft, curSv = (d && d.serviceId) || "sv1";
+  const svs = state.services.map(sv => `<button class="bcard ${curSv === sv.id ? "sel" : ""}" data-act="pickService" data-id="${esc(sv.id)}">
+      <div class="grow"><div class="b up">${esc(sv.name)}</div><div class="small muted">About ${sv.mins} min</div></div>
+      <div class="b">${money(sv.price)}</div></button>`).join("");
+  const bars = state.barbers.map(b => `<div class="card" style="min-width:170px;flex:none">${avatarHtml(b)}
+      <div class="b up" style="margin-top:8px">${esc(b.name)}</div><div class="tiny muted">${esc(b.specialty)}</div>
+      <div class="small row">${icon("star", 14)} ${b.rating.toFixed(1)}</div>
+      <div class="tiny">Next free: ${esc(nextFree(b))}</div></div>`).join("");
+  return `<section class="card">
+      <div class="row sp"><div class="b up" style="font-size:22px">${esc(sh.name)}</div>${shopOpen() ? '<span class="badge g">OPEN NOW</span>' : ""}</div>
+      <div class="small" style="margin-top:6px">${esc(sh.area)}</div>
+      <div class="small">Hours: ${esc(sh.hours)}</div>
+      <div class="row small" style="margin-top:4px">${icon("star", 14)} <b>${sh.rating}</b> (${sh.reviews} reviews)</div>
+    </section>
+    <h3 class="up">Services</h3>
+    <div class="col stag">${svs}</div>
+    <p class="tiny muted">Sample prices. Final prices come from the partner shop.</p>
+    <h3 class="up">Barbers</h3>
+    <div class="row scroll-x" style="gap:10px;overflow-x:auto">${bars}</div>
+    <div class="notice">PAY AT THE SHOP. The system only reserves your slot.</div>
+    <button class="btn block" data-act="startBook">BOOK AN APPOINTMENT →</button>`;
+}
+function stylesHtml() {
+  return `<h2 class="up">Style gallery</h2>
+    <p class="small muted">Tap a style to start a booking with it. All images are reference images.</p>
+    ${catChips()}
+    ${styleGrid("gallery", null)}`;
+}
+function styleStepHtml() {
+  const d = ensureDraft(); d.step = 1;
+  return stepbar(1) + `<div class="col">
+    <div class="small muted">Pick the cut you want. Images are references, and your barber confirms the cut in the chair.</div>
+    ${catChips()}
+    <div data-tour="style-grid">${styleGrid("book", d.styleId)}</div>
+    ${photoBlock(d)}
+    <button class="btn secondary block" data-act="skipStyle">SKIP, I'LL DECIDE AT THE SHOP</button>
+    <button class="btn block" data-act="toStep" data-to="book/barber">CONTINUE →</button>
+  </div>`;
+}
+function barberHtml() {
+  const d = ensureDraft(); d.step = 2; d.usual = isUsual();
+  const any = `<button class="bcard ${d.barberId === "any" ? "sel" : ""}" data-act="pickBarber" data-id="any">
+      <span class="avatar" style="background:#000;color:var(--yellow)">ANY</span>
+      <div class="grow"><div class="b up">Any available barber</div><div class="small muted">Fastest schedule. We assign the barber for you.</div></div></button>`;
+  const cards = state.barbers.map(b => `<button class="bcard ${d.barberId === b.id ? "sel" : ""}" data-act="pickBarber" data-id="${esc(b.id)}">
+      ${avatarHtml(b)}
+      <div class="grow"><div class="b up">${esc(b.name)}</div><div class="small muted">${esc(b.specialty)}</div>
+      <div class="small row">${icon("star", 14)} ${b.rating.toFixed(1)} · Next free: ${esc(nextFree(b))}</div></div></button>`).join("");
+  return stepbar(2) + `<div class="col">
+    <div class="col stag">${any}${cards}</div>
+    <section class="card" data-tour="prefs">
+      <div class="row sp"><div class="b up">Haircut preferences</div>${d.usual ? '<span class="badge g">YOUR USUAL</span>' : ""}</div>
+      <div style="margin-top:12px">${prefsForm(d.prefs, "draft")}</div>
+      <label class="row" style="margin-top:12px;gap:8px"><input type="checkbox" data-ch="draft.saveUsual" ${d.saveUsual ? "checked" : ""}> <span class="small b">Save as my usual</span></label>
+    </section>
+    <button class="btn block" data-act="toStep" data-to="book/schedule">CONTINUE →</button>
+  </div>`;
+}
+function scheduleHtml() {
+  const d = ensureDraft(); d.step = 3;
+  const sel = d.barberId, dur = durFor(d.serviceId, d.styleId), rid = d.rescheduleId, today = todayKey();
+  if (!d.date || d.date < today) {
+    const k = firstAvailable(sel, dur, rid);
+    if (k) { d.date = k; state.ui.cal = calOf(k); }
+  }
+  if (d.start != null && (!d.date || !freeBarbers(d.date, d.start, dur, sel, rid).length)) d.start = null;
+  if (sel === "any" && d.start != null) { const a = pickAuto(d.date, d.start, dur, rid); d.assigned = a ? a.id : null; }
+  else d.assigned = sel === "any" ? null : sel;
+
+  const c = state.ui.cal, base = nowDate();
+  const bIdx = base.getFullYear() * 12 + base.getMonth(), cIdx = c.y * 12 + c.m;
+  const slots = d.date ? slotList(d.date, sel, dur, rid) : [];
+  const slotHtml = slots.length ? slots.map(s => s.free
+    ? `<button class="slot ${d.start === s.t ? "on" : ""}" data-act="pickSlot" data-m="${s.t}">${fmtTime(s.t)}</button>`
+    : `<button class="slot taken" disabled>${fmtTime(s.t)}<small>${s.past ? "Past" : "Taken"}</small></button>`).join("")
+    : `<p class="muted" style="grid-column:1/-1">No openings on this day. Pick another date above.</p>`;
+  const assigned = sel === "any" && d.start != null && d.assigned ? getBarber(d.assigned) : null;
+  const barLabel = sel === "any" ? "any available barber" : esc(getBarber(sel).name);
+  return stepbar(3) + `<div class="col">
+    <div class="notice">Duration: ${dur} min (service plus haircut). Barber: ${barLabel}.</div>
+    <section class="card" data-tour="calendar">
+      <div class="row sp">
+        <button class="btn icon secondary" data-act="calNav" data-d="-1" aria-label="Previous month" ${cIdx <= bIdx ? "disabled" : ""}>${icon("back", 18)}</button>
+        <div class="b up">${MONTHS_L[c.m]} ${c.y}</div>
+        <button class="btn icon secondary" data-act="calNav" data-d="1" aria-label="Next month" ${cIdx >= bIdx + 1 ? "disabled" : ""}>${icon("arrow", 18)}</button>
+      </div>
+      <div style="margin-top:10px">${calHtml(sel, dur, rid)}</div>
+    </section>
+    <section class="card">
+      <div class="b up">Time slots${d.date ? " · " + esc(fmtShort(d.date)) : ""}</div>
+      <div class="slots" data-tour="slots" style="margin-top:10px">${slotHtml}</div>
+      ${assigned ? `<div class="notice" style="margin-top:10px">Assigned to ${esc(assigned.name)}</div>` : ""}
+      <p class="tiny muted" style="margin-top:10px">Taken slots cannot be booked, so double booking will not happen.</p>
+    </section>
+    <button class="btn block" data-act="toStep" data-to="book/review">CONTINUE →</button>
+  </div>`;
+}
+function reviewHtml() {
+  const d = state.draft;
+  if (!d || !d.date || d.start == null) return emptyBox("Your booking details are missing.", "PICK A TIME", "book/schedule");
+  d.step = 4;
+  const dur = durFor(d.serviceId, d.styleId), sv = getService(d.serviceId), st = getStyle(d.styleId), shop = partnerShop();
+  const bar = d.barberId === "any" ? (d.assigned ? getBarber(d.assigned) : null) : getBarber(d.barberId);
+  const p = prefsFrom(d.prefs);
+  const barberCell = d.barberId === "any" ? (bar ? `Assigned to ${esc(bar.name)}` : "Any available barber") : esc(bar ? bar.name : "");
+  const rows = [
+    ["Barbershop", `${esc(shop.name)}<br><span class="muted">${esc(shop.area)}</span>`],
+    ["Service", `${esc(sv.name)}`],
+    ["Barber", barberCell],
+    ["Haircut", `<div class="cu-thumb-row" style="align-items:center">${styleThumb(d.styleId, 56)}<span class="b up">${esc(st ? st.name : "No style selected")}</span></div>` +
+      (d.photo ? `<img class="cu-photo" src="${d.photo}" alt="Reference photo you uploaded" style="max-height:120px">` : "")],
+    ["Preferences", `Guard ${p.guard} · ${esc(p.top)} · ${esc(p.beard)}<br>Extras: ${esc(p.extras.length ? p.extras.join(", ") : "None")}` +
+      (p.notes ? `<br>Notes: ${esc(p.notes)}` : "")],
+    ["Date", esc(fmtDate(d.date))],
+    ["Time", `${fmtTime(d.start)} - ${fmtTime(d.start + dur)}`],
+    ["Duration", `${dur} min`],
+    ["Total (sample)", `${money(sv.price)} (sample price)`]
+  ];
+  return stepbar(4) + `<div class="col">
+    <dl class="card" style="padding:6px 14px">${rows.map(([k, v]) => `<div class="sumrow"><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl>
+    <div class="notice">Payment is made at the shop. The system only reserves your slot.</div>
+    <button class="btn block" data-act="confirm">CONFIRM BOOKING →</button>
+    <div class="row wrap" style="gap:8px">
+      <button class="btn secondary sm" data-act="go" data-to="book/style">EDIT STYLE</button>
+      <button class="btn secondary sm" data-act="go" data-to="book/barber">EDIT BARBER</button>
+      <button class="btn secondary sm" data-act="go" data-to="book/schedule">EDIT TIME</button>
+    </div>
+  </div>`;
+}
+function confirmHtml(fresh) {
+  const b = bookingById(state.ui.lastBookingId);
+  state.draft = null;
+  if (!b) return emptyBox("No booking to show yet.", "BOOK A HAIRCUT", "home");
+  const st = getStyle(b.styleId), bar = getBarber(b.barberId), sh = partnerShop();
+  const first = state.customer.name.split(" ")[0];
+  const when = `${fmtShort(b.date)}, ${fmtTime(b.start)}`;
+  const barName = bar ? bar.name : "your barber";
+  const styleName = st ? st.name : "haircut";
+  return `<div class="col" style="position:relative">
+    ${fresh ? confettiHtml() : ""}
+    <div class="row" style="justify-content:center"><div class="${fresh ? "stamp" : ""}" style="width:96px;height:96px;border:3px solid #000;border-radius:50%;background:#000;color:var(--yellow);display:grid;place-items:center;box-shadow:var(--sh-md)">${icon("check", 56)}</div></div>
+    <h2 class="up" style="text-align:center">Your slot is reserved</h2>
+    <div class="ticket" data-tour="ticket">
+      <div class="tp row sp"><span class="b up">Booking no.</span><span class="b">${esc(b.id)}</span></div>
+      <div class="cu-thumb-row" style="padding:12px 14px">
+        <div style="width:72px;flex:none">${styleThumb(b.styleId, 72)}</div>
+        <div class="grow"><div class="b up">${esc(styleName)}</div><div class="small">${esc(sh.name)}</div>
+          <div class="small">with ${esc(barName)}</div><div class="b" style="margin-top:4px">${esc(when)}</div></div>
+      </div>
+    </div>
+    <div class="tiny b up">Preview only, not actually sent in this demo</div>
+    <div class="mail"><div class="mh">Subject: Your BarberBook PH booking ${esc(b.id)} is confirmed</div>
+      <div style="padding:10px 12px;font-size:13px;line-height:1.45">Hi ${esc(first)}, your ${esc(styleName)} with ${esc(barName)} is confirmed for ${esc(when)} at ${esc(sh.name)}. Payment is made at the shop. To change the time, open My Bookings and tap Reschedule.</div></div>
+    <div class="sms">BarberBook PH: Hi ${esc(first)}! Your haircut with ${esc(barName)} is confirmed for ${esc(when)} at ${esc(sh.name)}. Reply or open the app to reschedule. Ref ${esc(b.id)}</div>
+    ${state.ui.reminder ? `<div class="sms" style="align-self:flex-end;border-radius:14px 14px 2px 14px">Reminder: your haircut is in 1 hour. ${esc(barName)} is ready for you at ${esc(sh.name)}, ${esc(fmtTime(b.start))}.</div>` : ""}
+    <button class="btn block" data-act="ics" data-id="${esc(b.id)}">ADD TO MY CALENDAR</button>
+    <button class="btn secondary block" data-act="reminder">SIMULATE REMINDER</button>
+    <button class="btn secondary block" data-act="go" data-to="bookings">GO TO MY BOOKINGS →</button>
+  </div>`;
+}
+function bookCard(b) {
+  const st = getStyle(b.styleId), bar = getBarber(b.barberId);
+  const live = b.status === "confirmed" || b.status === "pending";
+  let act = "";
+  if (live) act = `<div class="row wrap" style="margin-top:10px"><button class="btn secondary sm" data-act="resched" data-id="${esc(b.id)}">RESCHEDULE</button><button class="btn danger sm" data-act="askCancel" data-id="${esc(b.id)}">CANCEL</button></div>`;
+  else if (b.status === "done" && !b.rated) act = `<div style="margin-top:10px"><button class="btn sm" data-act="rate" data-id="${esc(b.id)}">RATE YOUR CUT</button></div>`;
+  else if (b.status === "done") act = `<div class="tiny muted" style="margin-top:8px">Thanks for rating this cut.</div>`;
+  const reason = b.status === "cancelled" && b.cancelReason ? `<div class="small muted">Reason: ${esc(b.cancelReason)}</div>` : "";
+  return `<article class="card">
+    <div class="row sp"><span class="tiny b">${esc(b.id)}</span><span class="st-pill st-${b.status}">${STATUS[b.status]}</span></div>
+    <div class="cu-thumb-row" style="margin-top:10px">
+      <div style="width:72px;flex:none">${styleThumb(b.styleId, 72)}</div>
+      <div class="grow"><div class="b up">${esc(st ? st.name : "No style selected")}</div>
+        <div class="small">${esc(fmtDate(b.date))}</div>
+        <div class="small b">${fmtTime(b.start)} - ${fmtTime(b.start + b.dur)}</div>
+        <div class="small muted">with ${esc(bar ? bar.name : "any barber")} · ${esc(CONFIG.partnerShopName)}</div>${reason}</div>
+    </div>${act}</article>`;
+}
+function bookingsHtml() {
+  const tab = state.ui.btab || "upcoming";
+  const list = bookingsFor(tab);
+  const tabs = [["upcoming", "Upcoming"], ["past", "Past"], ["cancelled", "Cancelled"]]
+    .map(([k, l]) => `<button class="${tab === k ? "on" : ""}" data-act="bookTab" data-v="${k}">${l}</button>`).join("");
+  let body;
+  if (list.length) body = `<div class="col stag">${list.map(bookCard).join("")}</div>`;
+  else if (tab === "upcoming") body = `<div class="empty">${icon("cal", 40)}<p class="muted">No upcoming cuts yet.</p><button class="btn sm" data-act="startBook">BOOK A HAIRCUT</button></div>`;
+  else if (tab === "past") body = `<div class="empty">${icon("cal", 40)}<p class="muted">Finished cuts will show up here.</p><button class="btn secondary sm" data-act="go" data-to="home">BROWSE SHOPS</button></div>`;
+  else body = `<div class="empty">${icon("cal", 40)}<p class="muted">No cancelled bookings.</p><button class="btn secondary sm" data-act="go" data-to="home">BROWSE SHOPS</button></div>`;
+  return `<div class="segmented" role="tablist">${tabs}</div>${body}`;
+}
+function profileHtml() {
+  const c = state.customer, sp = c.savedPrefs, usual = getStyle(sp.styleId);
+  const past = bookingsFor("past");
+  const visits = myBookings().filter(b => b.status === "done").length;
+  const favs = state.barbers.map(b => `<button class="chip ${c.favoriteBarber === b.id ? "on" : ""}" data-act="setFav" data-id="${esc(b.id)}">${esc(b.name)}</button>`).join("");
+  const history = past.length ? past.map(b => {
+    const st = getStyle(b.styleId);
+    return `<div class="card row" style="padding:10px;gap:10px">${styleThumb(b.styleId, 44)}
+      <div class="grow"><div class="b up small">${esc(st ? st.name : "No style selected")}</div><div class="tiny muted">${esc(fmtDate(b.date))}</div></div>
+      <span class="st-pill st-${b.status}">${STATUS[b.status]}</span></div>`;
+  }).join("") : `<div class="empty"><p class="muted">No visits yet. Your finished cuts will appear here.</p><button class="btn sm" data-act="startBook">BOOK A CUT</button></div>`;
+  return `<section class="card">
+      <div class="b up" style="font-size:20px">${esc(c.name)}</div>
+      <div class="small">${esc(c.mobile)}</div><div class="small">${esc(c.email)}</div>
+      <p class="tiny muted" style="margin-top:8px">Demo account, no login in this prototype.</p>
+    </section>
+    <section class="card">
+      <div class="row sp"><div class="b up">My usual</div><button class="btn secondary sm" data-act="editPrefs">EDIT</button></div>
+      <div class="cu-thumb-row" style="margin-top:10px">
+        <div style="width:64px;flex:none">${styleThumb(sp.styleId || "", 64)}</div>
+        <div class="grow"><div class="b up">${esc(usual ? usual.name : "No style")}</div>
+          <div class="small">Guard ${sp.guard} · Top: ${esc(sp.top)}</div>
+          <div class="small">Beard: ${esc(sp.beard)}</div>
+          <div class="small">Extras: ${esc((sp.extras || []).join(", ") || "None")}</div>
+          <div class="small">Notes: ${esc(sp.notes || "None")}</div></div>
+      </div>
+    </section>
+    <section class="card"><div class="b up">Favorite barber</div><div class="row wrap" style="margin-top:10px">${favs}</div></section>
+    <section>
+      <div class="b up">Appointment history</div>
+      <p class="small muted">${visits} visits since Aug 2026</p>
+      <div class="col stag">${history}</div>
+    </section>
+    <div class="notice">Your details are used only for your bookings (RA 10173, Data Privacy Act of 2012).</div>`;
+}
+
+function custScreen(route) {
+  const r = route || "home";
+  const fresh = r === "confirm" && state.ui.fresh === true;   // the stamp and confetti play once
+  if (r === "confirm") state.ui.fresh = false;
+  if (r === "shop") return { html: shopHtml(), title: partnerShop().name, back: "home", tab: "home" };
+  if (r === "styles") return { html: stylesHtml(), title: "Styles", back: null, tab: "styles" };
+  if (r === "bookings") return { html: bookingsHtml(), title: "My bookings", back: null, tab: "bookings" };
+  if (r === "profile") return { html: profileHtml(), title: "Profile", back: null, tab: "profile" };
+  if (r === "book/style") return { html: styleStepHtml(), title: "Choose a style", back: "shop", tab: "" };
+  if (r === "book/barber") return { html: barberHtml(), title: "Barber and prefs", back: "book/style", tab: "" };
+  if (r === "book/schedule") return { html: scheduleHtml(), title: "Pick a time", back: "book/barber", tab: "" };
+  if (r === "book/review") return { html: reviewHtml(), title: "Review", back: "book/schedule", tab: "" };
+  if (r === "confirm") return { html: confirmHtml(fresh), title: "Booked", back: null, tab: "" };
+  return { html: homeHtml(), title: "BarberBook PH", back: null, tab: "home" };
+}
+
+/* ===== ACTIONS (customer) ===== */
+Object.assign(ACTIONS, {
+  pickService(ds) { ensureDraft().serviceId = ds.id; commit(); },
+  pickStyle(ds) {
+    if (ds.ctx === "book" && state.draft) { state.draft.styleId = ds.id; state.draft.skipped = false; commit(); }
+    else startBooking({ styleId: ds.id });
+  },
+  setCat(ds) { state.ui.cat = ds.v; commit(); },
+  startBook() { startBooking({}); },
+  quick() {
+    const sp = state.customer.savedPrefs;
+    startBooking({ styleId: sp.styleId, barberId: state.customer.favoriteBarber, jumpTo: "book/schedule" });
+  },
+  skipStyle() { const d = ensureDraft(); d.styleId = ""; d.skipped = true; commit(); go("book/barber"); },
+  clearPhoto() { ensureDraft().photo = null; commit(); },
+  photoPicked(ds, ev) {
+    const f = ev.target.files && ev.target.files[0];
+    ev.target.value = "";
+    if (!f) return;
+    if (!/^image\//.test(f.type)) return toast("That file is not an image.", "red");
+    readPhoto(f, url => { ensureDraft().photo = url; toast("Photo added. The barber will see it.", "green"); commit(); });
+  },
+  pickBarber(ds) {
+    const d = ensureDraft();
+    d.barberId = ds.id;
+    const dur = durFor(d.serviceId, d.styleId);
+    if (d.start != null && d.date && !freeBarbers(d.date, d.start, dur, ds.id, d.rescheduleId).length) d.start = null;
+    commit();
+  },
+  guardPlus(ds) { const p = prefsOf(ds); p.guard = Math.min(8, Number(p.guard) + 1); commit(); },
+  guardMinus(ds) { const p = prefsOf(ds); p.guard = Math.max(0, Number(p.guard) - 1); commit(); },
+  setTop(ds) { prefsOf(ds).top = ds.v; commit(); },
+  setBeard(ds) { prefsOf(ds).beard = ds.v; commit(); },
+  toggleExtra(ds) {
+    const p = prefsOf(ds), i = p.extras.indexOf(ds.v);
+    if (i >= 0) p.extras.splice(i, 1); else p.extras.push(ds.v);
+    commit();
+  },
+  pickDate(ds) { const d = ensureDraft(); d.date = ds.d; d.start = null; d.assigned = null; commit(); },
+  pickSlot(ds) { ensureDraft().start = Number(ds.m); commit(); },
+  calNav(ds) {
+    const c = state.ui.cal, base = nowDate();
+    const bIdx = base.getFullYear() * 12 + base.getMonth();
+    const next = c.y * 12 + c.m + Number(ds.d);
+    if (next < bIdx || next > bIdx + 1) return;
+    state.ui.cal = { y: Math.floor(next / 12), m: next % 12 };
+    commit();
+  },
+  toStep(ds) {
+    const d = ensureDraft(), to = ds.to;
+    if (to === "book/barber" && !d.styleId && !d.skipped && !d.photo) return toast("Pick a style, or skip this step.", "amber");
+    if (to === "book/review" && (!d.date || d.start == null)) return toast("Pick a date and time slot first.", "amber");
+    go(to);
+  },
+  confirm() { confirmBooking(); },
+  bookTab(ds) { state.ui.btab = ds.v; commit(); },
+  resched(ds) { const b = bookingById(ds.id); if (b) startBooking({ rescheduleBooking: b }); },
+  askCancel(ds) { openModal({ type: "cancel", id: ds.id, reason: "" }); },
+  setReason(ds) { if (state.ui.modal) state.ui.modal.reason = ds.v; commit(); },
+  doCancel() {
+    const m = state.ui.modal, b = m && bookingById(m.id);
+    if (!b) return closeModal();
+    if (!m.reason) return toast("Pick a reason first.", "amber");
+    b.status = "cancelled"; b.cancelReason = m.reason;
+    closeModal();
+    toast(`Cancelled ${b.id}. The slot is free again.`, "amber");
+  },
+  rate(ds) { openModal({ type: "rate", id: ds.id, stars: 0, tags: [], comment: "" }); },
+  setStars(ds) { if (state.ui.modal) state.ui.modal.stars = Number(ds.v); commit(); },
+  toggleTag(ds) {
+    const m = state.ui.modal;
+    if (!m) return;
+    const i = m.tags.indexOf(ds.v);
+    if (i >= 0) m.tags.splice(i, 1); else m.tags.push(ds.v);
+    commit();
+  },
+  submitRate() {
+    const m = state.ui.modal, b = m && bookingById(m.id);
+    if (!b) return closeModal();
+    if (!m.stars) return toast("Tap a star first.", "amber");
+    state.feedback.push({ id: "f" + Date.now().toString(36), name: "Juan D.", barberId: b.barberId, stars: m.stars,
+      tags: m.tags.slice(), comment: (m.comment || "").trim(), date: todayKey() });
+    b.rated = true;
+    closeModal();
+    toast("Rating sent. It now appears in the owner's Feedback list.", "green");
+  },
+  reminder() { state.ui.reminder = true; toast("Reminder: your haircut is in 1 hour. Preview only.", "amber"); commit(); },
+  ics(ds) { const b = bookingById(ds.id); if (!b) return; downloadIcs(b); toast("Calendar file downloaded.", "green"); },
+  editPrefs() { openModal({ type: "editPrefs", prefs: prefsFrom(state.customer.savedPrefs) }); },
+  savePrefs() {
+    const m = state.ui.modal;
+    if (!m) return;
+    state.customer.savedPrefs = { ...prefsFrom(m.prefs), styleId: state.customer.savedPrefs.styleId };
+    closeModal();
+    toast("Saved as your usual.", "green");
+  },
+  setFav(ds) { state.customer.favoriteBarber = ds.id; commit(); },
+  clearSearch() { state.ui.search = ""; commit(); },
+  toSchedule() {
+    state.ui.modal = null;
+    if (state.draft) state.draft.start = null;
+    commit();
+    go("book/schedule");
+  }
+});
+
+/* ===== MODALS (customer) ===== */
+Object.assign(MODALS, {
+  taken() {
+    return `<div style="background:var(--red);color:#fff;border:2.5px solid #000;border-radius:10px;padding:10px 12px;margin-bottom:12px">
+      <h2 style="color:#fff;margin:0">Sorry, that slot was just taken</h2></div>
+      <p class="small">Someone else booked this time a moment ago. Pick another time, and your style and barber choices stay as they are.</p>
+      <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn danger" data-act="toSchedule">BACK TO SCHEDULE →</button></div>`;
+  },
+  cancel(m) {
+    const b = bookingById(m.id);
+    const info = b ? `${esc(b.id)} · ${esc(fmtDate(b.date))}, ${fmtTime(b.start)}` : "";
+    return `<h2>Cancel this booking?</h2>
+      <p class="small">${info}. Tell the shop why so the slot can be filled.</p>
+      <div class="tiny b up" style="margin:10px 0 6px">Reason</div>
+      <div class="row wrap" style="gap:8px">` +
+      CANCEL_REASONS.map(r => `<button class="chip ${m.reason === r ? "on" : ""}" data-act="setReason" data-v="${esc(r)}">${esc(r)}</button>`).join("") +
+      `</div>
+      <div class="row" style="justify-content:flex-end;gap:8px;margin-top:16px">
+        <button class="btn secondary" data-act="closeModal">KEEP BOOKING</button>
+        <button class="btn danger" data-act="doCancel">CANCEL BOOKING</button>
+      </div>`;
+  },
+  rate(m) {
+    const b = bookingById(m.id);
+    const bar = b && getBarber(b.barberId), st = b && getStyle(b.styleId);
+    const tags = m.tags || [];
+    const stars = [1, 2, 3, 4, 5].map(n => `<button class="starbtn ${m.stars >= n ? "on" : ""}" data-act="setStars" data-v="${n}" aria-label="${n} star${n > 1 ? "s" : ""}">${icon("star", 30)}</button>`).join("");
+    const chips = RATE_TAGS.map(t => `<button class="chip ${tags.includes(t) ? "on" : ""}" data-act="toggleTag" data-v="${esc(t)}">${esc(t)}</button>`).join("");
+    return `<h2>Rate your cut</h2>
+      <p class="small muted">${esc(st ? st.name : "Haircut")} with ${esc(bar ? bar.name : "your barber")}</p>
+      <div class="row wrap" style="gap:8px;margin:12px 0">${stars}</div>
+      <div class="row wrap" style="gap:8px">${chips}</div>
+      <div class="tiny b up" style="margin:12px 0 6px">Comment (optional)</div>
+      <textarea class="textarea" maxlength="300" data-in="ui.modal.comment" placeholder="Anything the barber should know">${esc(m.comment || "")}</textarea>
+      <div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px">
+        <button class="btn secondary" data-act="closeModal">LATER</button>
+        <button class="btn" data-act="submitRate">SUBMIT RATING →</button>
+      </div>`;
+  },
+  editPrefs(m) {
+    const p = m.prefs || prefsFrom(state.customer.savedPrefs);
+    return `<h2>My usual</h2>
+      <p class="small muted">Saved preferences prefill every new booking.</p>
+      <div style="margin-top:12px">${prefsForm(p, "modal")}</div>
+      <div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px">
+        <button class="btn secondary" data-act="closeModal">CANCEL</button>
+        <button class="btn" data-act="savePrefs">SAVE MY USUAL</button>
+      </div>`;
+  }
+});
+
+/* ===== GUIDED TOUR SUPPORT ===== */
+// quickCreateDemoBooking() is called by the tour: it returns the id of Juan's just-made or newly created booking.
+/* ===== OWNER SIDE: queue, walk-in, barbers, gallery, reports, feedback ===== */
+const EXTRA_CSS_B = `
+.oh h1{margin:2px 0 0;font-size:30px;font-weight:900;text-transform:uppercase;letter-spacing:-0.02em;line-height:1}
+.oart svg{display:block;width:100%;height:auto}
+.ostar .ic{fill:transparent}
+.ostar.on .ic{fill:var(--yellow)}
+.bk{cursor:pointer}
+.bk .nm{display:block}
+tr.flash td{animation:flash 1.2s ease-out}
+.heatc{border:2px solid #000;min-height:34px;display:grid;place-items:center;font-size:11px;font-weight:800}
+.ochart{width:100%;overflow:hidden}
+`;
+
+const OWNER_NAV = [["queue", "Queue", "cal"], ["walkin", "Walk-in", "walk"], ["barbers", "Barbers &amp; Hours", "users"], ["gallery", "Style Gallery", "img"], ["reports", "Reports", "chart"], ["feedback", "Feedback", "msg"]];
+const OWNER_CATS = ["Fades", "Textured", "Classic", "Kids"];
+const TIMES30 = (() => { const a = []; for (let m = 360; m <= 1320; m += 30) a.push(m); return a; })(); // 06:00 to 22:00
+const BOARD_START = 540, BOARD_ROWS = 20, ROW_PX = 40;          // board covers 9:00 AM to 7:00 PM
+const boardTop = m => (m - BOARD_START) / 30 * ROW_PX;
+const boardEnd = BOARD_START + BOARD_ROWS * 30;
+const inBoard = m => m >= BOARD_START && m < boardEnd;
+const qDate = () => state.ui.qdate || todayKey();
+const mdy = k => { const d = parseKey(k); return `${MONTHS[d.getMonth()]} ${d.getDate()}`; };
+const shortLbl = (s, n = 24) => { s = String(s == null ? "" : s); return s.length > n ? s.slice(0, n - 1) + "." : s; };
+
+function ohead(title, right = "") {
+  return `<div class="oh row sp wrap" style="align-items:flex-end"><div><div class="tiny up b muted">${esc(state.shops[0] ? state.shops[0].name : "")} | Owner view</div><h1>${title}</h1></div><div class="row wrap">${right}</div></div>`;
+}
+const kpiCard = (n, label) => `<div class="card kpi"><b>${n}</b><span>${label}</span></div>`;
+const ownerEmpty = (msg, btn, route) => `<div class="card empty">${icon("info", 36)}<div class="b">${esc(msg)}</div>${btn ? `<button class="btn sm" data-act="ogo" data-to="${route}">${esc(btn)}</button>` : ""}</div>`;
+
+/* ----- O1 Queue ----- */
+function bookingBlock(x) {
+  const st = getStyle(x.styleId), sv = getService(x.serviceId);
+  const isNew = x.id === state.ui.flash;
+  const h = x.dur / 30 * ROW_PX;
+  return `<div class="bk st-${x.status}${isNew ? " flash" : ""}" role="button" tabindex="0" data-act="openCard" data-id="${esc(x.id)}" style="top:${boardTop(x.start)}px;height:${Math.max(h - 3, 20)}px" title="${esc(x.name)} | ${esc(sv ? sv.name : "")}">` +
+    `<span class="nm">${fmtTime(x.start)} ${esc(x.name)}${isNew ? ` <span class="badge y wig">NEW</span>` : ""}</span>` +
+    `<span>${esc(st ? st.name : (sv ? sv.name : ""))}</span></div>`;
+}
+function timelineBoard(qd, dayB) {
+  const bs = state.barbers, t = todayKey(), nm = nowMin();
+  if (!bs.length) return ownerEmpty("No barbers yet.", "Add a barber", "barbers");
+  const showNow = qd === t && inBoard(nm);
+  let html = `<div class="board" data-tour="timeline" style="--n:${bs.length};--rows:${BOARD_ROWS}"><div class="hd"></div>`;
+  html += bs.map(b => `<div class="hd">${esc(b.name)}</div>`).join("");
+  html += `<div>${Array.from({ length: BOARD_ROWS }, (_, i) => `<div class="tc">${fmtTime(BOARD_START + i * 30)}</div>`).join("")}</div>`;
+  bs.forEach(b => {
+    let col = "";
+    if (barberWorks(b, qd)) {
+      if (b.breakAt && inBoard(hhmm(b.breakAt))) {
+        const br = hhmm(b.breakAt);
+        col += `<div class="bk brk" style="top:${boardTop(br)}px;height:${60 / 30 * ROW_PX}px"><span class="nm">Break</span></div>`;
+      }
+    } else {
+      col += `<div class="offcol">Day off</div>`;
+    }
+    dayB.filter(x => x.barberId === b.id && inBoard(x.start)).forEach(x => { col += bookingBlock(x); });
+    if (showNow && barberWorks(b, qd)) col += `<div class="nowline" style="top:${boardTop(nm)}px"></div>`;
+    html += `<div class="bcol">${col}</div>`;
+  });
+  return html + `</div><div class="tiny muted">Bookings outside 9:00 AM to 7:00 PM are not drawn on the board. Use List view to see every booking.</div>`;
+}
+function quickBtn(x) {
+  if (x.status === "pending" || x.status === "confirmed") return `<button class="btn sm" data-act="setStatus" data-id="${esc(x.id)}" data-to="inchair">Start</button>`;
+  if (x.status === "inchair") return `<button class="btn sm green" data-act="setStatus" data-id="${esc(x.id)}" data-to="done">Done</button>`;
+  return "";
+}
+function listTable(dayB) {
+  if (!dayB.length) return ownerEmpty("No bookings on this day yet.", "Add a walk-in", "walkin");
+  const rows = dayB.slice().sort((a, b) => a.start - b.start).map(x => {
+    const isNew = x.id === state.ui.flash;
+    return `<tr class="${isNew ? "flash" : ""}"><td>${fmtTime(x.start)}</td>` +
+      `<td><b>${esc(x.name)}</b>${x.walkin ? ` <span class="badge b">Walk-in</span>` : ""}${isNew ? ` <span class="badge y wig">NEW</span>` : ""}</td>` +
+      `<td>${esc(getBarber(x.barberId) ? getBarber(x.barberId).name : "")}</td>` +
+      `<td>${esc(getService(x.serviceId) ? getService(x.serviceId).name : "")}<div class="tiny muted">${esc(getStyle(x.styleId) ? getStyle(x.styleId).name : "No style")}</div></td>` +
+      `<td><span class="st-pill st-${x.status}">${STATUS[x.status]}</span></td>` +
+      `<td><div class="row wrap">${quickBtn(x)}<button class="btn secondary sm" data-act="openCard" data-id="${esc(x.id)}">View</button></div></td></tr>`;
+  }).join("");
+  return `<div class="scroll-x"><table class="t"><thead><tr><th>Time</th><th>Customer</th><th>Barber</th><th>Service</th><th>Status</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function screenQueue() {
+  const qd = qDate(), t = todayKey(), qv = state.ui.qview === "list" ? "list" : "timeline";
+  const dayB = state.bookings.filter(b => b.date === qd);
+  const todayB = state.bookings.filter(b => b.date === t);
+  const booked = todayB.filter(b => b.status !== "cancelled").length;
+  const inChair = todayB.filter(b => b.status === "inchair").length;
+  const wkStart = addDays(t, -6);
+  const noShows = state.bookings.filter(b => b.status === "noshow" && b.date >= wkStart && b.date <= t).length;
+  const openTimes = candidateTimes(t, "any").filter(s => freeBarbers(t, s, 30, "any").length).length;
+  const kpis = `<div class="kpis">${kpiCard(booked, "Bookings today")}${kpiCard(openTimes, "Open slots left")}${kpiCard(inChair, "In chair now")}${kpiCard(noShows, "No-shows this week")}</div>`;
+  const dateNav = `<div class="row wrap"><button class="btn secondary sm" data-act="qNav" data-d="-1" aria-label="Previous day">${icon("back", 16)}</button>` +
+    `<div class="card" style="padding:6px 12px;font-weight:900;text-transform:uppercase;text-align:center">${fmtDate(qd)}</div>` +
+    `<button class="btn secondary sm" data-act="qNav" data-d="1" aria-label="Next day">${icon("arrow", 16)}</button>` +
+    `<button class="btn sm" data-act="qNav" data-d="0">Today</button></div>`;
+  const viewToggle = `<div class="segmented" style="width:auto"><button class="${qv === "timeline" ? "on" : ""}" data-act="qView" data-v="timeline">Timeline</button><button class="${qv === "list" ? "on" : ""}" data-act="qView" data-v="list">List</button></div>`;
+  const body = qv === "list" ? listTable(dayB) : timelineBoard(qd, dayB);
+  return `${ohead("Queue", dateNav + viewToggle)}${kpis}<div class="card">${body}</div>`;
+}
+
+/* ----- Preference card drawer ----- */
+function drawerHtml() {
+  const b = state.bookings.find(x => x.id === state.ui.drawer);
+  if (!b) return "";
+  const st = getStyle(b.styleId), bar = getBarber(b.barberId), p = b.prefs || {};
+  const lv = lastVisit(b);
+  const pic = b.photo
+    ? `<img src="${b.photo}" alt="Customer reference photo" style="width:100%;display:block;border:2px solid #000;border-radius:8px">`
+    : `<div class="oart" style="border:2px solid #000;border-radius:8px;overflow:hidden">${st ? styleArt(st.art || st.id) : `<div class="empty">No style chosen</div>`}</div><div class="tiny muted">Reference image</div>`;
+  const extras = (p.extras || []).length ? (p.extras || []).map(e => `<span class="chip">${esc(e)}</span>`).join(" ") : `<span class="small muted">None</span>`;
+  const lastTxt = lv
+    ? `Last visit: ${esc(getStyle(lv.styleId) ? getStyle(lv.styleId).name : "No style")}, #${esc(lv.prefs && lv.prefs.guard != null ? lv.prefs.guard : "-")} guard (${mdy(lv.date)})`
+    : "First visit on record.";
+  let acts;
+  if (b.status === "pending" || b.status === "confirmed") {
+    acts = `<button class="btn" data-act="setStatus" data-id="${esc(b.id)}" data-to="inchair">Start (in chair) →</button>` +
+      `<div class="row wrap"><button class="btn danger sm" data-act="setStatus" data-id="${esc(b.id)}" data-to="noshow">No-show</button>` +
+      `<button class="btn secondary sm" data-act="ownerAskCancel" data-id="${esc(b.id)}">Cancel</button></div>`;
+  } else if (b.status === "inchair") {
+    acts = `<button class="btn green" data-act="setStatus" data-id="${esc(b.id)}" data-to="done">Done →</button>`;
+  } else {
+    acts = `<div class="notice">This booking is closed (${STATUS[b.status]}).</div>`;
+  }
+  return `<div class="drawer-bd" data-act="closeCard"></div>
+<aside class="drawer" data-tour="pcard" role="dialog" aria-label="Preference card">
+  <div class="row sp"><span class="badge">Preference card</span><button class="btn secondary icon" data-act="closeCard" aria-label="Close">${icon("x", 18)}</button></div>
+  <h2 style="font-size:24px;font-weight:900;text-transform:uppercase;margin:10px 0 2px">READ THIS BEFORE THE CUT.</h2>
+  <div class="small muted" style="margin-bottom:12px">${esc(b.name)} at ${fmtTime(b.start)} with ${esc(bar ? bar.name : "")}${b.walkin ? ` <span class="badge b">Walk-in</span>` : ""}</div>
+  <div class="col">
+    ${pic}
+    <div class="pcard-guard"><span class="tiny up b">Guard</span><b>${esc(p.guard != null ? p.guard : "-")}</b></div>
+    <div class="card" style="padding:10px"><div class="small"><b>Top:</b> ${esc(p.top || "Not recorded")}</div><div class="small"><b>Beard:</b> ${esc(p.beard || "Not recorded")}</div><div class="small" style="margin-top:6px"><b>Extras:</b> ${extras}</div></div>
+    <div><div class="tiny up b" style="margin-bottom:4px">Notes</div><div class="sticky-note">${esc(p.notes || "No notes from the customer.")}</div></div>
+    <div class="small"><b>${lastTxt}</b></div>
+    <div class="row sp wrap"><span class="st-pill st-${b.status}">${STATUS[b.status]}</span><span class="tiny muted">${esc(b.id)}</span></div>
+    <div class="col">${acts}</div>
+  </div>
+</aside>`;
+}
+
+/* ----- O2 Walk-in ----- */
+function walkinSlot(w, dur) {
+  const t = todayKey();
+  if (w.when === "time") { const s = Number(w.time); return s && freeBarbers(t, s, dur, w.barberId).length ? s : null; }
+  for (let s = Math.ceil(nowMin() / 5) * 5; s <= 22 * 60; s += 5) if (freeBarbers(t, s, dur, w.barberId).length) return s;
+  return null;
+}
+function screenWalkin() {
+  const w = state.ui.walk, t = todayKey();
+  const sv = getService(w.serviceId) || state.services[0];
+  const dur = durFor(sv.id, w.styleId);
+  const slots = candidateTimes(t, w.barberId).filter(s => freeBarbers(t, s, dur, w.barberId).length);
+  const timeVal = slots.includes(Number(w.time)) ? Number(w.time) : (slots.length ? slots[0] : "");
+  const styleOpts = `<option value="">No style (any)</option>` + visibleStyles().map(s => `<option value="${esc(s.id)}" ${s.id === w.styleId ? "selected" : ""}>${esc(s.name)}</option>`).join("");
+  const svcOpts = state.services.map(s => `<option value="${esc(s.id)}" ${s.id === sv.id ? "selected" : ""}>${esc(s.name)} - ${money(s.price)}</option>`).join("");
+  const barOpts = `<option value="any" ${w.barberId === "any" ? "selected" : ""}>First available</option>` + state.barbers.map(b => `<option value="${esc(b.id)}" ${b.id === w.barberId ? "selected" : ""}>${esc(b.name)}</option>`).join("");
+  const timeOpts = slots.length ? slots.map(s => `<option value="${s}" ${s === timeVal ? "selected" : ""}>${fmtTime(s)}</option>`).join("") : `<option value="">No free slots today</option>`;
+  return `${ohead("Walk-in")}
+<div class="card" style="max-width:620px"><div class="col">
+  <div><label class="lbl" for="walkName">Customer name (optional)</label><input id="walkName" class="input" data-in="ui.walk.name" value="${esc(w.name)}" placeholder="Walk-in guest"></div>
+  <div><label class="lbl" for="walkSvc">Service</label><select id="walkSvc" class="select" data-ch="ui.walk.serviceId">${svcOpts}</select></div>
+  <div><label class="lbl" for="walkStyle">Style (optional)</label><select id="walkStyle" class="select" data-ch="ui.walk.styleId">${styleOpts}</select></div>
+  <div><label class="lbl" for="walkBarber">Barber</label><select id="walkBarber" class="select" data-ch="ui.walk.barberId">${barOpts}</select></div>
+  <div><label class="lbl">When</label><div class="segmented"><button class="${w.when === "now" ? "on" : ""}" data-act="walkWhen" data-v="now">Now</button><button class="${w.when === "time" ? "on" : ""}" data-act="walkWhen" data-v="time">Pick a time</button></div></div>
+  ${w.when === "time" ? `<div><label class="lbl" for="walkTime">Start time (free slots only)</label><select id="walkTime" class="select" data-ch="ui.walk.time" data-num="1">${timeOpts}</select></div>` : ""}
+  <div class="notice">Length: ${dur} min. ${slots.length} start times free today for this choice.</div>
+  <div><button class="btn block" data-act="saveWalkin">Add walk-in →</button></div>
+</div></div>`;
+}
+
+/* ----- O3 Barbers & Hours ----- */
+function screenBarbers() {
+  const t = todayKey();
+  const order = [1, 2, 3, 4, 5, 6, 0];
+  const timeOpts = val => TIMES30.map(m => `<option value="${toHHMM(m)}" ${toHHMM(m) === val ? "selected" : ""}>${fmtTime(m)}</option>`).join("");
+  const cards = state.barbers.map((b, i) => {
+    const off = !!(state.dayOff[b.id] && state.dayOff[b.id][t]);
+    return `<div class="card" data-barber="${esc(b.id)}"><div class="col">
+      <div class="row sp wrap"><div><div class="b" style="font-size:18px;text-transform:uppercase">${esc(b.name)}</div><div class="small muted">${esc(b.specialty || "")}</div></div><span class="badge ${off ? "r" : "g"}">${off ? "Off today" : "On shift"}</span></div>
+      <div><label class="lbl">Working days</label><div class="segmented">${order.map(d => `<button class="${b.days.includes(d) ? "on" : ""}" data-act="toggleDay" data-id="${esc(b.id)}" data-day="${d}">${DAYS[d]}</button>`).join("")}</div></div>
+      <div class="grid2">
+        <div><label class="lbl" for="st${i}">Start</label><select id="st${i}" class="select" data-ch="barbers.${i}.start">${timeOpts(b.start)}</select></div>
+        <div><label class="lbl" for="en${i}">End</label><select id="en${i}" class="select" data-ch="barbers.${i}.end">${timeOpts(b.end)}</select></div>
+        <div><label class="lbl" for="br${i}">Break (1 hour)</label><select id="br${i}" class="select" data-ch="barbers.${i}.breakAt">${timeOpts(b.breakAt)}</select></div>
+      </div>
+      <div class="row sp"><span class="b">Day off today</span><button class="toggle ${off ? "on" : ""}" data-act="dayOffToggle" data-id="${esc(b.id)}" aria-pressed="${off}" aria-label="Day off today"></button></div>
+    </div></div>`;
+  }).join("");
+  const nb = state.ui.nb || { name: "", specialty: "" };
+  return `${ohead("Barbers &amp; Hours")}
+<div class="grid2">${cards}</div>
+<div class="card soft"><div class="b up" style="margin-bottom:8px">Add barber</div><div class="grid2">
+  <div><label class="lbl" for="nbName">Name</label><input id="nbName" class="input" data-in="ui.nb.name" value="${esc(nb.name)}" placeholder="e.g. Ramon"></div>
+  <div><label class="lbl" for="nbSpec">Specialty</label><input id="nbSpec" class="input" data-in="ui.nb.specialty" value="${esc(nb.specialty)}" placeholder="e.g. Fades, kids"></div>
+</div><div style="margin-top:10px"><button class="btn" data-act="addBarber">Add barber →</button></div></div>`;
+}
+
+/* ----- O4 Style Gallery ----- */
+function screenGallery() {
+  const cards = state.styles.map(s => `<div class="card" style="display:flex;flex-direction:column;gap:8px">
+    <div class="oart" style="border:2px solid #000;border-radius:8px;overflow:hidden">${styleArt(s.art || s.id)}</div>
+    <div class="row sp wrap"><div><div class="b" style="text-transform:uppercase">${esc(s.name)}</div><div class="tiny muted">${esc(s.category)} | ${s.mins} min</div></div>
+      <div class="row wrap">${s.hidden ? `<span class="badge">Hidden</span>` : ""}${s.trending ? `<span class="badge y">Trending</span>` : ""}</div></div>
+    <div class="row wrap">
+      <button class="chip ${s.trending ? "on" : ""}" data-act="toggleTrend" data-id="${esc(s.id)}">Trending ${s.trending ? "on" : "off"}</button>
+      <button class="chip ${s.hidden ? "" : "on"}" data-act="toggleHide" data-id="${esc(s.id)}">${s.hidden ? "Hidden" : "Shown"}</button>
+      <button class="btn secondary sm" data-act="editStyle" data-id="${esc(s.id)}">Edit</button>
+    </div></div>`).join("");
+  return `${ohead("Style Gallery", `<button class="btn sm" data-act="addStyle">Add style +</button>`)}
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px">${cards}</div>
+<div class="tiny muted">Trending and hidden styles update the customer gallery right away.</div>`;
+}
+
+/* ----- O5 Reports ----- */
+function rangeOf(r) {
+  const t = todayKey();
+  if (r === "lastweek") return { from: addDays(t, -13), to: addDays(t, -7), label: "Last week" };
+  if (r === "month") { const d = nowDate(); return { from: dkey(new Date(d.getFullYear(), d.getMonth(), 1)), to: t, label: "This month" }; }
+  return { from: addDays(t, -6), to: t, label: "This week" };
+}
+function daysBetween(from, to) { const out = []; for (let k = from; k <= to; k = addDays(k, 1)) out.push(k); return out; }
+function vbarSvg(items) { // items: [{l, v}]
+  const W = 640, H = 240, pl = 34, pb = 44, pt = 26, pr = 8;
+  const max = Math.max(1, ...items.map(i => i.v));
+  const n = items.length, slot = (W - pl - pr) / n, bw = Math.min(56, slot * 0.62);
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Bar chart">`;
+  s += `<line x1="${pl}" y1="${H - pb}" x2="${W - pr}" y2="${H - pb}" stroke="#000" stroke-width="2"/><line x1="${pl}" y1="${pt - 6}" x2="${pl}" y2="${H - pb}" stroke="#000" stroke-width="2"/>`;
+  items.forEach((it, i) => {
+    const x = pl + i * slot + (slot - bw) / 2, h = it.v / max * (H - pb - pt), y = H - pb - h;
+    s += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="#FFE600" stroke="#000" stroke-width="2"/>`;
+    s += `<text x="${(x + bw / 2).toFixed(1)}" y="${(y - 6).toFixed(1)}" text-anchor="middle" font-weight="900" font-size="13" fill="#000">${it.v}</text>`;
+    s += `<text x="${(x + bw / 2).toFixed(1)}" y="${H - pb + 16}" text-anchor="middle" font-size="11" font-weight="700" fill="#000">${esc(it.l)}</text>`;
+  });
+  return s + `</svg>`;
+}
+function hbarSvg(items) { // items: [{l, v}]
+  const W = 640, LW = 190, rowH = 34, max = Math.max(1, ...items.map(i => i.v)), bmax = W - LW - 50;
+  const H = items.length * rowH + 8;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Horizontal bar chart">`;
+  items.forEach((it, i) => {
+    const y = i * rowH + 6, w = it.v / max * bmax;
+    s += `<text x="${LW - 10}" y="${y + 16}" text-anchor="end" font-size="13" font-weight="800" fill="#000">${esc(shortLbl(it.l))}</text>`;
+    s += `<rect x="${LW}" y="${y}" width="${w.toFixed(1)}" height="22" fill="#1E50FF" stroke="#000" stroke-width="2"/>`;
+    s += `<text x="${(LW + w + 8).toFixed(1)}" y="${y + 16}" font-size="13" font-weight="900" fill="#000">${it.v}</text>`;
+  });
+  s += `<line x1="${LW}" y1="0" x2="${LW}" y2="${H}" stroke="#000" stroke-width="2"/></svg>`;
+  return s;
+}
+function heatGrid(inR) {
+  const hrs = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+  const cnt = {}; let max = 0;
+  inR.filter(b => b.status !== "cancelled").forEach(b => {
+    const h = Math.floor(b.start / 60); if (h < 9 || h > 18) return;
+    const k = dow(b.date) + "-" + h; cnt[k] = (cnt[k] || 0) + 1; max = Math.max(max, cnt[k]);
+  });
+  const shades = ["#FFFFFF", "#DCE7FF", "#93B4FF", "#4D7BFF", "#1E50FF"];
+  const lvl = c => c === 0 ? 0 : Math.min(4, Math.ceil(c / max * 4));
+  let h = `<div class="heat" style="grid-template-columns:52px repeat(10,1fr)"><div></div>${hrs.map(x => `<div class="tiny b" style="text-align:center">${fmtTime(x * 60).replace(":00", "")}</div>`).join("")}`;
+  [1, 2, 3, 4, 5, 6, 0].forEach(d => {
+    h += `<div class="tiny b" style="align-self:center">${DAYS[d]}</div>`;
+    hrs.forEach(x => {
+      const c = cnt[d + "-" + x] || 0, L = lvl(c);
+      h += `<div class="heatc" style="background:${shades[L]};color:${L >= 3 ? "#fff" : "#000"}" title="${DAYS[d]} ${fmtTime(x * 60)}: ${c} bookings">${c || ""}</div>`;
+    });
+  });
+  h += `</div><div class="row tiny muted" style="margin-top:8px"><span>Fewer</span>${shades.slice(1).map(c => `<span style="display:inline-block;width:18px;height:12px;border:2px solid #000;background:${c}"></span>`).join("")}<span>More</span></div>`;
+  return h;
+}
+function screenReports() {
+  const range = state.ui.range || "week";
+  const r = rangeOf(range);
+  const inR = state.bookings.filter(b => b.date >= r.from && b.date <= r.to);
+  const days = daysBetween(r.from, r.to);
+  const total = inR.length;
+  const chips = [["week", "This week"], ["lastweek", "Last week"], ["month", "This month"]]
+    .map(([v, l]) => `<button class="chip ${range === v ? "on" : ""}" data-act="setRange" data-v="${v}">${l}</button>`).join("");
+  const right = `<div class="row wrap">${chips}<button class="btn sm" data-act="exportCsv">${icon("download", 16)} Export CSV</button></div>`;
+  const foot = `<div class="tiny muted">Reports help the owner decide shop hours and staffing (Significance of the Study).</div>`;
+  if (!total) {
+    return `${ohead("Reports", right)}<div class="card" data-tour="reports">${ownerEmpty("No bookings in " + r.label.toLowerCase() + " yet.", "Add a walk-in", "walkin")}</div>${foot}`;
+  }
+  const perDay = days.map(d => ({ l: DAYS[dow(d)] + " " + parseKey(d).getDate(), v: inR.filter(b => b.date === d && b.status !== "cancelled").length }));
+  const perDayItems = days.length > 10 ? perDay.map((x, i) => ({ ...x, l: String(parseKey(days[i]).getDate()) })) : perDay;
+  const perBarber = state.barbers.map(b => ({ l: b.name, v: inR.filter(x => x.barberId === b.id && x.status !== "cancelled").length }));
+  const sc = {};
+  inR.filter(b => b.status !== "cancelled" && b.styleId).forEach(b => { sc[b.styleId] = (sc[b.styleId] || 0) + 1; });
+  const topStyles = Object.entries(sc).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([id, v]) => ({ l: getStyle(id) ? getStyle(id).name : id, v }));
+  const cnt = k => inR.filter(b => b.status === k).length;
+  const pct = n => total ? Math.round(n / total * 100) : 0;
+  const statusCards = [["done", "Done"], ["noshow", "No-show"], ["cancelled", "Cancelled"]].map(([k, l]) =>
+    `<div class="card kpi"><b>${pct(cnt(k))}%</b><span>${l} (${cnt(k)} of ${total})</span></div>`).join("");
+  return `${ohead("Reports", right)}
+<div class="col" data-tour="reports">
+  <div class="kpis" style="grid-template-columns:repeat(3,1fr)">${statusCards}</div>
+  <div class="card"><div class="b up" style="margin-bottom:6px">Bookings per day (${r.label.toLowerCase()})</div><div class="ochart">${vbarSvg(perDayItems)}</div></div>
+  <div class="grid2">
+    <div class="card"><div class="b up" style="margin-bottom:6px">Bookings per barber</div>${perBarber.length ? `<div class="ochart">${hbarSvg(perBarber)}</div>` : `<div class="small muted">No barbers yet.</div>`}</div>
+    <div class="card"><div class="b up" style="margin-bottom:6px">Top 5 requested styles</div>${topStyles.length ? `<div class="ochart">${hbarSvg(topStyles)}</div>` : `<div class="small muted">No style requests in this range.</div>`}</div>
+  </div>
+  <div class="card"><div class="b up" style="margin-bottom:6px">Busiest hours (day by hour)</div><div class="scroll-x">${heatGrid(inR)}</div></div>
+  ${foot}
+</div>`;
+}
+
+/* ----- O6 Feedback ----- */
+function screenFeedback() {
+  const f = state.feedback, avg = avgRating();
+  const starRow = n => [1, 2, 3, 4, 5].map(i => `<span class="ostar ${i <= n ? "on" : ""}" style="display:inline-flex">${icon("star", 18)}</span>`).join("");
+  const dist = [5, 4, 3, 2, 1].map(s => ({ s, n: f.filter(x => x.stars === s).length }));
+  const maxN = Math.max(1, ...dist.map(d => d.n));
+  const distHtml = dist.map(d => `<div class="row" style="gap:10px"><span class="b" style="width:28px">${d.s}</span><div style="flex:1;height:18px;border:2px solid #000;background:#fff"><div style="height:100%;width:${(d.n / maxN * 100).toFixed(1)}%;background:var(--yellow);border-right:2px solid #000"></div></div><span class="small b" style="width:24px;text-align:right">${d.n}</span></div>`).join("");
+  const list = f.slice().sort((a, b) => b.date.localeCompare(a.date)).map(x => `<div class="card"><div class="row sp wrap"><div class="b">${esc(x.name)}</div><div class="tiny muted">${esc(mdy(x.date))}</div></div>
+    <div class="row wrap" style="margin:4px 0">${starRow(x.stars)}</div>
+    <div class="row wrap" style="gap:6px">${(x.tags || []).map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div>
+    <div style="margin-top:6px">"${esc(x.comment)}"</div>
+    <div class="tiny muted" style="margin-top:4px">Barber: ${esc(getBarber(x.barberId) ? getBarber(x.barberId).name : "Any barber")}</div></div>`).join("");
+  if (!f.length) return `${ohead("Feedback")}<div class="card" data-tour="feedback">${ownerEmpty("No reviews yet. Ratings appear here after a customer rates a finished visit.", "Back to queue", "queue")}</div>`;
+  return `${ohead("Feedback")}
+<div class="col" data-tour="feedback">
+  <div class="grid2">
+    <div class="card"><div class="tiny up b">Average rating</div><div style="font-size:64px;font-weight:900;line-height:1">${avg.toFixed(1)}</div><div class="row" style="margin:6px 0">${starRow(Math.round(avg))}</div><div class="small muted">${f.length} reviews</div></div>
+    <div class="card"><div class="tiny up b" style="margin-bottom:8px">Rating distribution</div><div class="col" style="gap:6px">${distHtml}</div></div>
+  </div>
+  <div class="col">${list}</div>
+</div>`;
+}
+
+/* ----- Shell entry point ----- */
+function ownerView() {
+  const r = state.ui.oroute || "queue";
+  const nav = OWNER_NAV.map(([id, label, ic]) => `<button class="nav${r === id ? " on" : ""}" data-act="ogo" data-to="${id}">${icon(ic, 18)}<span>${label}</span></button>`).join("");
+  const side = `<aside class="osb"><div class="brandrow"><span class="logo">BARBER<b>BOOK</b> PH</span></div><div class="tiny muted up b" style="padding:0 4px">${esc(state.shops[0] ? state.shops[0].name : "")}</div><div class="col" style="gap:6px">${nav}</div></aside>`;
+  const screens = { queue: screenQueue, walkin: screenWalkin, barbers: screenBarbers, gallery: screenGallery, reports: screenReports, feedback: screenFeedback };
+  const body = (screens[r] || screenQueue)();
+  return `<div class="odash">${side}<main class="omain">${body}</main>${state.ui.drawer ? drawerHtml() : ""}</div>`;
+}
+
+/* ----- Actions ----- */
+Object.assign(ACTIONS, {
+  qNav(ds) { const d = Number(ds.d); state.ui.qdate = d === 0 ? null : addDays(qDate(), d); commit(); },
+  qView(ds) { state.ui.qview = ds.v === "list" ? "list" : "timeline"; commit(); },
+  openCard(ds) { state.ui.drawer = ds.id; commit(); },
+  closeCard() { state.ui.drawer = null; commit(); },
+  ownerAskCancel(ds) { openModal({ type: "cancelBk", id: ds.id }); },
+  setStatus(ds) {
+    const b = state.bookings.find(x => x.id === ds.id);
+    if (!b || !STATUS[ds.to]) return;
+    b.status = ds.to;
+    if (ds.to === "cancelled") b.cancelReason = "Cancelled by the shop";
+    state.ui.modal = null;
+    if (ds.to === "done") toast(`Done: ${b.name}. The customer can rate this visit now.`, "green");
+    else if (ds.to === "inchair") toast(`${b.name} is in the chair.`, "blue");
+    else if (ds.to === "noshow") toast(`${b.name} marked as no-show.`, "red");
+    else if (ds.to === "cancelled") toast(`Cancelled: ${b.name}. The slot is open again.`, "amber");
+    commit();
+  },
+  walkWhen(ds) { state.ui.walk.when = ds.v === "time" ? "time" : "now"; commit(); },
+  saveWalkin() {
+    const w = state.ui.walk, t = todayKey();
+    const sv = getService(w.serviceId);
+    if (!sv) { toast("Pick a service first.", "red"); return; }
+    const dur = durFor(sv.id, w.styleId);
+    const s = walkinSlot(w, dur);
+    if (s == null) { toast("No free barber for that time. Pick another slot.", "red"); return; }
+    const bar = w.barberId === "any" ? pickAuto(t, s, dur) : freeBarbers(t, s, dur, w.barberId)[0];
+    if (!bar) { toast("No free barber for that time. Pick another slot.", "red"); return; }
+    const b = {
+      id: newBookingNo(), shopId: "s1", cid: null, name: (w.name || "").trim() || "Walk-in guest",
+      barberId: bar.id, serviceId: sv.id, styleId: w.styleId || "", photo: null,
+      prefs: { guard: null, top: "Not recorded", beard: "Not recorded", extras: [], notes: "" },
+      date: t, start: s, dur, status: w.when === "now" ? "inchair" : "confirmed", walkin: true, rated: false, created: t
+    };
+    state.bookings.push(b);
+    state.ui.flash = b.id;
+    state.ui.walk = { name: "", serviceId: "sv1", styleId: "", barberId: "any", when: "now", time: "" };
+    state.ui.qdate = null;
+    state.ui.oroute = "queue";
+    if (!splitOn()) location.hash = "#/o/queue";
+    toast(`Walk-in added: ${b.name} at ${fmtTime(s)} with ${bar.name}.`, "green");
+    commit();
+  },
+  toggleDay(ds) {
+    const b = getBarber(ds.id), d = Number(ds.day);
+    if (!b) return;
+    b.days = b.days.includes(d) ? b.days.filter(x => x !== d) : [...b.days, d].sort((x, y) => x - y);
+    commit();
+  },
+  dayOffToggle(ds) {
+    const b = getBarber(ds.id), t = todayKey();
+    if (!b) return;
+    state.dayOff[b.id] = state.dayOff[b.id] || {};
+    if (state.dayOff[b.id][t]) { delete state.dayOff[b.id][t]; toast(`${b.name} is back on shift today.`, "green"); }
+    else {
+      state.dayOff[b.id][t] = true;
+      const n = state.bookings.filter(x => x.barberId === b.id && x.date === t && ACTIVE(x.status)).length;
+      toast(n ? `${b.name} is off today. ${n} booking${n > 1 ? "s" : ""} still on the board: reassign ${n > 1 ? "them" : "it"}.` : `${b.name} is off today.`, n ? "amber" : "blue");
+    }
+    commit();
+  },
+  addBarber() {
+    const nb = state.ui.nb || {};
+    const name = (nb.name || "").trim();
+    if (!name) { toast("Enter a barber name first.", "red"); return; }
+    state.barbers.push({ id: "b" + Date.now().toString(36), name, specialty: (nb.specialty || "").trim() || "All-round cuts", rating: 0, years: 0, days: [1, 2, 3, 4, 5, 6], start: "09:00", end: "18:00", breakAt: "12:00" });
+    state.ui.nb = { name: "", specialty: "" };
+    toast(`${name} added. Default shift is Mon to Sat, 9:00 AM to 6:00 PM.`, "green");
+    commit();
+  },
+  toggleTrend(ds) { const s = getStyle(ds.id); if (s) { s.trending = !s.trending; commit(); } },
+  toggleHide(ds) {
+    const s = getStyle(ds.id); if (!s) return;
+    s.hidden = !s.hidden;
+    toast(`${s.name} is now ${s.hidden ? "hidden from customers" : "shown to customers"}.`, s.hidden ? "amber" : "green");
+    commit();
+  },
+  editStyle(ds) {
+    const s = getStyle(ds.id); if (!s) return;
+    openModal({ type: "editStyle", id: s.id, name: s.name, mins: s.mins, category: s.category });
+  },
+  addStyle() { openModal({ type: "addStyle", art: "midtaper", name: "", mins: 40, category: "Fades" }); },
+  saveStyle() {
+    const m = state.ui.modal; if (!m) return;
+    const name = (m.name || "").trim(), mins = Math.round(Number(m.mins));
+    if (!name) { toast("Style name is required.", "red"); return; }
+    if (!(mins >= 10 && mins <= 180)) { toast("Minutes must be between 10 and 180.", "red"); return; }
+    if (m.type === "addStyle") {
+      state.styles.push({ id: "s" + Date.now(), name, category: m.category || "Classic", mins, trending: false, hidden: false, art: m.art || "midtaper" });
+      toast(`${name} added to the gallery.`, "green");
+    } else {
+      const s = getStyle(m.id);
+      if (!s) { state.ui.modal = null; commit(); return; }
+      s.name = name; s.mins = mins; s.category = m.category || s.category;
+      toast(`${name} updated.`, "green");
+    }
+    state.ui.modal = null;
+    commit();
+  },
+  setRange(ds) { state.ui.range = ds.v === "lastweek" || ds.v === "month" ? ds.v : "week"; commit(); },
+  exportCsv() {
+    const r = rangeOf(state.ui.range || "week");
+    const rows = state.bookings.filter(b => b.date >= r.from && b.date <= r.to)
+      .sort((a, b) => (a.date + toHHMM(a.start)).localeCompare(b.date + toHHMM(b.start)));
+    const q = v => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`;
+    const head = ["Booking no", "Date", "Time", "Customer", "Barber", "Service", "Style", "Guard", "Duration (min)", "Status", "Walk-in"];
+    const lines = [head.map(q).join(",")].concat(rows.map(b => [
+      b.id, b.date, fmtTime(b.start), b.name, getBarber(b.barberId) ? getBarber(b.barberId).name : "",
+      getService(b.serviceId) ? getService(b.serviceId).name : "", getStyle(b.styleId) ? getStyle(b.styleId).name : "",
+      b.prefs && b.prefs.guard != null ? b.prefs.guard : "", b.dur, STATUS[b.status], b.walkin ? "Yes" : "No"
+    ].map(q).join(",")));
+    const blob = new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `barberbook-bookings-${r.from}-to-${r.to}.csv`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast(`Exported ${rows.length} booking${rows.length === 1 ? "" : "s"}.`, "green");
+  }
+});
+
+/* ----- Modals ----- */
+Object.assign(MODALS, {
+  cancelBk: m => `<h2 style="text-transform:uppercase;margin:0 0 8px">Cancel this booking?</h2>
+    <p class="muted">The slot opens up again for online customers. The customer will see it as cancelled.</p>
+    <div class="row wrap" style="justify-content:flex-end;margin-top:14px"><button class="btn secondary" data-act="closeModal">Keep booking</button><button class="btn danger" data-act="setStatus" data-id="${esc(m.id)}" data-to="cancelled">Cancel booking</button></div>`,
+  editStyle: m => `<h2 style="text-transform:uppercase;margin:0 0 12px">Edit style</h2>
+    <div class="col">
+      <div><label class="lbl" for="msName">Name</label><input id="msName" class="input" data-in="ui.modal.name" value="${esc(m.name)}"></div>
+      <div><label class="lbl" for="msMins">Minutes</label><input id="msMins" type="number" min="10" max="180" step="5" class="input" data-in="ui.modal.mins" data-num="1" value="${esc(m.mins)}"></div>
+      <div><label class="lbl" for="msCat">Category</label><select id="msCat" class="select" data-ch="ui.modal.category">${OWNER_CATS.map(c => `<option ${c === m.category ? "selected" : ""}>${c}</option>`).join("")}</select></div>
+    </div>
+    <div class="row wrap" style="justify-content:flex-end;margin-top:14px"><button class="btn secondary" data-act="closeModal">Cancel</button><button class="btn" data-act="saveStyle">Save style</button></div>`,
+  addStyle: m => {
+    const arts = [...new Map(state.styles.map(s => [s.art || s.id, s])).values()];
+    return `<h2 style="text-transform:uppercase;margin:0 0 12px">Add style</h2>
+    <div class="col">
+      <div><label class="lbl" for="asArt">Artwork preset</label><select id="asArt" class="select" data-ch="ui.modal.art">${arts.map(s => `<option value="${esc(s.art || s.id)}" ${(s.art || s.id) === m.art ? "selected" : ""}>${esc(s.name)}</option>`).join("")}</select></div>
+      <div><label class="lbl" for="asName">Name</label><input id="asName" class="input" data-in="ui.modal.name" value="${esc(m.name)}" placeholder="e.g. Drop Fade"></div>
+      <div><label class="lbl" for="asCat">Category</label><select id="asCat" class="select" data-ch="ui.modal.category">${OWNER_CATS.map(c => `<option ${c === m.category ? "selected" : ""}>${c}</option>`).join("")}</select></div>
+      <div><label class="lbl" for="asMins">Minutes</label><input id="asMins" type="number" min="10" max="180" step="5" class="input" data-in="ui.modal.mins" data-num="1" value="${esc(m.mins)}"></div>
+    </div>
+    <div class="row wrap" style="justify-content:flex-end;margin-top:14px"><button class="btn secondary" data-act="closeModal">Cancel</button><button class="btn" data-act="saveStyle">Add style</button></div>`;
+  }
+});
+
+/* ===== SHELL: render, router, events, tour, init ===== */
+const SHELL_CSS = `@media (max-width:1023px){.cwrap{height:100%;min-height:0}.cfooter{display:none}}
+.noticecard h3{margin-bottom:2px}`;
+const NOTICE = {
+  home: ["Customers see nearby shops and book in under a minute.", "Quick rebook reuses the saved haircut preference (Objective 3c).", "Only the partner shop is bookable; the others are COMING SOON."],
+  shop: ["Services show sample prices; payment is made at the shop (out of scope: online payment).", "Barbers are previewed before booking (Objective 3b)."],
+  styles: ["Haircut preference is the core feature (Objective 3c).", "Trending styles are managed by the shop owner."],
+  "book/style": ["Customers pick a style photo or upload their own reference (Objective 3c).", "Skipping is allowed; the barber then asks at the shop."],
+  "book/barber": ["Guard number, top length, beard and notes travel with the booking.", "Saved as the customer's usual for one-tap rebooking."],
+  "book/schedule": ["Objective 3a: online appointment scheduling.", "Taken slots are blocked automatically, so double booking cannot happen.", "Longer styles need longer free windows."],
+  "book/review": ["The review step shows everything the barber will read.", "The slot is re-checked at confirmation."],
+  confirm: ["Objective 3d: confirmation and notification (Email and SMS previews only).", "Reminder simulation shows how no-shows are reduced."],
+  bookings: ["Objective 3e: appointment history, reschedule and cancel.", "Rating a Done booking feeds the owner's Feedback screen."],
+  profile: ["Profile keeps the saved preferences and visit history (Objective 3e).", "Data privacy follows RA 10173."]
+};
+const OWNER_TITLES = { queue: "Today's queue", walkin: "Walk-in", barbers: "Barbers & hours", gallery: "Style gallery", reports: "Reports", feedback: "Feedback" };
+let lastKey = "", routeChanged = false, needScroll = false;
+
+function demobarHtml() {
+  const ui = state.ui, sp = splitOn(), c = ui.role === "c";
+  return `<span class="ttl">BarberBook PH · Interactive prototype</span>
+  <div class="seg-dark" role="group" aria-label="View"><button data-act="setRole" data-r="c" class="${c || sp ? "on" : ""}">Customer view</button><button data-act="setRole" data-r="o" class="${!c || sp ? "on" : ""}">Owner view</button></div>
+  ${window.innerWidth >= 1280 ? `<button class="dbtn ${ui.split ? "on" : ""}" data-act="toggleSplit">${icon("split", 15)} Side by side</button>` : ""}
+  ${!sp && window.innerWidth >= 1024 ? `<button class="dbtn ${ui.notice ? "on" : ""}" data-act="toggleNotice">What to notice</button>` : ""}
+  <button class="dbtn" data-act="tourStart">${icon("play", 14)} Guided tour</button>
+  <button class="dbtn" data-act="askReset">${icon("reset", 14)} Reset demo</button>`;
+}
+function phoneHtml() {
+  const ui = state.ui, r = custScreen(ui.croute) || { html: "", title: "", back: null, tab: "" };
+  const tabs = [["home", "Home", "home"], ["styles", "Styles", "scissors"], ["bookings", "Bookings", "cal"], ["profile", "Profile", "user"]];
+  const t = new Date(nowDate());
+  return `<div class="phone-frame"><div class="pstatus"><span>${fmtTime(t.getHours() * 60 + t.getMinutes()).replace(" ", "")}</span><span>PH</span></div>
+  <div class="capp"><div class="cbar">${r.back ? `<button class="btn icon sm" data-act="go" data-to="${esc(r.back)}" aria-label="Back">${icon("back", 18)}</button>` : ""}<span class="logo">BARBER<b>BOOK</b> PH</span><span class="b up tiny" style="margin-left:auto">${esc(r.title || "")}</span></div>
+  <div class="cbody ${routeChanged ? "enter" : ""}" data-keep="cbody">${r.html}</div>
+  <nav class="ctabs" aria-label="Customer">${tabs.map(([k, l, i]) => `<button data-act="go" data-to="${k}" class="${r.tab === k ? "on" : ""}">${icon(i, 20)}<span>${l}</span></button>`).join("")}</nav></div></div>`;
+}
+function noticeHtml() {
+  const ui = state.ui; if (!ui.notice) return "";
+  const key = ui.croute, items = NOTICE[key] || NOTICE[key.replace(/\/.*/, "")] || NOTICE.home;
+  return `<aside class="side card yellow noticecard" aria-label="What to notice"><h3>What to notice</h3><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></aside>`;
+}
+function footerHtml(cls) {
+  return `<div class="footer ${cls}">Prototype for the capstone project BarberBook PH: An Online Appointment and Haircut Preference System for Local Barbershops. Sample data only. [School name] · [Year]</div>`;
+}
+function modalHtml() {
+  const m = state.ui.modal; if (!m || !MODALS[m.type]) return "";
+  return `<div class="backdrop" data-act="backdrop"><div class="modal" role="dialog" aria-modal="true">${MODALS[m.type](m)}</div></div>`;
+}
+function render() {
+  const ui = state.ui, sp = splitOn();
+  document.body.className = (sp || ui.role === "c" ? "role-c" : "role-o") + (sp ? " split" : "");
+  const ae = document.activeElement, fid = ae && ae.id, sel = ae && ae.selectionStart != null ? [ae.selectionStart, ae.selectionEnd] : null;
+  const stage = $("#stage"), keep = {}; document.querySelectorAll("[data-keep]").forEach(e => keep[e.dataset.keep] = e.scrollTop);
+  const stTop = stage.scrollTop;
+  const key = (sp ? "s" : ui.role) + "|" + ui.croute + "|" + ui.oroute;
+  routeChanged = key !== lastKey; lastKey = key;
+  $("#demobar").innerHTML = demobarHtml();
+  let body;
+  if (sp) body = `<div class="splitwrap">${phoneHtml()}<div class="opane" data-keep="opane">${ownerView()}</div></div>${footerHtml("cfooter")}`;
+  else if (ui.role === "c") body = `<div class="cwrap">${phoneHtml()}${noticeHtml()}</div>${footerHtml("cfooter")}`;
+  else body = `${ownerView()}${footerHtml("")}`;
+  stage.innerHTML = body + modalHtml();
+  if (!routeChanged) { stage.scrollTop = stTop; document.querySelectorAll("[data-keep]").forEach(e => { if (keep[e.dataset.keep] != null) e.scrollTop = keep[e.dataset.keep]; }); }
+  else stage.scrollTop = 0;
+  if (fid) { const n = document.getElementById(fid); if (n) { n.focus(); if (sel) try { n.setSelectionRange(sel[0], sel[1]); } catch (e) {} } }
+  if (ui.fresh && ui.croute === "confirm") setTimeout(() => { ui.fresh = false; }, 1500);
+  if (ui.flash && (sp || ui.role === "o")) { const id = ui.flash; setTimeout(() => { if (ui.flash === id) ui.flash = null; }, 1800); }
+  requestAnimationFrame(drawTour);
+}
+store.subscribe(render);
+
+/* ===== ROUTER ===== */
+const CROUTES = ["home", "shop", "styles", "bookings", "profile", "book/style", "book/barber", "book/schedule", "book/review", "confirm"];
+const OROUTES = Object.keys(OWNER_TITLES);
+function parseHash() {
+  const h = location.hash.replace(/^#\/?/, ""), parts = h.split("/"), r = parts.shift(), path = parts.join("/");
+  if (r === "o") { state.ui.role = "o"; state.ui.oroute = OROUTES.includes(path) ? path : "queue"; }
+  else {
+    state.ui.role = "c"; state.ui.croute = CROUTES.includes(path) ? path : "home";
+    if (state.ui.croute.startsWith("book/") && !state.draft) { startBooking({}); }
+  }
+}
+window.addEventListener("hashchange", () => { parseHash(); render(); });
+
+/* ===== ACTIONS (shell) ===== */
+Object.assign(ACTIONS, {
+  go(ds) { location.hash = "#/c/" + ds.to; },
+  ogo(ds) { state.ui.oroute = ds.to; state.ui.drawer = null; if (!splitOn()) location.hash = "#/o/" + ds.to; else commit(); },
+  back() { history.back(); },
+  closeModal() { closeModal(); },
+  backdrop(ds, ev) { if (ev.target.classList.contains("backdrop")) closeModal(); },
+  setRole(ds) { location.hash = ds.r === "c" ? "#/c/" + state.ui.croute : "#/o/" + state.ui.oroute; if (splitOn()) { state.ui.role = ds.r; commit(); } },
+  toggleSplit() { state.ui.split = !state.ui.split; commit(); },
+  toggleNotice() { state.ui.notice = !state.ui.notice; commit(); },
+  askReset() { openModal({ type: "confirmReset" }); },
+  doReset() {
+    const split = state.ui.split, ui = freshUi(); ui.split = split;
+    Object.assign(state, seedState(), { ui, draft: null }); persist(); lastKey = "";
+    location.hash = "#/c/home"; parseHash(); render(); toast("Demo reset to the sample data.", "blue");
+  },
+  tourStart() { state.ui.modal = null; tourGo(0); },
+  tourNext() { const i = state.ui.tour.i; if (i >= TOUR.length - 1) tourExit(); else tourGo(i + 1); },
+  tourBack() { const i = state.ui.tour.i; if (i > 0) tourGo(i - 1); },
+  tourExit() { tourExit(); }
+});
+MODALS.confirmReset = () => `<h2>Reset demo?</h2><p class="muted" style="margin-bottom:14px">This restores the sample bookings, styles and barbers. Anything you added will be removed.</p>
+  <div class="row"><button class="btn secondary grow" data-act="closeModal">Keep my data</button><button class="btn danger grow" data-act="doReset">Reset demo</button></div>`;
+
+/* ===== EVENT DELEGATION ===== */
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-act]"); if (!t || t.disabled) return;
+  const f = ACTIONS[t.dataset.act]; if (f) f(t.dataset, e);
+});
+document.addEventListener("input", e => {
+  const t = e.target; if (!t.dataset || !t.dataset.in) return;
+  setPath(t.dataset.in, t.dataset.num ? Number(t.value) : t.value);
+  if (t.dataset.render) commit(); else persist();
+});
+document.addEventListener("change", e => {
+  const t = e.target; if (!t.dataset) return;
+  if (t.dataset.file) { const f = ACTIONS[t.dataset.file]; if (f) f(t.dataset, e); return; }
+  if (!t.dataset.ch) return;
+  let v = t.type === "checkbox" ? t.checked : t.value; if (t.dataset.num) v = Number(v);
+  setPath(t.dataset.ch, v); commit();
+});
+document.addEventListener("keydown", e => {
+  const ui = state.ui;
+  if (ui.tour) { if (e.key === "ArrowRight") ACTIONS.tourNext(); else if (e.key === "ArrowLeft") ACTIONS.tourBack(); else if (e.key === "Escape") tourExit(); return; }
+  if (e.key === "Escape") { if (ui.modal) closeModal(); else if (ui.drawer) { ui.drawer = null; commit(); } }
+});
+let rz; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(render, 120); });
+window.addEventListener("storage", e => {
+  if (e.key !== KEY || !e.newValue) return;
+  try { const d = JSON.parse(e.newValue); PERSIST.forEach(k => { state[k] = d[k]; }); render(); } catch (err) {}
+});
+
+/* ===== TOUR ===== */
+function tourEnsureDraft() { if (!state.draft) startBooking({}); }
+function ensureBooking() {
+  const ui = state.ui;
+  if (!ui.lastBookingId || !state.bookings.some(b => b.id === ui.lastBookingId)) ui.lastBookingId = quickCreateDemoBooking();
+  ui.fresh = true; ui.flash = ui.lastBookingId;
+}
+function cardTarget() {
+  const ui = state.ui, td = todayKey();
+  const id = ui.lastBookingId || (state.bookings.find(b => b.date === td && b.status === "inchair") || state.bookings.find(b => b.date === td) || {}).id;
+  ui.drawer = id || null;
+}
+const TOUR = [
+  { r: "c/home", sel: "[data-tour=home-hero]", t: "Online booking", x: "Customers book online instead of waiting in line." },
+  { r: "c/home", sel: "[data-tour=rebook]", t: "Quick rebook", x: "Saved preferences make repeat bookings one tap." },
+  { r: "c/book/style", sel: "[data-tour=style-grid]", t: "Style gallery", x: "Customers show exactly what they want, with trending styles or their own photo.", pre: tourEnsureDraft },
+  { r: "c/book/barber", sel: "[data-tour=prefs]", t: "Haircut preferences", x: "Guard number, top length, beard, notes. Saved to the profile.", pre: tourEnsureDraft },
+  { r: "c/book/schedule", sel: "[data-tour=slots]", t: "Schedule", x: "Only free slots can be picked. No double booking.", pre: tourEnsureDraft },
+  { r: "c/confirm", sel: "[data-tour=ticket]", t: "Confirmation", x: "Instant confirmation with Email and SMS previews and reminders.", pre: ensureBooking },
+  { r: "o/queue", sel: "[data-tour=timeline]", t: "Owner queue", x: "The owner sees the day at a glance.", pre: () => { state.ui.drawer = null; } },
+  { r: "o/queue", sel: "[data-tour=pcard]", t: "Preference card", x: "The barber reads this before the cut. This is our main feature.", pre: cardTarget },
+  { r: "o/reports", sel: "[data-tour=reports]", t: "Reports", x: "Simple reports for staffing and shop hours.", pre: () => { state.ui.drawer = null; } },
+  { r: "o/feedback", sel: "[data-tour=feedback]", t: "Feedback", x: "Ratings help measure customer satisfaction.", pre: () => { state.ui.drawer = null; } }
+];
+function tourGo(i) {
+  const s = TOUR[i]; state.ui.tour = { i }; state.ui.modal = null;
+  if (s.pre) s.pre();
+  if (s.r.startsWith("o/")) { state.ui.role = "o"; state.ui.oroute = s.r.slice(2); } else { state.ui.role = "c"; state.ui.croute = s.r.slice(2); }
+  history.replaceState(null, "", "#/" + s.r);
+  needScroll = true; render();
+}
+function tourExit() { state.ui.tour = null; state.ui.drawer = state.ui.drawer; $("#tour").innerHTML = ""; commit(); }
+function drawTour() {
+  const box = $("#tour"), t = state.ui.tour; if (!box) return;
+  if (!t) { box.innerHTML = ""; return; }
+  const s = TOUR[t.i], el = document.querySelector(s.sel);
+  if (el && needScroll) { el.scrollIntoView({ block: "center", inline: "nearest" }); needScroll = false; }
+  const r = el ? el.getBoundingClientRect() : null, vw = innerWidth, vh = innerHeight, cw = Math.min(340, vw - 20);
+  let hole = "", top = vh / 2 - 90, left = (vw - cw) / 2;
+  if (r && r.width) {
+    const p = 6, hl = Math.max(4, r.left - p), ht = Math.max(4, r.top - p), hw = Math.min(vw - 8, r.width + 2 * p), hh = Math.min(vh - 8, r.height + 2 * p);
+    hole = `<div class="hole" style="left:${hl}px;top:${ht}px;width:${hw}px;height:${hh}px"></div>`;
+    top = ht + hh + 12; if (top + 190 > vh) top = Math.max(8, ht - 200);
+    left = Math.min(Math.max(10, hl), vw - cw - 10);
+  } else hole = `<div class="hole" style="left:50%;top:50%;width:0;height:0"></div>`;
+  box.innerHTML = `${hole}<div class="tc" role="dialog" aria-label="Guided tour" style="top:${top}px;left:${left}px;width:${cw}px">
+    <div class="tiny b up muted">Step ${t.i + 1} of ${TOUR.length}</div><h3>${esc(s.t)}</h3><p>${esc(s.x)}</p>
+    <div class="tdots">${TOUR.map((_, k) => `<i class="${k <= t.i ? "on" : ""}"></i>`).join("")}</div>
+    <div class="row"><button class="btn secondary sm" data-act="tourBack" ${t.i === 0 ? "disabled" : ""}>Back</button><button class="btn sm grow" data-act="tourNext">${t.i === TOUR.length - 1 ? "Finish" : "Next"}</button><button class="btn secondary sm" data-act="tourExit">Exit</button></div></div>`;
+}
+window.addEventListener("scroll", () => requestAnimationFrame(drawTour), true);
+
+/* ===== INIT ===== */
+(function init() {
+  const st = document.createElement("style");
+  st.textContent = SHELL_CSS + (typeof EXTRA_CSS_A !== "undefined" ? EXTRA_CSS_A : "") + (typeof EXTRA_CSS_B !== "undefined" ? EXTRA_CSS_B : "");
+  document.head.appendChild(st);
+  parseHash(); render();
+  setInterval(() => { if (!state.ui.modal && !document.activeElement.matches("input,textarea,select")) render(); }, 60000);
+})();
+
+</script>
+</body>
+</html>

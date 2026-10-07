@@ -26,7 +26,7 @@ function ohead(title, right = "") {
   return `<div class="oh row sp wrap" style="align-items:flex-end"><div><div class="tiny up b muted">${esc(state.shops[0] ? state.shops[0].name : "")} | Owner view</div><h1>${title}</h1></div><div class="row wrap">${right}</div></div>`;
 }
 const kpiCard = (n, label) => `<div class="card kpi"><b>${n}</b><span>${label}</span></div>`;
-const emptyBox = (msg, btn, route) => `<div class="card empty">${icon("info", 36)}<div class="b">${esc(msg)}</div>${btn ? `<button class="btn sm" data-act="ogo" data-to="${route}">${esc(btn)}</button>` : ""}</div>`;
+const ownerEmpty = (msg, btn, route) => `<div class="card empty">${icon("info", 36)}<div class="b">${esc(msg)}</div>${btn ? `<button class="btn sm" data-act="ogo" data-to="${route}">${esc(btn)}</button>` : ""}</div>`;
 
 /* ----- O1 Queue ----- */
 function bookingBlock(x) {
@@ -39,7 +39,7 @@ function bookingBlock(x) {
 }
 function timelineBoard(qd, dayB) {
   const bs = state.barbers, t = todayKey(), nm = nowMin();
-  if (!bs.length) return emptyBox("No barbers yet.", "Add a barber", "barbers");
+  if (!bs.length) return ownerEmpty("No barbers yet.", "Add a barber", "barbers");
   const showNow = qd === t && inBoard(nm);
   let html = `<div class="board" data-tour="timeline" style="--n:${bs.length};--rows:${BOARD_ROWS}"><div class="hd"></div>`;
   html += bs.map(b => `<div class="hd">${esc(b.name)}</div>`).join("");
@@ -66,7 +66,7 @@ function quickBtn(x) {
   return "";
 }
 function listTable(dayB) {
-  if (!dayB.length) return emptyBox("No bookings on this day yet.", "Add a walk-in", "walkin");
+  if (!dayB.length) return ownerEmpty("No bookings on this day yet.", "Add a walk-in", "walkin");
   const rows = dayB.slice().sort((a, b) => a.start - b.start).map(x => {
     const isNew = x.id === state.ui.flash;
     return `<tr class="${isNew ? "flash" : ""}"><td>${fmtTime(x.start)}</td>` +
@@ -114,7 +114,7 @@ function drawerHtml() {
   if (b.status === "pending" || b.status === "confirmed") {
     acts = `<button class="btn" data-act="setStatus" data-id="${esc(b.id)}" data-to="inchair">Start (in chair) →</button>` +
       `<div class="row wrap"><button class="btn danger sm" data-act="setStatus" data-id="${esc(b.id)}" data-to="noshow">No-show</button>` +
-      `<button class="btn secondary sm" data-act="askCancel" data-id="${esc(b.id)}">Cancel</button></div>`;
+      `<button class="btn secondary sm" data-act="ownerAskCancel" data-id="${esc(b.id)}">Cancel</button></div>`;
   } else if (b.status === "inchair") {
     acts = `<button class="btn green" data-act="setStatus" data-id="${esc(b.id)}" data-to="done">Done →</button>`;
   } else {
@@ -276,7 +276,7 @@ function screenReports() {
   const right = `<div class="row wrap">${chips}<button class="btn sm" data-act="exportCsv">${icon("download", 16)} Export CSV</button></div>`;
   const foot = `<div class="tiny muted">Reports help the owner decide shop hours and staffing (Significance of the Study).</div>`;
   if (!total) {
-    return `${ohead("Reports", right)}<div class="card" data-tour="reports">${emptyBox("No bookings in " + r.label.toLowerCase() + " yet.", "Add a walk-in", "walkin")}</div>${foot}`;
+    return `${ohead("Reports", right)}<div class="card" data-tour="reports">${ownerEmpty("No bookings in " + r.label.toLowerCase() + " yet.", "Add a walk-in", "walkin")}</div>${foot}`;
   }
   const perDay = days.map(d => ({ l: DAYS[dow(d)] + " " + parseKey(d).getDate(), v: inR.filter(b => b.date === d && b.status !== "cancelled").length }));
   const perDayItems = days.length > 10 ? perDay.map((x, i) => ({ ...x, l: String(parseKey(days[i]).getDate()) })) : perDay;
@@ -313,7 +313,7 @@ function screenFeedback() {
     <div class="row wrap" style="gap:6px">${(x.tags || []).map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div>
     <div style="margin-top:6px">"${esc(x.comment)}"</div>
     <div class="tiny muted" style="margin-top:4px">Barber: ${esc(getBarber(x.barberId) ? getBarber(x.barberId).name : "Any barber")}</div></div>`).join("");
-  if (!f.length) return `${ohead("Feedback")}<div class="card" data-tour="feedback">${emptyBox("No reviews yet. Ratings appear here after a customer rates a finished visit.", "Back to queue", "queue")}</div>`;
+  if (!f.length) return `${ohead("Feedback")}<div class="card" data-tour="feedback">${ownerEmpty("No reviews yet. Ratings appear here after a customer rates a finished visit.", "Back to queue", "queue")}</div>`;
   return `${ohead("Feedback")}
 <div class="col" data-tour="feedback">
   <div class="grid2">
@@ -340,7 +340,7 @@ Object.assign(ACTIONS, {
   qView(ds) { state.ui.qview = ds.v === "list" ? "list" : "timeline"; commit(); },
   openCard(ds) { state.ui.drawer = ds.id; commit(); },
   closeCard() { state.ui.drawer = null; commit(); },
-  askCancel(ds) { openModal({ type: "cancelBk", id: ds.id }); },
+  ownerAskCancel(ds) { openModal({ type: "cancelBk", id: ds.id }); },
   setStatus(ds) {
     const b = state.bookings.find(x => x.id === ds.id);
     if (!b || !STATUS[ds.to]) return;
