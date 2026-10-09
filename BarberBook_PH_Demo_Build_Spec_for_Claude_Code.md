@@ -150,7 +150,7 @@ Write `styleArt(styleId)` that returns a 160x160 SVG: an ice-blue square, a simp
 
 ### 3.7 Selectable themes (added 2026-10-07, planned for the real system too)
 
-The group found the Neo-Brutalist look hard to use. The demo now ships two themes, switchable from the demo bar ("Clay" and "Neo-brutal"), remembered per browser. **Clay is the default.** The same switch (a user or shop setting) is planned for the real Laravel build, so keep every color, radius and shadow behind CSS variables and scope theme overrides under `html[data-theme="..."]`.
+The group found the Neo-Brutalist look hard to use. The demo and the real app ship three themes, switchable from the header ("Claude", "Clay", "Neo-brutal"), remembered per browser. **Claude is the default** (warm cream `#F0EEE6`, ivory `#FAF9F5`, ink `#141413`, terracotta `#D97757`, serif headings, thin borders, flat quiet surfaces). Clay (blue and gold) and Neo-brutal remain as options. The same switch (a user or shop setting) is planned for the real Laravel build, so keep every color, radius and shadow behind CSS variables and scope theme overrides under `html[data-theme="..."]`.
 
 **Clay ("Barber Pole Clay")**: soft claymorphism chosen for a barbershop audience (phone-first customers, busy owners).
 - Palette from the barber pole: blue `#3D6BFF` for primary actions and the hero, coral `#F0543C` for alerts and the NOW line, gold `#FFC93C` for selection and highlights, green `#2DBE7E` for success, on warm cream `#FFF6EA` with navy ink `#1F2A44`.

@@ -30,3 +30,10 @@ a.btn{text-decoration:none}
 .seg-mini button{white-space:nowrap}
 @media (max-width:420px){.cbar{gap:6px;padding-left:10px;padding-right:10px}.cbar .logo{font-size:17px}.seg-mini button{padding:4px 8px;font-size:11px}}
 html[data-theme="clay"] button,html[data-theme="clay"] summary,html[data-theme="clay"] label.chip,html[data-theme="clay"] .seg button{text-transform:none;letter-spacing:0}
+
+/* Claude theme: same layout rules as Clay with the warm palette */
+html[data-theme="claude"] .seg-mini{border-color:var(--clay-line)!important;box-shadow:var(--sh-sm)}
+html[data-theme="claude"] .seg-mini button.on{background:var(--blue);color:#fff}
+html[data-theme="claude"] .ctabs a{border-right:0!important;border-radius:18px;color:#73726C;font-weight:700}
+html[data-theme="claude"] .ctabs a.on{background:#F4E1D6;color:var(--blue)}
+html[data-theme="claude"] button,html[data-theme="claude"] summary,html[data-theme="claude"] label.chip,html[data-theme="claude"] .seg button{text-transform:none;letter-spacing:0}

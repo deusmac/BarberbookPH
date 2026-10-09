@@ -29,3 +29,8 @@ details>summary::-webkit-details-marker{display:none}
 .slots{min-height:20px}
 .cal a{text-decoration:none}
 @media (max-width:420px){.seg-radio{flex-wrap:wrap}.seg-radio .opt{flex:1 1 45%}}
+
+/* Claude theme: same layout rules as Clay with the warm palette */
+html[data-theme="claude"] .seg-radio .opt:has(input:checked) span{background:#fff;color:var(--blue);border-radius:15px;box-shadow:var(--sh-sm)}
+html[data-theme="claude"] .segmented.tabs a{border-radius:15px}
+html[data-theme="claude"] .segmented.tabs a.on{background:#fff;color:var(--blue);box-shadow:var(--sh-sm)}

@@ -16,15 +16,15 @@ const NOTICE = {
 };
 const OWNER_TITLES = { queue: "Today's queue", walkin: "Walk-in", barbers: "Barbers & hours", gallery: "Style gallery", reports: "Reports", feedback: "Feedback" };
 let lastKey = "", routeChanged = false, needScroll = false;
-const THEMES = [["clay", "Clay"], ["brutal", "Neo-brutal"]];
-function loadTheme() { try { const t = localStorage.getItem("barberbook-theme"); if (t === "brutal" || t === "clay") return t; } catch (e) {} return "clay"; }
-function applyTheme() { document.documentElement.setAttribute("data-theme", state.ui.theme || "clay"); }
+const THEMES = [["claude", "Claude"], ["clay", "Clay"], ["brutal", "Neo-brutal"]];
+function loadTheme() { try { const t = localStorage.getItem("barberbook-theme"); if (t === "brutal" || t === "clay" || t === "claude") return t; } catch (e) {} return "claude"; }
+function applyTheme() { document.documentElement.setAttribute("data-theme", state.ui.theme || "claude"); }
 
 function demobarHtml() {
   const ui = state.ui, sp = splitOn(), c = ui.role === "c";
   return `<span class="ttl">BarberBook PH · Interactive prototype</span>
   <div class="seg-dark" role="group" aria-label="View"><button data-act="setRole" data-r="c" class="${c || sp ? "on" : ""}">Customer view</button><button data-act="setRole" data-r="o" class="${!c || sp ? "on" : ""}">Owner view</button></div>
-  <div class="seg-dark" role="group" aria-label="Theme">${THEMES.map(([k, l]) => `<button data-act="setTheme" data-t="${k}" class="${(ui.theme || "clay") === k ? "on" : ""}">${l}</button>`).join("")}</div>
+  <div class="seg-dark" role="group" aria-label="Theme">${THEMES.map(([k, l]) => `<button data-act="setTheme" data-t="${k}" class="${(ui.theme || "claude") === k ? "on" : ""}">${l}</button>`).join("")}</div>
   ${window.innerWidth >= 1280 ? `<button class="dbtn ${ui.split ? "on" : ""}" data-act="toggleSplit">${icon("split", 15)} Side by side</button>` : ""}
   ${!sp && window.innerWidth >= 1024 ? `<button class="dbtn ${ui.notice ? "on" : ""}" data-act="toggleNotice">What to notice</button>` : ""}
   <button class="dbtn" data-act="tourStart">${icon("play", 14)} Guided tour</button>
