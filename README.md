@@ -2,6 +2,7 @@
 
 Capstone project: an online appointment and haircut preference system for local barbershops (Philippines).
 
+- `web/`: the real system (Laravel 12). See `docs/DEPLOY.md` to run and deploy it, `docs/PRODUCTION_PLAN.md` for scope.
 - `barberbook-demo.html`: the clickable prototype. Single file, no login, works offline. Double-click to open.
 - `demo-src/`: source parts. Edit these, then run `sh demo-src/build.sh` to rebuild `barberbook-demo.html`.
 - `BarberBook_PH_Demo_Build_Spec_for_Claude_Code.md`: the build spec the demo follows.
