@@ -1,0 +1,31 @@
+/* Customer area extras. Uses theme tokens only. */
+a.card.linkcard{text-decoration:none;color:inherit}
+.avatar{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;font-weight:900;font-size:13px;flex:none}
+.cu-thumb-row{display:flex;gap:12px;align-items:flex-start}
+.cu-photo{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-top:8px;display:block}
+.scroll-x{padding-bottom:6px}
+.svc{cursor:pointer;position:relative}
+.svc input[type=radio]{position:absolute;opacity:0;pointer-events:none}
+.svc:has(input:checked){background:var(--yellow);box-shadow:var(--sh-lg)}
+.svc:has(input:focus-visible){outline:3px solid var(--blue);outline-offset:2px}
+.chip.pick{cursor:pointer;position:relative}
+.chip.pick input{position:absolute;opacity:0;pointer-events:none}
+.chip.pick:has(input:checked){background:var(--blue);color:#fff;box-shadow:var(--sh-sm)}
+.chip.pick:has(input:focus-visible){outline:3px solid var(--blue);outline-offset:2px}
+.seg-radio{overflow:hidden}
+.seg-radio .opt{flex:1;position:relative;display:block;cursor:pointer}
+.seg-radio .opt input{position:absolute;opacity:0;pointer-events:none}
+.seg-radio .opt span{display:block;padding:8px 6px;font-weight:800;font-size:13px;text-align:center;text-transform:uppercase}
+.seg-radio .opt:has(input:checked) span{background:var(--yellow)}
+html[data-theme="clay"] .seg-radio .opt:has(input:checked) span{background:#fff;color:var(--blue);border-radius:15px;box-shadow:var(--sh-sm)}
+.seg-radio .opt:has(input:focus-visible) span{outline:3px solid var(--blue);outline-offset:-3px}
+.segmented.tabs a{flex:1;padding:8px 6px;font-weight:800;font-size:13px;text-transform:uppercase;text-align:center;text-decoration:none;color:inherit}
+.segmented.tabs a.on{background:var(--yellow)}
+html[data-theme="clay"] .segmented.tabs a{border-radius:15px}
+html[data-theme="clay"] .segmented.tabs a.on{background:#fff;color:var(--blue);box-shadow:var(--sh-sm)}
+.stepper input.val{font-weight:900;font-size:22px}
+details>summary{list-style:none;cursor:pointer;display:inline-flex}
+details>summary::-webkit-details-marker{display:none}
+.slots{min-height:20px}
+.cal a{text-decoration:none}
+@media (max-width:420px){.seg-radio{flex-wrap:wrap}.seg-radio .opt{flex:1 1 45%}}

@@ -1,0 +1,64 @@
+/* Owner area page styles. Theme tokens only. */
+.oh h1{margin:2px 0 0;font-size:30px;font-weight:900;text-transform:uppercase;letter-spacing:-0.02em;line-height:1}
+.oart svg{display:block;width:100%;height:auto}
+.refphoto{display:block;width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:10px}
+.inactive{opacity:.6}
+.avatar{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--yellow);border:2px solid #000;font-weight:900}
+html[data-theme="clay"] .avatar{border-color:transparent;background:#FFE9A8}
+.grid-in{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid-in3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:520px){.grid-in,.grid-in3{grid-template-columns:1fr}}
+.bgrid{align-items:start}
+.grid2.bgrid{grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}
+/* checkbox / radio chips */
+.dchip{position:relative;display:inline-flex}
+.dchip input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.dchip span{display:inline-flex;align-items:center;border:2px solid #000;border-radius:var(--r-pill);padding:5px 12px;font-weight:700;background:#fff;font-size:13.5px;min-height:34px}
+.dchip input:checked + span{background:var(--blue);color:#fff}
+.dchip input:focus-visible + span{outline:2px solid var(--blue);outline-offset:2px}
+html[data-theme="clay"] .dchip span{border-color:transparent;box-shadow:var(--sh-sm)}
+/* segmented link buttons */
+.segmented .segbtn{flex:1;padding:8px 14px;font-weight:800;font-size:13px;text-transform:uppercase;text-decoration:none;text-align:center;border-right:2px solid #000;white-space:nowrap}
+.segmented .segbtn:last-child{border-right:0}
+.segmented .segbtn.on{background:var(--yellow)}
+.viewtoggle,.rangeseg{width:max-content;max-width:100%}
+html[data-theme="clay"] .segmented .segbtn{border-right:0;border-radius:15px;font-weight:700}
+html[data-theme="clay"] .segmented .segbtn.on{background:#fff;box-shadow:var(--sh-sm);color:var(--blue)}
+/* queue board */
+.tcol{border-top:0}
+.bk{text-decoration:none;color:#000;line-height:1.2}
+.bk .nm{display:block;font-weight:900}
+.bk.s-pending{background:var(--amber)}
+.bk.s-confirmed{background:var(--blue);color:#fff}
+.bk.s-inchair{background:var(--yellow)}
+.bk.s-done{background:var(--green)}
+.bk.s-noshow{background:var(--red);color:#fff}
+.bk.brk{pointer-events:none}
+/* preference card */
+.pcard-wrap{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:760px){.pcard-wrap{grid-template-columns:1fr}}
+.pcard-main{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.pcard-guard{min-width:120px}
+.sumlist{margin:0;display:flex;flex-direction:column;gap:6px}
+.sumlist > div{display:flex;gap:10px}
+.sumlist dt{width:78px;font-weight:900;font-size:11.5px;text-transform:uppercase;flex:none;padding-top:2px}
+.sumlist dd{margin:0;font-weight:600;min-width:0;overflow-wrap:anywhere}
+/* reports */
+.rgrid{grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
+.ochart{width:100%;display:block;overflow:hidden}
+.daylbls{display:grid;grid-template-columns:repeat(var(--n),1fr);text-align:center;font-size:10.5px;font-weight:700;gap:0}
+.hbar{flex:1;height:16px;border:2px solid #000;border-radius:8px;background:#fff;overflow:hidden;min-width:40px}
+.hbar i{display:block;height:100%;background:var(--blue)}
+html[data-theme="clay"] .hbar{border-color:transparent;background:#E7EBF5;box-shadow:inset 0 1px 3px rgba(31,42,68,.18)}
+.heatgrid{display:grid;grid-template-columns:44px repeat(10,minmax(46px,1fr));gap:3px;min-width:560px;align-items:center;text-align:center}
+.heatc{border:2px solid #000;min-height:34px;display:grid;place-items:center;font-size:11px;font-weight:800}
+html[data-theme="clay"] .heatc{border-color:transparent;border-radius:8px}
+/* feedback */
+.fbsum{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.fbavg{display:flex;flex-direction:column;align-items:center;min-width:110px}
+.fbavg b{font-size:48px;font-weight:900;line-height:1}
+.stars-txt{letter-spacing:2px;font-size:18px;color:var(--blue)}
+.walkin{max-width:560px}
+.empty{padding:14px;text-align:center;font-weight:700}
+details summary{cursor:pointer;list-style:none;display:inline-flex}
+details[open] summary{margin-bottom:8px}
