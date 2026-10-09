@@ -7,7 +7,7 @@ Read first: `docs/PRODUCTION_PLAN.md`, `BarberBook_PH_Demo_Build_Spec_for_Claude
 - Models in `app/Models`, helpers `app/Support/Fmt.php` (time/date/money/phone) and `app/Support/StyleArt.php` (SVG).
 - `app/Services/AvailabilityService.php`: isFree, candidateTimes, freeBarbers, pickAuto, slots(), month(), dayHasFree, nextFreeLabel. Slots are on a 30 minute grid; minutes = minutes after midnight.
 - `app/Services/BookingService.php`: create, reschedule, cancel, setStatus, rate, saveUsual, cleanPrefs. EVERY write to bookings must go through it. It throws `App\Exceptions\SlotTakenException` (show the message to the user, send them back to pick another time) and `InvalidArgumentException`.
-- `app/Services/NotificationService.php` (email + SMS, called by BookingService, nothing for you to do).
+- `app/Services/NotificationService.php` (email only, called by BookingService, nothing for you to do).
 - Auth (`AuthController`), role middleware `role:customer` / `role:owner`, layouts `resources/views/layouts/{app,customer,owner}.blade.php`, `public/css/theme.css` (design system, two themes), `public/css/app.css`, `public/js/app.js` (theme switch, `BB.toast`, forms with `data-confirm="Tap again to confirm"` for a two-tap confirm), `<x-style-art :style="$style"/>`.
 - Seeder `DatabaseSeeder` (shop Kings Cut, 3 barbers, 5 services, 12 styles, owner from env).
 

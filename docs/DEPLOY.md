@@ -19,14 +19,13 @@ Tests: `php artisan test`.
 2. **Environment** (`web/.env`): `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL=https://your-domain`, `APP_TIMEZONE=Asia/Manila`.
 3. **MySQL**: set `DB_CONNECTION=mysql`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, then `php artisan migrate --force` and `php artisan db:seed --force` once.
 4. **Email (Gmail SMTP)**: turn on 2-step verification on the Gmail account, create an App Password, then set `MAIL_MAILER=smtp`, `MAIL_HOST=smtp.gmail.com`, `MAIL_PORT=587`, `MAIL_USERNAME=<gmail address>`, `MAIL_PASSWORD=<app password>`, `MAIL_ENCRYPTION=tls`, `MAIL_FROM_ADDRESS=<gmail address>`.
-5. **SMS**: create a Semaphore account (semaphore.co), then `SMS_DRIVER=semaphore`, `SEMAPHORE_API_KEY=...`, `SEMAPHORE_SENDER_NAME=BarberBook`. Leave `SMS_DRIVER=log` to write texts to `storage/logs` instead. A different gateway only needs a class implementing `App\Contracts\SmsGateway`.
-6. **Reminders**: add one cron line so the scheduler runs every minute (it sends the 1 hour reminders):
+5. **Reminders**: add one cron line so the scheduler runs every minute (it sends the 1 hour reminder emails):
    `* * * * * cd /path/to/web && php artisan schedule:run >> /dev/null 2>&1`
-7. **Files**: `php artisan storage:link`; make `storage/` and `bootstrap/cache/` writable by the web user.
-8. **Optimize**: `composer install --no-dev --optimize-autoloader`, then `php artisan config:cache route:cache view:cache`.
-9. **HTTPS** is required (sessions and passwords). Set `SESSION_SECURE_COOKIE=true`.
-10. **Backups**: schedule a nightly database dump and keep `storage/app/public/references` backed up.
-11. **Change the seeded owner password** after first login and never commit `.env`.
+6. **Files**: `php artisan storage:link`; make `storage/` and `bootstrap/cache/` writable by the web user.
+7. **Optimize**: `composer install --no-dev --optimize-autoloader`, then `php artisan config:cache route:cache view:cache`.
+8. **HTTPS** is required (sessions and passwords). Set `SESSION_SECURE_COOKIE=true`.
+9. **Backups**: schedule a nightly database dump and keep `storage/app/public/references` backed up.
+10. **Change the seeded owner password** after first login and never commit `.env`.
 
 ## Data privacy (RA 10173)
 Customers consent at sign up. Details are used only for their bookings and notifications. Do not export or share customer data outside the shop. Add the school or shop's privacy contact to the footer before going live.

@@ -162,10 +162,10 @@ class BookingServiceTest extends TestCase
         $svc->rate($b->fresh(), 4, [], null);
     }
 
-    public function test_confirmation_is_logged_for_email_and_sms(): void
+    public function test_confirmation_email_is_logged(): void
     {
         $b = app(BookingService::class)->create($this->input());
         $this->assertDatabaseHas('notification_logs', ['booking_id' => $b->id, 'channel' => 'email', 'kind' => 'confirmed', 'status' => 'sent']);
-        $this->assertDatabaseCount('notification_logs', 1); // user factory has no mobile, so no SMS
+        $this->assertDatabaseCount('notification_logs', 1);
     }
 }

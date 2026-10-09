@@ -119,7 +119,7 @@ return new class extends Migration
         Schema::create('notification_logs', function (Blueprint $t) {
             $t->id();
             $t->foreignId('booking_id')->nullable()->constrained()->nullOnDelete();
-            $t->string('channel', 8); // email, sms
+            $t->string('channel', 8); // email
             $t->string('kind', 20);   // confirmed, cancelled, rescheduled, reminder
             $t->string('recipient');
             $t->string('subject')->nullable();

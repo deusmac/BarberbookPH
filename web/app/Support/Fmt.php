@@ -44,20 +44,4 @@ class Fmt
         return 'PHP '.number_format((float) $n, 0);
     }
 
-    /** Philippine mobile to international digits without a plus sign: 0917... -> 63917... */
-    public static function phoneIntl(?string $raw): ?string
-    {
-        $d = preg_replace('/\D+/', '', (string) $raw);
-        if ($d === '') {
-            return null;
-        }
-        if (str_starts_with($d, '63')) {
-            return $d;
-        }
-        if (str_starts_with($d, '0')) {
-            return '63'.substr($d, 1);
-        }
-
-        return '63'.$d;
-    }
 }
