@@ -25,3 +25,8 @@ a.btn{text-decoration:none}
 .omain{padding-bottom:40px}
 .grow{flex:1}
 .logo{text-decoration:none}
+
+.cbar .logo,.osb .logo{white-space:nowrap;font-size:19px}
+.seg-mini button{white-space:nowrap}
+@media (max-width:420px){.cbar{gap:6px;padding-left:10px;padding-right:10px}.cbar .logo{font-size:17px}.seg-mini button{padding:4px 8px;font-size:11px}}
+html[data-theme="clay"] button,html[data-theme="clay"] summary,html[data-theme="clay"] label.chip,html[data-theme="clay"] .seg button{text-transform:none;letter-spacing:0}
